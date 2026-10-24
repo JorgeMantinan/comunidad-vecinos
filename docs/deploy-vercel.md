@@ -17,28 +17,30 @@ proyectos de Vercel (web y API) desde este monorepo.
 2.  Framework preset: *Other*. Vercel detecta `apps/api/api/index.ts`
     como función serverless (todo se reescribe hacia ella con
     `apps/api/vercel.json`).
-3.  Variables de entorno (Production y Preview):
+3.  **Nombre del proyecto: `mantivecinos-api`** (obligatorio: el
+    frontend reenvía `/api` a `https://mantivecinos-api.vercel.app`).
+4.  Variables de entorno (Production y Preview):
     -  `DATABASE_URL`: la cadena de Neon.
     -  `AUTH_SECRET`: generar con `openssl rand -base64 32`.
-    -  `CORS_ORIGIN`: `https://mantivecinos.vercel.app`.
+    -  `CORS_ORIGIN`: `https://mantivecinos.vercel.app` (red de
+       seguridad; el tráfico real va por proxy en el mismo dominio).
     -  `NODE_ENV`: `production`.
-4.  Desplegar. La API quedará en un dominio tipo
-    `comunidad-vecinos-api-<usuario>.vercel.app`.
+5.  Desplegar. La API quedará en `mantivecinos-api.vercel.app`.
 
 ## 3. Proyecto del frontend
 
 1.  Otro proyecto del mismo repo con **Root Directory** `apps/web` y
     framework *Vite*.
 2.  Build command `pnpm build`, output `dist` (Vite los detecta).
-3.  Variables de entorno:
-    -  `VITE_API_URL`: dominio del proyecto de la API (paso 2).
-4.  En **Settings → Domains** añadir `mantivecinos.vercel.app`.
-5.  Una vez publicado el dominio, añadirlo también en la API:
-    `CORS_ORIGIN=https://mantivecinos.vercel.app`.
+3.  **Nombre del proyecto: `mantivecinos`** → dominio automático
+    `mantivecinos.vercel.app`.
+4.  No hace falta `VITE_API_URL`: `apps/web/vercel.json` reenvía
+    `/api/*` al proyecto de la API, por lo que web y API comparten
+    dominio y las cookies son same-origin (sin CORS en la práctica).
 
 Las cookies de sesión usan `SameSite=None; Secure` en producción (ver
-`apps/api/src/lib/auth.ts`), necesario porque web y API viven en
-subdominios distintos de `vercel.app`.
+`apps/api/src/lib/auth.ts`) como red de seguridad por si algún día se
+separan dominios.
 
 ## 4. Migraciones en producción
 
