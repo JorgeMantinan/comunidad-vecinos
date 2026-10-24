@@ -17,22 +17,17 @@ export function InvitePage() {
           <div>
             <p className="mb-4 text-neutral-700">
               Ya formas parte de{' '}
-              <strong className="text-primary">
-                {accept.data.communityName}
-              </strong>
-              .
+              <strong className="text-primary">{accept.data.communityName}</strong>.
             </p>
-            <Button
-              onClick={() => navigate(`/communities/${accept.data.communityId}`)}
-            >
+            <Button onClick={() => navigate(`/communities/${accept.data.communityId}`)}>
               Ir a la comunidad
             </Button>
           </div>
         ) : (
           <div>
             <p className="mb-4 text-neutral-700">
-              Acepta la invitación para unirte a la comunidad. Si no esperabas
-              esta invitación, puedes ignorarla.
+              Acepta la invitación para unirte a la comunidad. Si no esperabas esta
+              invitación, puedes ignorarla.
             </p>
             {accept.isPending ? <Spinner /> : null}
             <div className="flex gap-3">

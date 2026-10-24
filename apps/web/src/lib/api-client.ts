@@ -17,10 +17,7 @@ export class ApiError extends Error {
  * Cliente HTTP mínimo con sesión (cookies) y manejo de errores
  * según el envelope `{ code, message }` de la API.
  */
-export async function apiFetch<T>(
-  path: string,
-  init?: RequestInit,
-): Promise<T> {
+export async function apiFetch<T>(path: string, init?: RequestInit): Promise<T> {
   const response = await fetch(`${API_BASE}${path}`, {
     ...init,
     credentials: 'include',
