@@ -18,6 +18,12 @@ hacer en esta comunidad". Se implementan por separado.
 | Acción                                | platform_admin | owner | admin | member | resident |
 | ------------------------------------- | :------------: | :---: | :---: | :----: | :------: |
 | Ver datos de la comunidad             | ✅             | ✅    | ✅    | ✅     | ✅       |
+| Ver avisos y reuniones                | ✅             | ✅    | ✅    | ✅     | ✅       |
+| Ver gastos de la comunidad            | ❌             | ✅    | ✅    | ✅     | ❌       |
+| Publicar avisos                       | ❌             | ✅    | ✅    | ❌     | ❌       |
+| Convocar reuniones y gestionar acta   | ❌             | ✅    | ✅    | ❌     | ❌       |
+| Gestionar orden del día y acuerdos    | ❌             | ✅    | ✅    | ❌     | ❌       |
+| Registrar y pagar gastos              | ❌             | ✅    | ✅    | ❌     | ❌       |
 | Editar datos de la comunidad          | ❌             | ✅    | ✅    | ❌     | ❌       |
 | Invitar miembros                     | ❌             | ✅    | ✅    | ❌     | ❌       |
 | Revocar invitaciones                  | ❌             | ✅    | ✅    | ❌     | ❌       |

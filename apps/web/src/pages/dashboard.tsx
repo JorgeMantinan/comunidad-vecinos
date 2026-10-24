@@ -1,4 +1,5 @@
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
 import { createCommunityInputSchema } from '@comunidad/shared';
@@ -12,6 +13,9 @@ import {
   RoleBadge,
   Spinner,
 } from '../components/ui';
+import { useAnnouncements } from '../features/announcements/api';
+import { formatEuro, useExpenses } from '../features/expenses/api';
+import { useMeetings } from '../features/meetings/api';
 import { useCommunities, useCreateCommunity, usePendingInvitations } from '../lib/api';
 
 const createSchema = createCommunityInputSchema.extend({
@@ -60,6 +64,123 @@ export function DashboardPage() {
       </div>
 
       <CreateCommunityCard />
+
+      <div className="md:col-span-3">
+        <CommunityOverview />
+      </div>
+    </div>
+  );
+}
+
+/** Resumen de la comunidad seleccionada: avisos, reuniones y gastos. */
+function CommunityOverview() {
+  const communities = useCommunities();
+  const list = communities.data ?? [];
+  const [selectedId, setSelectedId] = useState('');
+  const activeId = selectedId || list[0]?.id;
+  const active = list.find((community) => community.id === activeId);
+  const canSeeEconomy = active !== undefined && active.role !== 'resident';
+
+  const announcements = useAnnouncements(activeId);
+  const meetings = useMeetings(activeId);
+  const expenses = useExpenses(canSeeEconomy ? activeId : undefined, 5);
+
+  if (list.length === 0) {
+    return null;
+  }
+
+  return (
+    <div className="mt-6">
+      <Card title={`Resumen de ${active?.name ?? 'la comunidad'}`}>
+        {list.length > 1 ? (
+          <Field label="Comunidad" htmlFor="overview-community">
+            <select
+              id="overview-community"
+              value={activeId ?? ''}
+              onChange={(event) => setSelectedId(event.target.value)}
+              className="w-full max-w-sm rounded-lg border border-accent bg-white px-3 py-2 text-sm"
+            >
+              {list.map((community) => (
+                <option key={community.id} value={community.id}>
+                  {community.name}
+                </option>
+              ))}
+            </select>
+          </Field>
+        ) : null}
+
+        <div className="grid gap-6 md:grid-cols-3">
+          <section>
+            <h3 className="mb-2 text-sm font-semibold text-primary">
+              Avisos recientes
+            </h3>
+            {announcements.isLoading ? <Spinner /> : null}
+            <ul className="space-y-2 text-sm">
+              {announcements.data?.slice(0, 3).map((announcement) => (
+                <li key={announcement.id}>
+                  <p className="font-medium text-neutral-800">{announcement.title}</p>
+                  <p className="text-xs text-neutral-500">
+                    {new Date(announcement.publishedAt).toLocaleDateString('es-ES')}
+                  </p>
+                </li>
+              ))}
+            </ul>
+            {announcements.data?.length === 0 ? (
+              <p className="text-sm text-neutral-600">Sin avisos.</p>
+            ) : null}
+          </section>
+
+          <section>
+            <h3 className="mb-2 text-sm font-semibold text-primary">
+              Próximas reuniones
+            </h3>
+            {meetings.isLoading ? <Spinner /> : null}
+            <ul className="space-y-2 text-sm">
+              {meetings.data?.slice(0, 3).map((meeting) => (
+                <li key={meeting.id}>
+                  <Link
+                    to={`/communities/${activeId}/meetings/${meeting.id}`}
+                    className="font-medium text-primary hover:underline"
+                  >
+                    {meeting.title}
+                  </Link>
+                  <p className="text-xs text-neutral-500">
+                    {new Date(meeting.scheduledFor).toLocaleString('es-ES', {
+                      dateStyle: 'medium',
+                      timeStyle: 'short',
+                    })}
+                  </p>
+                </li>
+              ))}
+            </ul>
+            {meetings.data?.length === 0 ? (
+              <p className="text-sm text-neutral-600">Sin reuniones.</p>
+            ) : null}
+          </section>
+
+          {canSeeEconomy ? (
+            <section>
+              <h3 className="mb-2 text-sm font-semibold text-primary">
+                Últimos gastos
+              </h3>
+              {expenses.isLoading ? <Spinner /> : null}
+              <ul className="space-y-2 text-sm">
+                {expenses.data?.map((expense) => (
+                  <li key={expense.id} className="flex justify-between gap-2">
+                    <span className="text-neutral-700">{expense.concept}</span>
+                    <span className="font-medium text-primary">
+                      {formatEuro(expense.amount)}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+              {expenses.data?.length === 0 ? (
+                <p className="text-sm text-neutral-600">Sin gastos.</p>
+              ) : null}
+            </section>
+          ) : null}
+        </div>
+      </Card>
     </div>
   );
 }
