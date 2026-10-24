@@ -48,3 +48,13 @@ export const adminRoles = [
   'owner',
   'admin',
 ] as const satisfies readonly CommunityRole[];
+
+/**
+ * Roles con acceso a la economía de la comunidad: la
+ * residente/inquilino no consulta la información económica.
+ */
+export const financeReaderRoles = [
+  'owner',
+  'admin',
+  'member',
+] as const satisfies readonly CommunityRole[];

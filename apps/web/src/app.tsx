@@ -14,6 +14,7 @@ import { CommunityPage } from './pages/community';
 import { DashboardPage } from './pages/dashboard';
 import { InvitePage } from './pages/invite';
 import { LoginPage } from './pages/login';
+import { MeetingPage } from './pages/meeting';
 import { RegisterPage } from './pages/register';
 
 const queryClient = new QueryClient({
@@ -96,6 +97,14 @@ export function App() {
               element={
                 <RequireAuth>
                   <CommunityPage />
+                </RequireAuth>
+              }
+            />
+            <Route
+              path="/communities/:id/meetings/:meetingId"
+              element={
+                <RequireAuth>
+                  <MeetingPage />
                 </RequireAuth>
               }
             />

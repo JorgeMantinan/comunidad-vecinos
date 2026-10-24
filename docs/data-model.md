@@ -36,14 +36,27 @@ Roles (`community_memberships.role`):
 | `member`            | Propietario                         |
 | `resident`          | Inquilino con acceso limitado       |
 
+## Fase 2 (implementada)
+
+-  `announcements` — avisos: título, contenido, autor, publicación y
+   caducidad opcional (los caducados dejan de listarse).
+-  `meetings` — reuniones: fecha/hora, lugar, estado
+   (`planned`/`finished`/`cancelled`) y `minutes` (acta).
+-  `meeting_agenda_items` — orden del día por reunión con posición.
+-  `agreements` — acuerdos ligados a una reunión con estado
+   (`proposed`/`approved`/`rejected`).
+-  `expenses` — gastos comunes: importe decimal exacto, categoría,
+   fecha del gasto y estados `registered`/`paid` con `paid_on`
+   obligatorio cuando está pagado (constraint en BD).
+
 ## Mapa objetivo (fases posteriores)
 
 | Área           | Entidades                                                            |
 | -------------- | -------------------------------------------------------------------- |
-| Economía       | `expenses`, `invoices`, `budgets`, `assessments`, `payments`, `financial_periods` |
-| Reuniones      | `meetings`, `meeting_agenda_items`, `meeting_minutes`, `agreements`, `votes` |
+| Economía       | `invoices`, `budgets`, `assessments`, `payments`, `financial_periods` |
+| Reuniones      | `votes` (escrutinios de acuerdos)                                    |
 | Mantenimiento  | `incidents`, `tasks`, `assets`, `maintenance_contracts`              |
-| Comunicación   | `announcements`, `suggestions`, `polls`, `notifications`             |
+| Comunicación   | `suggestions`, `polls`, `notifications`                              |
 | Profesionales  | `professionals`, `professional_services`, `community_recommendations`, `sponsorships` |
 | Documentación  | `documents`, `document_versions`, `document_permissions`             |
 | Seguridad      | `access_events`, `retention_policies`                                |

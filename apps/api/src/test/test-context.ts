@@ -145,3 +145,30 @@ export async function createCommunityAs(
   const body = (await res.json()) as { id: string };
   return body.id;
 }
+
+/** Invita (con `inviter`) y acepta (`invitee`) para unirse con `role`. */
+export async function joinCommunity(
+  ctx: TestContext,
+  communityId: string,
+  inviter: TestUser,
+  invitee: TestUser,
+  role: 'admin' | 'member' | 'resident',
+): Promise<void> {
+  const inviteRes = await ctx.request(`/api/communities/${communityId}/invitations`, {
+    method: 'POST',
+    cookie: inviter.cookie,
+    body: { email: invitee.email, role },
+  });
+  if (inviteRes.status !== 201) {
+    throw new Error(`Invitación fallida (${inviteRes.status})`);
+  }
+  const { token } = (await inviteRes.json()) as { token: string };
+  const acceptRes = await ctx.request('/api/invitations/accept', {
+    method: 'POST',
+    cookie: invitee.cookie,
+    body: { token },
+  });
+  if (acceptRes.status !== 200) {
+    throw new Error(`Aceptación fallida (${acceptRes.status})`);
+  }
+}

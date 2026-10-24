@@ -12,19 +12,12 @@ import {
 import type { CreateCommunityInput, CreateInvitationInput } from '@comunidad/shared';
 import { z } from 'zod';
 import { apiFetch } from './api-client';
+import { validated } from './validated';
 
 /**
  * Consultas y mutaciones de la API. Las respuestas se validan con los
  * contratos de `@comunidad/shared` antes de llegar a la interfaz.
  */
-function validated<T>(schema: z.ZodType<T>, data: unknown): T {
-  const parsed = schema.safeParse(data);
-  if (!parsed.success) {
-    throw new Error('La API devolvió una respuesta inesperada');
-  }
-  return parsed.data;
-}
-
 const communitiesKey = ['communities'] as const;
 const communityKey = (id: string) => ['communities', id] as const;
 

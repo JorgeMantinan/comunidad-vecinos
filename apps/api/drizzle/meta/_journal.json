@@ -8,6 +8,13 @@
       "when": 1792866094312,
       "tag": "0000_wise_stingray",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1792873243736,
+      "tag": "0001_robust_bucky",
+      "breakpoints": true
     }
   ]
 }

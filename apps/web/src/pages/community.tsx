@@ -14,6 +14,9 @@ import {
   RoleBadge,
   Spinner,
 } from '../components/ui';
+import { AnnouncementsCard } from '../features/announcements/announcements-card';
+import { ExpensesCard } from '../features/expenses/expenses-card';
+import { MeetingsCard } from '../features/meetings/meetings-card';
 import {
   useAuditEvents,
   useChangeMemberRole,
@@ -62,6 +65,12 @@ export function CommunityPage() {
           <RoleBadge role={community.data.role} />
         </div>
       </header>
+
+      <AnnouncementsCard communityId={community.data.id} role={community.data.role} />
+      <MeetingsCard communityId={community.data.id} role={community.data.role} />
+      {community.data.role !== 'resident' ? (
+        <ExpensesCard communityId={community.data.id} role={community.data.role} />
+      ) : null}
 
       <MembersCard communityId={community.data.id} />
       <InvitationsCard communityId={community.data.id} role={community.data.role} />
