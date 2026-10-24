@@ -14,9 +14,12 @@ proyectos de Vercel (web y API) desde este monorepo.
 
 1.  En Vercel: *Add New → Project* → importar el repo; en **Root
     Directory** indicar `apps/api`.
-2.  Framework preset: *Other*. Vercel detecta `apps/api/api/index.ts`
-    como función serverless (todo se reescribe hacia ella con
-    `apps/api/vercel.json`).
+2.  Framework preset: *Other*. En cada despliegue Vercel ejecuta
+    `pnpm build` (tsup), que **genera la función serverless
+    `apps/api/api/index.js`** — un bundle ESM de `src/vercel.ts` que
+    evita los problemas de imports relativos y dependencias ESM en el
+    runtime de funciones. `apps/api/vercel.json` reescribe todas las
+    rutas hacia esa función.
 3.  **Nombre del proyecto: `mantivecinos-api`** (obligatorio: el
     frontend reenvía `/api` a `https://mantivecinos-api.vercel.app`).
 4.  Variables de entorno (Production y Preview):
