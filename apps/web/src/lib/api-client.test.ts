@@ -21,10 +21,10 @@ describe('apiFetch', () => {
 
   it('convierte el envelope de error en ApiError tipado', async () => {
     vi.spyOn(globalThis, 'fetch').mockResolvedValue(
-      new Response(
-        JSON.stringify({ code: 'forbidden', message: 'No permitido' }),
-        { status: 403, headers: { 'content-type': 'application/json' } },
-      ),
+      new Response(JSON.stringify({ code: 'forbidden', message: 'No permitido' }), {
+        status: 403,
+        headers: { 'content-type': 'application/json' },
+      }),
     );
 
     await expect(apiFetch('/api/privado')).rejects.toMatchObject({

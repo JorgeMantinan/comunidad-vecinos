@@ -27,9 +27,7 @@ export function RegisterPage() {
   return (
     <div className="mx-auto max-w-md">
       <Card title="Crear cuenta">
-        {register.error ? (
-          <ErrorAlert message={register.error.message} />
-        ) : null}
+        {register.error ? <ErrorAlert message={register.error.message} /> : null}
         <form onSubmit={onSubmit} noValidate>
           <Field
             label="Nombre"

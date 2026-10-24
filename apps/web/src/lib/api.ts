@@ -9,10 +9,7 @@ import {
   pendingInvitationSchema,
   updateMemberRoleInputSchema,
 } from '@comunidad/shared';
-import type {
-  CreateCommunityInput,
-  CreateInvitationInput,
-} from '@comunidad/shared';
+import type { CreateCommunityInput, CreateInvitationInput } from '@comunidad/shared';
 import { z } from 'zod';
 import { apiFetch } from './api-client';
 
@@ -105,10 +102,9 @@ export function useRemoveMember(communityId: string) {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: async (memberId: string) =>
-      apiFetch<unknown>(
-        `/api/communities/${communityId}/members/${memberId}`,
-        { method: 'DELETE' },
-      ),
+      apiFetch<unknown>(`/api/communities/${communityId}/members/${memberId}`, {
+        method: 'DELETE',
+      }),
     onSuccess: () => {
       void queryClient.invalidateQueries({
         queryKey: [...communityKey(communityId), 'members'],
@@ -160,10 +156,9 @@ export function useRevokeInvitation(communityId: string) {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: async (invitationId: string) =>
-      apiFetch<unknown>(
-        `/api/communities/${communityId}/invitations/${invitationId}`,
-        { method: 'DELETE' },
-      ),
+      apiFetch<unknown>(`/api/communities/${communityId}/invitations/${invitationId}`, {
+        method: 'DELETE',
+      }),
     onSuccess: () => {
       void queryClient.invalidateQueries({
         queryKey: [...communityKey(communityId), 'invitations'],

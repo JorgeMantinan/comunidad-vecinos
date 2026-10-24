@@ -12,11 +12,7 @@ import {
   RoleBadge,
   Spinner,
 } from '../components/ui';
-import {
-  useCommunities,
-  useCreateCommunity,
-  usePendingInvitations,
-} from '../lib/api';
+import { useCommunities, useCreateCommunity, usePendingInvitations } from '../lib/api';
 
 const createSchema = createCommunityInputSchema.extend({
   address: z.string().trim().max(300).optional(),
@@ -36,8 +32,8 @@ export function DashboardPage() {
           ) : null}
           {communities.data && communities.data.length === 0 ? (
             <p className="text-sm text-neutral-600">
-              Todavía no perteneces a ninguna comunidad. Crea una nueva o
-              espera a que te inviten.
+              Todavía no perteneces a ninguna comunidad. Crea una nueva o espera a que
+              te inviten.
             </p>
           ) : null}
           <ul className="divide-y divide-accent-soft">

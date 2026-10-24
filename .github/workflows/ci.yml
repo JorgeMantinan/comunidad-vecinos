@@ -1,0 +1,62 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  quality:
+    name: quality
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - name: Lint
+        run: pnpm lint
+      - name: Formato
+        run: pnpm format:check
+      - name: Tipos
+        run: pnpm typecheck
+      - name: Tests
+        run: pnpm test
+
+  migrations:
+    name: Migraciones desde cero
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: vecinos
+          POSTGRES_PASSWORD: vecinos
+          POSTGRES_DB: vecinos_test
+        ports:
+          - '5432:5432'
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - name: Aplicar migraciones sobre PostgreSQL limpio
+        run: pnpm --filter @comunidad/api db:migrate
+        env:
+          DATABASE_URL: postgresql://vecinos:vecinos@localhost:5432/vecinos_test
+          AUTH_SECRET: secreto-de-ci-solo-para-migraciones-1234

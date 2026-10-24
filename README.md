@@ -11,6 +11,7 @@ documentación y profesionales desde una única plataforma.
 -  Web (producción): <https://mantivecinos.vercel.app>
 -  Roadmap técnico: [docs/roadmap.md](docs/roadmap.md)
 -  Arquitectura: [docs/architecture.md](docs/architecture.md)
+-  Despliegue en Vercel: [docs/deploy-vercel.md](docs/deploy-vercel.md)
 -  Decisiones (ADRs): [docs/decisions/](docs/decisions/)
 
 ## Stack

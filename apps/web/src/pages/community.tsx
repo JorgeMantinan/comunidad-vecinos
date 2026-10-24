@@ -41,7 +41,9 @@ export function CommunityPage() {
     );
   }
   if (community.error || !community.data) {
-    return <ErrorAlert message={community.error?.message ?? 'Comunidad no encontrada'} />;
+    return (
+      <ErrorAlert message={community.error?.message ?? 'Comunidad no encontrada'} />
+    );
   }
 
   return (
@@ -52,9 +54,7 @@ export function CommunityPage() {
         </Link>
         <div className="mt-2 flex items-center justify-between">
           <div>
-            <h1 className="text-2xl font-bold text-primary">
-              {community.data.name}
-            </h1>
+            <h1 className="text-2xl font-bold text-primary">{community.data.name}</h1>
             <p className="text-neutral-600">
               {community.data.address ?? 'Sin dirección registrada'}
             </p>
@@ -64,10 +64,7 @@ export function CommunityPage() {
       </header>
 
       <MembersCard communityId={community.data.id} />
-      <InvitationsCard
-        communityId={community.data.id}
-        role={community.data.role}
-      />
+      <InvitationsCard communityId={community.data.id} role={community.data.role} />
       <AuditCard communityId={community.data.id} role={community.data.role} />
     </div>
   );
@@ -106,9 +103,7 @@ function MembersCard({ communityId }: { communityId: string }) {
                 canManageRole(myRole, member.role) &&
                 member.userId !== session?.user.id
               }
-              onChangeRole={(role) =>
-                changeRole.mutate({ memberId: member.id, role })
-              }
+              onChangeRole={(role) => changeRole.mutate({ memberId: member.id, role })}
               onRemove={() => removeMember.mutate(member.id)}
             />
           ))}
@@ -161,13 +156,7 @@ function MemberRow({
   );
 }
 
-function InvitationsCard({
-  communityId,
-  role,
-}: {
-  communityId: string;
-  role: string;
-}) {
+function InvitationsCard({ communityId, role }: { communityId: string; role: string }) {
   const canInvite = role === 'owner' || role === 'admin';
   const invitations = useInvitations(canInvite ? communityId : undefined);
   const createInvitation = useCreateInvitation(communityId);
@@ -208,11 +197,7 @@ function InvitationsCard({
             htmlFor="invite-email"
             error={form.formState.errors.email?.message}
           >
-            <Input
-              id="invite-email"
-              type="email"
-              {...form.register('email')}
-            />
+            <Input id="invite-email" type="email" {...form.register('email')} />
           </Field>
         </div>
         <div className="w-44">
@@ -262,8 +247,7 @@ function InvitationsCard({
             <div>
               <p className="font-medium text-neutral-800">{invitation.email}</p>
               <p className="text-neutral-500">
-                Caduca el{' '}
-                {new Date(invitation.expiresAt).toLocaleDateString('es-ES')}
+                Caduca el {new Date(invitation.expiresAt).toLocaleDateString('es-ES')}
               </p>
             </div>
             <div className="flex items-center gap-3">
@@ -287,13 +271,7 @@ function InvitationsCard({
   );
 }
 
-function AuditCard({
-  communityId,
-  role,
-}: {
-  communityId: string;
-  role: string;
-}) {
+function AuditCard({ communityId, role }: { communityId: string; role: string }) {
   const events = useAuditEvents(
     role === 'owner' || role === 'admin' ? communityId : undefined,
   );

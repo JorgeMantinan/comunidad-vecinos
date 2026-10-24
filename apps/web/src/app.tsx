@@ -1,6 +1,13 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import type { ReactNode } from 'react';
-import { BrowserRouter, Link, Navigate, Route, Routes, useNavigate } from 'react-router-dom';
+import {
+  BrowserRouter,
+  Link,
+  Navigate,
+  Route,
+  Routes,
+  useNavigate,
+} from 'react-router-dom';
 import { Button, Spinner } from './components/ui';
 import { useLogout, useSession } from './lib/auth';
 import { CommunityPage } from './pages/community';
@@ -17,9 +24,7 @@ const queryClient = new QueryClient({
 
 function Centered({ children }: { children: ReactNode }) {
   return (
-    <div className="flex min-h-screen items-center justify-center">
-      {children}
-    </div>
+    <div className="flex min-h-screen items-center justify-center">{children}</div>
   );
 }
 

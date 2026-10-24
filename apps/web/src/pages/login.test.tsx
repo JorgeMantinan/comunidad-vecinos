@@ -35,8 +35,9 @@ describe('LoginPage', () => {
   });
 
   it('envía las credenciales al iniciar sesión', async () => {
-    const fetchSpy = vi.spyOn(globalThis, 'fetch').mockImplementation(
-      async (input, init) => {
+    const fetchSpy = vi
+      .spyOn(globalThis, 'fetch')
+      .mockImplementation(async (input, init) => {
         const url = String(input);
         if (url.endsWith('/api/auth/sign-in/email')) {
           expect(init?.method).toBe('POST');
@@ -53,8 +54,7 @@ describe('LoginPage', () => {
           status: 200,
           headers: { 'content-type': 'application/json' },
         });
-      },
-    );
+      });
 
     renderLogin();
 
@@ -64,10 +64,7 @@ describe('LoginPage', () => {
     password.dispatchEvent(new Event('input', { bubbles: true }));
 
     // React Hook Form lee el valor del nodo; fijamos los valores directamente.
-    const setNativeValue = (
-      element: HTMLInputElement,
-      value: string,
-    ): void => {
+    const setNativeValue = (element: HTMLInputElement, value: string): void => {
       const setter = Object.getOwnPropertyDescriptor(
         window.HTMLInputElement.prototype,
         'value',
