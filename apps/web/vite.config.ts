@@ -6,6 +6,13 @@ export default defineConfig({
   plugins: [react(), tailwindcss()],
   server: {
     port: 5173,
+    // En local no hace falta configurar nada: Vite reenvía /api a la API.
+    proxy: {
+      '/api': {
+        target: 'http://localhost:3001',
+        changeOrigin: true,
+      },
+    },
   },
   test: {
     environment: 'jsdom',
