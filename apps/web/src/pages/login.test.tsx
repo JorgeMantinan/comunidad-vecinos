@@ -26,7 +26,8 @@ describe('LoginPage', () => {
   it('muestra errores de validación si el email no es válido', async () => {
     renderLogin();
 
-    const submit = screen.getByRole('button', { name: 'Entrar' });
+    // El formulario aparece tras comprobar que no hay sesión.
+    const submit = await screen.findByRole('button', { name: 'Entrar' });
     submit.click();
 
     await waitFor(() => {
@@ -50,18 +51,19 @@ describe('LoginPage', () => {
             { status: 200, headers: { 'content-type': 'application/json' } },
           );
         }
-        return new Response(JSON.stringify({ user: null }), {
-          status: 200,
+        // Sin sesión hasta que se inicie sesión.
+        return new Response(JSON.stringify({ code: 'unauthorized' }), {
+          status: 401,
           headers: { 'content-type': 'application/json' },
         });
       });
 
     renderLogin();
 
+    // El formulario aparece tras comprobar que no hay sesión.
+    const submit = await screen.findByRole('button', { name: 'Entrar' });
     const email = screen.getByLabelText('Email');
     const password = screen.getByLabelText('Contraseña');
-    email.dispatchEvent(new Event('input', { bubbles: true }));
-    password.dispatchEvent(new Event('input', { bubbles: true }));
 
     // React Hook Form lee el valor del nodo; fijamos los valores directamente.
     const setNativeValue = (element: HTMLInputElement, value: string): void => {
@@ -75,7 +77,7 @@ describe('LoginPage', () => {
     setNativeValue(email as HTMLInputElement, 'vecino@ejemplo.local');
     setNativeValue(password as HTMLInputElement, 'Password123!');
 
-    screen.getByRole('button', { name: 'Entrar' }).click();
+    submit.click();
 
     await waitFor(() => {
       expect(

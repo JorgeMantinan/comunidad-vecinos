@@ -1,9 +1,9 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, Navigate, useNavigate } from 'react-router-dom';
 import { z } from 'zod';
-import { Button, Card, ErrorAlert, Field, Input } from '../components/ui';
-import { useLogin } from '../lib/auth';
+import { Button, Card, ErrorAlert, Field, Input, Spinner } from '../components/ui';
+import { useLogin, useSession } from '../lib/auth';
 
 const loginSchema = z.object({
   email: z.email('Introduce un email válido'),
@@ -14,14 +14,33 @@ type LoginValues = z.infer<typeof loginSchema>;
 export function LoginPage() {
   const navigate = useNavigate();
   const login = useLogin();
+  const { data: session, isLoading: sessionLoading } = useSession();
   const form = useForm<LoginValues>({
     resolver: zodResolver(loginSchema),
     defaultValues: { email: '', password: '' },
   });
 
-  const onSubmit = form.handleSubmit((values) => {
-    login.mutate(values, { onSuccess: () => navigate('/') });
+  const onSubmit = form.handleSubmit(async (values) => {
+    try {
+      // Espera a que la sesión quede refrescada antes de navegar.
+      await login.mutateAsync(values);
+      navigate('/', { replace: true });
+    } catch {
+      // El error queda registrado en login.error y se muestra abajo.
+    }
   });
+
+  // Quien ya tiene sesión no debe ver el formulario de acceso.
+  if (session) {
+    return <Navigate to="/" replace />;
+  }
+  if (sessionLoading) {
+    return (
+      <div className="mx-auto flex max-w-md justify-center py-16">
+        <Spinner />
+      </div>
+    );
+  }
 
   return (
     <CenteredCard title="Iniciar sesión">
