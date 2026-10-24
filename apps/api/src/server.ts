@@ -15,6 +15,7 @@ const connection = config.databaseUrl
 const auth = createAuth(connection.db, {
   secret: config.authSecret,
   trustedOrigins: config.corsOrigins,
+  nodeEnv: config.nodeEnv,
 });
 
 const app = createApp({ db: connection.db, auth, config });

@@ -19,6 +19,7 @@ const db = createDatabase(config.databaseUrl);
 const auth = createAuth(db, {
   secret: config.authSecret,
   trustedOrigins: config.corsOrigins,
+  nodeEnv: config.nodeEnv,
 });
 const app = createApp({ db, auth, config });
 

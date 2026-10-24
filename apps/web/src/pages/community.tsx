@@ -1,0 +1,320 @@
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { Link, useParams } from 'react-router-dom';
+import { canManageRole, createInvitationInputSchema } from '@comunidad/shared';
+import type { Member } from '@comunidad/shared';
+import { type z } from 'zod';
+import {
+  Button,
+  Card,
+  ErrorAlert,
+  Field,
+  Input,
+  RoleBadge,
+  Spinner,
+} from '../components/ui';
+import {
+  useAuditEvents,
+  useChangeMemberRole,
+  useCommunity,
+  useCreateInvitation,
+  useInvitations,
+  useMembers,
+  useRemoveMember,
+  useRevokeInvitation,
+} from '../lib/api';
+import { useSession } from '../lib/auth';
+
+const inviteSchema = createInvitationInputSchema;
+type InviteValues = z.infer<typeof inviteSchema>;
+
+export function CommunityPage() {
+  const { id } = useParams<{ id: string }>();
+  const community = useCommunity(id);
+
+  if (community.isLoading) {
+    return (
+      <div className="flex justify-center">
+        <Spinner />
+      </div>
+    );
+  }
+  if (community.error || !community.data) {
+    return <ErrorAlert message={community.error?.message ?? 'Comunidad no encontrada'} />;
+  }
+
+  return (
+    <div className="space-y-6">
+      <header>
+        <Link to="/" className="text-sm text-primary">
+          ← Volver a mis comunidades
+        </Link>
+        <div className="mt-2 flex items-center justify-between">
+          <div>
+            <h1 className="text-2xl font-bold text-primary">
+              {community.data.name}
+            </h1>
+            <p className="text-neutral-600">
+              {community.data.address ?? 'Sin dirección registrada'}
+            </p>
+          </div>
+          <RoleBadge role={community.data.role} />
+        </div>
+      </header>
+
+      <MembersCard communityId={community.data.id} />
+      <InvitationsCard
+        communityId={community.data.id}
+        role={community.data.role}
+      />
+      <AuditCard communityId={community.data.id} role={community.data.role} />
+    </div>
+  );
+}
+
+function MembersCard({ communityId }: { communityId: string }) {
+  const { data: session } = useSession();
+  const members = useMembers(communityId);
+  const changeRole = useChangeMemberRole(communityId);
+  const removeMember = useRemoveMember(communityId);
+  const myRole = members.data?.find((m) => m.userId === session?.user.id)?.role;
+
+  if (members.error) {
+    return <ErrorAlert message={members.error.message} />;
+  }
+
+  return (
+    <Card title="Miembros">
+      {members.isLoading ? <Spinner /> : null}
+      <table className="w-full text-sm">
+        <thead>
+          <tr className="border-b border-accent-soft text-left text-neutral-500">
+            <th className="py-2">Nombre</th>
+            <th className="py-2">Email</th>
+            <th className="py-2">Rol</th>
+            <th className="py-2" />
+          </tr>
+        </thead>
+        <tbody>
+          {members.data?.map((member) => (
+            <MemberRow
+              key={member.id}
+              member={member}
+              canManage={
+                myRole !== undefined &&
+                canManageRole(myRole, member.role) &&
+                member.userId !== session?.user.id
+              }
+              onChangeRole={(role) =>
+                changeRole.mutate({ memberId: member.id, role })
+              }
+              onRemove={() => removeMember.mutate(member.id)}
+            />
+          ))}
+        </tbody>
+      </table>
+    </Card>
+  );
+}
+
+function MemberRow({
+  member,
+  canManage,
+  onChangeRole,
+  onRemove,
+}: {
+  member: Member;
+  canManage: boolean;
+  onChangeRole: (role: string) => void;
+  onRemove: () => void;
+}) {
+  return (
+    <tr className="border-b border-accent-soft/60">
+      <td className="py-2 font-medium text-neutral-800">{member.name}</td>
+      <td className="py-2 text-neutral-600">{member.email}</td>
+      <td className="py-2">
+        {canManage ? (
+          <select
+            value={member.role}
+            onChange={(event) => onChangeRole(event.target.value)}
+            className="rounded-lg border border-accent bg-white px-2 py-1 text-sm"
+            aria-label={`Rol de ${member.name}`}
+          >
+            <option value="owner">Presidente</option>
+            <option value="admin">Administración</option>
+            <option value="member">Propietario</option>
+            <option value="resident">Residente</option>
+          </select>
+        ) : (
+          <RoleBadge role={member.role} />
+        )}
+      </td>
+      <td className="py-2 text-right">
+        {canManage ? (
+          <Button variant="danger" onClick={onRemove}>
+            Eliminar
+          </Button>
+        ) : null}
+      </td>
+    </tr>
+  );
+}
+
+function InvitationsCard({
+  communityId,
+  role,
+}: {
+  communityId: string;
+  role: string;
+}) {
+  const canInvite = role === 'owner' || role === 'admin';
+  const invitations = useInvitations(canInvite ? communityId : undefined);
+  const createInvitation = useCreateInvitation(communityId);
+  const revokeInvitation = useRevokeInvitation(communityId);
+  const [lastLink, setLastLink] = useState<string | null>(null);
+
+  const form = useForm<InviteValues>({
+    resolver: zodResolver(inviteSchema),
+    defaultValues: { email: '', role: 'member' },
+  });
+
+  if (!canInvite) {
+    return null;
+  }
+
+  const onSubmit = form.handleSubmit((values) => {
+    createInvitation.mutate(values, {
+      onSuccess: (data) => {
+        setLastLink(`${window.location.origin}/invite/${data.token}`);
+        form.reset();
+      },
+    });
+  });
+
+  return (
+    <Card title="Invitaciones">
+      {createInvitation.error ? (
+        <ErrorAlert message={createInvitation.error.message} />
+      ) : null}
+      {revokeInvitation.error ? (
+        <ErrorAlert message={revokeInvitation.error.message} />
+      ) : null}
+
+      <form onSubmit={onSubmit} noValidate className="flex flex-wrap gap-3">
+        <div className="min-w-64 flex-1">
+          <Field
+            label="Email del invitado"
+            htmlFor="invite-email"
+            error={form.formState.errors.email?.message}
+          >
+            <Input
+              id="invite-email"
+              type="email"
+              {...form.register('email')}
+            />
+          </Field>
+        </div>
+        <div className="w-44">
+          <Field label="Rol inicial" htmlFor="invite-role">
+            <select
+              id="invite-role"
+              className="w-full rounded-lg border border-accent bg-white px-3 py-2 text-sm"
+              {...form.register('role')}
+            >
+              <option value="member">Propietario</option>
+              <option value="resident">Residente</option>
+              <option value="admin">Administración</option>
+            </select>
+          </Field>
+        </div>
+        <div className="flex items-end pb-4">
+          <Button type="submit" disabled={createInvitation.isPending}>
+            Invitar
+          </Button>
+        </div>
+      </form>
+
+      {lastLink ? (
+        <div className="mb-4 rounded-lg bg-accent-soft p-3 text-sm">
+          <p className="mb-1 font-medium text-primary">
+            Enlace de invitación (se muestra una sola vez)
+          </p>
+          <input
+            readOnly
+            value={lastLink}
+            className="w-full rounded border border-accent bg-white px-2 py-1 text-xs"
+            onFocus={(event) => event.currentTarget.select()}
+            aria-label="Enlace de invitación"
+          />
+          <p className="mt-1 text-neutral-600">
+            Compártelo con el invitado. Por seguridad solo se guarda su hash.
+          </p>
+        </div>
+      ) : null}
+
+      <ul className="divide-y divide-accent-soft">
+        {invitations.data?.map((invitation) => (
+          <li
+            key={invitation.id}
+            className="flex items-center justify-between py-2 text-sm"
+          >
+            <div>
+              <p className="font-medium text-neutral-800">{invitation.email}</p>
+              <p className="text-neutral-500">
+                Caduca el{' '}
+                {new Date(invitation.expiresAt).toLocaleDateString('es-ES')}
+              </p>
+            </div>
+            <div className="flex items-center gap-3">
+              <span className="text-xs uppercase text-neutral-500">
+                {invitation.status}
+              </span>
+              {invitation.status === 'pending' ? (
+                <Button
+                  variant="danger"
+                  onClick={() => revokeInvitation.mutate(invitation.id)}
+                  disabled={revokeInvitation.isPending}
+                >
+                  Revocar
+                </Button>
+              ) : null}
+            </div>
+          </li>
+        ))}
+      </ul>
+    </Card>
+  );
+}
+
+function AuditCard({
+  communityId,
+  role,
+}: {
+  communityId: string;
+  role: string;
+}) {
+  const events = useAuditEvents(
+    role === 'owner' || role === 'admin' ? communityId : undefined,
+  );
+
+  if (role !== 'owner' && role !== 'admin') {
+    return null;
+  }
+
+  return (
+    <Card title="Actividad reciente">
+      {events.error ? <ErrorAlert message={events.error.message} /> : null}
+      <ul className="divide-y divide-accent-soft text-sm">
+        {events.data?.map((event) => (
+          <li key={event.id} className="flex justify-between py-2">
+            <span className="font-medium text-neutral-800">{event.action}</span>
+            <span className="text-neutral-500">
+              {new Date(event.createdAt).toLocaleString('es-ES')}
+            </span>
+          </li>
+        ))}
+      </ul>
+    </Card>
+  );
+}
