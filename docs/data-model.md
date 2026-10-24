@@ -48,12 +48,20 @@ Roles (`community_memberships.role`):
 -  `expenses` — gastos comunes: importe decimal exacto, categoría,
    fecha del gasto y estados `registered`/`paid` con `paid_on`
    obligatorio cuando está pagado (constraint en BD).
+-  `invoices` — facturas de proveedores: número único por comunidad,
+   proveedor, importe, fecha de emisión y estados `received`/`paid`
+   (documentos diferenciados de los gastos registrados).
+-  `assessments` + `assessment_charges` — derramas: reparto del importe
+   total entre las unidades por coeficiente, con cuotas por unidad
+   (`pending`/`paid`) y `paid_on` obligatorio al cobrar. Los importes se
+   guardan como *snapshot* (cambiar coeficientes no reescribe el
+   histórico).
 
 ## Mapa objetivo (fases posteriores)
 
 | Área           | Entidades                                                            |
 | -------------- | -------------------------------------------------------------------- |
-| Economía       | `invoices`, `budgets`, `assessments`, `payments`, `financial_periods` |
+| Economía       | `budgets`, `payments`, `financial_periods`                           |
 | Reuniones      | `votes` (escrutinios de acuerdos)                                    |
 | Mantenimiento  | `incidents`, `tasks`, `assets`, `maintenance_contracts`              |
 | Comunicación   | `suggestions`, `polls`, `notifications`                              |

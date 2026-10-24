@@ -15,8 +15,12 @@ import {
   Spinner,
 } from '../components/ui';
 import { AnnouncementsCard } from '../features/announcements/announcements-card';
+import { AssessmentsCard } from '../features/assessments/assessments-card';
+import { useExportCommunity } from '../features/export/api';
 import { ExpensesCard } from '../features/expenses/expenses-card';
+import { InvoicesCard } from '../features/invoices/invoices-card';
 import { MeetingsCard } from '../features/meetings/meetings-card';
+import { UnitsCard } from '../features/units/units-card';
 import {
   useAuditEvents,
   useChangeMemberRole,
@@ -62,20 +66,62 @@ export function CommunityPage() {
               {community.data.address ?? 'Sin dirección registrada'}
             </p>
           </div>
-          <RoleBadge role={community.data.role} />
+          <div className="flex items-center gap-3">
+            <ExportButton
+              communityId={community.data.id}
+              canExport={
+                community.data.role === 'owner' || community.data.role === 'admin'
+              }
+            />
+            <RoleBadge role={community.data.role} />
+          </div>
         </div>
       </header>
 
       <AnnouncementsCard communityId={community.data.id} role={community.data.role} />
       <MeetingsCard communityId={community.data.id} role={community.data.role} />
+      <UnitsCard communityId={community.data.id} role={community.data.role} />
       {community.data.role !== 'resident' ? (
-        <ExpensesCard communityId={community.data.id} role={community.data.role} />
+        <>
+          <ExpensesCard communityId={community.data.id} role={community.data.role} />
+          <InvoicesCard communityId={community.data.id} role={community.data.role} />
+          <AssessmentsCard communityId={community.data.id} role={community.data.role} />
+        </>
       ) : null}
 
       <MembersCard communityId={community.data.id} />
       <InvitationsCard communityId={community.data.id} role={community.data.role} />
       <AuditCard communityId={community.data.id} role={community.data.role} />
     </div>
+  );
+}
+
+/** Descarga JSON con todos los datos de la comunidad (owner/admin). */
+function ExportButton({
+  communityId,
+  canExport,
+}: {
+  communityId: string;
+  canExport: boolean;
+}) {
+  const exportCommunity = useExportCommunity(communityId);
+  if (!canExport) {
+    return null;
+  }
+  return (
+    <>
+      {exportCommunity.error ? (
+        <ErrorAlert message={exportCommunity.error.message} />
+      ) : null}
+      <Button
+        variant="secondary"
+        onClick={() => exportCommunity.mutate()}
+        disabled={exportCommunity.isPending}
+        title="Descarga un JSON con los datos de la comunidad"
+      >
+        {exportCommunity.isPending ? 'Exportando…' : 'Exportar datos'}
+      </Button>
+    </>
   );
 }
 

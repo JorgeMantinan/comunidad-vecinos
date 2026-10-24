@@ -24,6 +24,12 @@ hacer en esta comunidad". Se implementan por separado.
 | Convocar reuniones y gestionar acta   | ❌             | ✅    | ✅    | ❌     | ❌       |
 | Gestionar orden del día y acuerdos    | ❌             | ✅    | ✅    | ❌     | ❌       |
 | Registrar y pagar gastos              | ❌             | ✅    | ✅    | ❌     | ❌       |
+| Ver unidades y facturas               | ❌             | ✅    | ✅    | ✅     | ✅       |
+| Ver derramas                          | ❌             | ✅    | ✅    | ✅     | ❌       |
+| Gestionar unidades                    | ❌             | ✅    | ✅    | ❌     | ❌       |
+| Registrar y pagar facturas            | ❌             | ✅    | ✅    | ❌     | ❌       |
+| Crear derramas y cobrar cuotas        | ❌             | ✅    | ✅    | ❌     | ❌       |
+| Exportar los datos de la comunidad    | ❌             | ✅    | ✅    | ❌     | ❌       |
 | Editar datos de la comunidad          | ❌             | ✅    | ✅    | ❌     | ❌       |
 | Invitar miembros                     | ❌             | ✅    | ✅    | ❌     | ❌       |
 | Revocar invitaciones                  | ❌             | ✅    | ✅    | ❌     | ❌       |

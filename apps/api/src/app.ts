@@ -7,12 +7,16 @@ import type { Auth } from './lib/auth';
 import type { AppEnv } from './lib/context';
 import { errorHandler, notFoundHandler } from './middleware/error-handler';
 import { announcementRoutes } from './modules/announcements/routes';
+import { assessmentRoutes } from './modules/assessments/routes';
 import { auditRoutes } from './modules/audit/routes';
 import { communityRoutes } from './modules/communities/routes';
 import { expenseRoutes } from './modules/expenses/routes';
+import { exportRoutes } from './modules/export/routes';
 import { healthRoutes } from './modules/health/routes';
 import { invitationRoutes } from './modules/invitations/routes';
+import { invoiceRoutes } from './modules/invoices/routes';
 import { meetingRoutes } from './modules/meetings/routes';
+import { unitRoutes } from './modules/units/routes';
 
 export interface AppDependencies {
   db: Database;
@@ -48,6 +52,10 @@ export function createApp({ db, auth, config }: AppDependencies): Hono<AppEnv> {
   app.route('/api/communities', announcementRoutes(db, auth));
   app.route('/api/communities', meetingRoutes(db, auth));
   app.route('/api/communities', expenseRoutes(db, auth));
+  app.route('/api/communities', invoiceRoutes(db, auth));
+  app.route('/api/communities', unitRoutes(db, auth));
+  app.route('/api/communities', assessmentRoutes(db, auth));
+  app.route('/api/communities', exportRoutes(db, auth));
   app.route('/api/communities', auditRoutes(db, auth));
   app.route('/api', invitationRoutes(db, auth));
 
