@@ -3,3 +3,4 @@ export * from './auth';
 export * from './communities';
 export * from './finance';
 export * from './management';
+export * from './participation';
