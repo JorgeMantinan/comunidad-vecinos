@@ -10,6 +10,18 @@ const envSchema = z.object({
 
 const DEV_SECRET = 'desarrollo-local-sin-secreto-real';
 
+/**
+ * Carga `.env` local si existe (Node >= 22). Las variables reales del
+ * entorno (Vercel, CI) tienen prioridad sobre el archivo.
+ */
+function loadLocalEnvFile(): void {
+  try {
+    process.loadEnvFile('.env');
+  } catch {
+    // No hay .env local: se usan las variables de entorno del sistema.
+  }
+}
+
 export interface AppConfig {
   nodeEnv: 'development' | 'test' | 'production';
   databaseUrl: string | undefined;
@@ -23,6 +35,10 @@ export interface AppConfig {
  * `AUTH_SECRET`; en desarrollo usa un secreto fijo y emite un aviso.
  */
 export function loadConfig(env: NodeJS.ProcessEnv = process.env): AppConfig {
+  if (env === process.env) {
+    loadLocalEnvFile();
+  }
+
   const parsed = envSchema.safeParse(env);
   if (!parsed.success) {
     const issues = parsed.error.issues
