@@ -1,0 +1,8 @@
+node_modules
+dist
+build
+coverage
+.pglite
+.vercel
+pnpm-lock.yaml
+*.md
