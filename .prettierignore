@@ -4,7 +4,5 @@ build
 coverage
 .pglite
 .vercel
-# Función serverless generada por tsup (pnpm build).
-apps/api/api/
 pnpm-lock.yaml
 *.md
