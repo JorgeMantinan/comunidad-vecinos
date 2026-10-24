@@ -18,8 +18,12 @@ import { AnnouncementsCard } from '../features/announcements/announcements-card'
 import { AssessmentsCard } from '../features/assessments/assessments-card';
 import { useExportCommunity } from '../features/export/api';
 import { ExpensesCard } from '../features/expenses/expenses-card';
+import { IncidentsCard } from '../features/incidents/incidents-card';
 import { InvoicesCard } from '../features/invoices/invoices-card';
 import { MeetingsCard } from '../features/meetings/meetings-card';
+import { PollsCard } from '../features/polls/polls-card';
+import { SuggestionsCard } from '../features/suggestions/suggestions-card';
+import { TasksCard } from '../features/tasks/tasks-card';
 import { UnitsCard } from '../features/units/units-card';
 import {
   useAuditEvents,
@@ -79,6 +83,8 @@ export function CommunityPage() {
       </header>
 
       <AnnouncementsCard communityId={community.data.id} role={community.data.role} />
+      <IncidentsCard communityId={community.data.id} role={community.data.role} />
+      <TasksCard communityId={community.data.id} role={community.data.role} />
       <MeetingsCard communityId={community.data.id} role={community.data.role} />
       <UnitsCard communityId={community.data.id} role={community.data.role} />
       {community.data.role !== 'resident' ? (
@@ -88,6 +94,8 @@ export function CommunityPage() {
           <AssessmentsCard communityId={community.data.id} role={community.data.role} />
         </>
       ) : null}
+      <SuggestionsCard communityId={community.data.id} role={community.data.role} />
+      <PollsCard communityId={community.data.id} role={community.data.role} />
 
       <MembersCard communityId={community.data.id} />
       <InvitationsCard communityId={community.data.id} role={community.data.role} />

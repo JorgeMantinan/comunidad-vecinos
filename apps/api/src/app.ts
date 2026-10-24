@@ -16,6 +16,10 @@ import { healthRoutes } from './modules/health/routes';
 import { invitationRoutes } from './modules/invitations/routes';
 import { invoiceRoutes } from './modules/invoices/routes';
 import { meetingRoutes } from './modules/meetings/routes';
+import { incidentRoutes } from './modules/incidents/routes';
+import { pollRoutes } from './modules/polls/routes';
+import { suggestionRoutes } from './modules/suggestions/routes';
+import { taskRoutes } from './modules/tasks/routes';
 import { unitRoutes } from './modules/units/routes';
 
 export interface AppDependencies {
@@ -55,6 +59,10 @@ export function createApp({ db, auth, config }: AppDependencies): Hono<AppEnv> {
   app.route('/api/communities', invoiceRoutes(db, auth));
   app.route('/api/communities', unitRoutes(db, auth));
   app.route('/api/communities', assessmentRoutes(db, auth));
+  app.route('/api/communities', incidentRoutes(db, auth));
+  app.route('/api/communities', taskRoutes(db, auth));
+  app.route('/api/communities', suggestionRoutes(db, auth));
+  app.route('/api/communities', pollRoutes(db, auth));
   app.route('/api/communities', exportRoutes(db, auth));
   app.route('/api/communities', auditRoutes(db, auth));
   app.route('/api', invitationRoutes(db, auth));

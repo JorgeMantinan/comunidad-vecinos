@@ -30,6 +30,13 @@ hacer en esta comunidad". Se implementan por separado.
 | Registrar y pagar facturas            | ❌             | ✅    | ✅    | ❌     | ❌       |
 | Crear derramas y cobrar cuotas        | ❌             | ✅    | ✅    | ❌     | ❌       |
 | Exportar los datos de la comunidad    | ❌             | ✅    | ✅    | ❌     | ❌       |
+| Ver incidencias y tareas              | ❌             | ✅    | ✅    | ✅     | ✅       |
+| Reportar incidencias                  | ❌             | ✅    | ✅    | ✅     | ✅       |
+| Gestionar incidencias y tareas        | ❌             | ✅    | ✅    | ❌     | ❌       |
+| Ver y proponer sugerencias            | ❌             | ✅    | ✅    | ✅     | ✅       |
+| Revisar sugerencias (cambiar estado)  | ❌             | ✅    | ✅    | ❌     | ❌       |
+| Ver encuestas y votar                 | ❌             | ✅    | ✅    | ✅     | ✅       |
+| Crear y cerrar encuestas              | ❌             | ✅    | ✅    | ❌     | ❌       |
 | Editar datos de la comunidad          | ❌             | ✅    | ✅    | ❌     | ❌       |
 | Invitar miembros                     | ❌             | ✅    | ✅    | ❌     | ❌       |
 | Revocar invitaciones                  | ❌             | ✅    | ✅    | ❌     | ❌       |
@@ -58,6 +65,10 @@ hacer en esta comunidad". Se implementan por separado.
 5.  Los permisos ausentes se prueban con tests negativos: cada rol tiene
     al menos una prueba que demuestra que **no** puede ejecutar la
     acción.
+6.  Cualquier miembro (incluida la residente) puede reportar
+    incidencias, proponer sugerencias y votar encuestas; la revisión de
+    estados y la gestión de tareas son exclusivas de `owner`/`admin`.
+    El autor de una sugerencia puede eliminar la suya.
 
 ## Evolución
 

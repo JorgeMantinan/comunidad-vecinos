@@ -4,9 +4,10 @@ SaaS multi-comunidad para que vecinos, presidentes y administradores de
 fincas gestionen información, economía, reuniones, incidencias,
 documentación y profesionales desde una única plataforma.
 
-> Estado: **Fase 2 — gestión esencial (MVP)**: avisos, reuniones
-> (orden del día, actas y acuerdos), gastos y facturas con estados,
-> derramas por coeficiente y exportación de datos.
+> Estado: **Fase 3 — mantenimiento y participación** (núcleo):
+> incidencias, tareas, sugerencias y encuestas no vinculantes.
+> Pendientes: documentación con almacenamiento de objetos, inventario,
+> contratos, notificaciones por correo y profesionales.
 
 ## Enlaces
 

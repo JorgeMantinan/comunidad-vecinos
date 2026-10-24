@@ -57,14 +57,28 @@ Roles (`community_memberships.role`):
    guardan como *snapshot* (cambiar coeficientes no reescribe el
    histórico).
 
+## Fase 3 (implementada — núcleo de participación)
+
+-  `incidents` — incidencias: reportables por **cualquier miembro**
+   (incluida la residente), estados `open`/`in_progress`/`resolved` con
+   `resolved_at` obligatorio al resolver y limpio al reabrir.
+-  `tasks` — tareas: vencimiento opcional, responsable validado como
+   miembro de la comunidad y estados `todo`/`doing`/`done`.
+-  `suggestions` — sugerencias de cualquier miembro con revisión de la
+   junta (`open`/`under_review`/`accepted`/`rejected`); solo el autor o
+   la administración pueden eliminarlas.
+-  `polls` + `poll_options` + `poll_votes` — encuestas informales **no
+   vinculantes** con un voto por miembro (índice único `poll+user`),
+   cierre manual o por fecha y recuentos por opción.
+
 ## Mapa objetivo (fases posteriores)
 
 | Área           | Entidades                                                            |
 | -------------- | -------------------------------------------------------------------- |
 | Economía       | `budgets`, `payments`, `financial_periods`                           |
 | Reuniones      | `votes` (escrutinios de acuerdos)                                    |
-| Mantenimiento  | `incidents`, `tasks`, `assets`, `maintenance_contracts`              |
-| Comunicación   | `suggestions`, `polls`, `notifications`                              |
+| Mantenimiento  | `assets`, `maintenance_contracts`                                    |
+| Comunicación   | `notifications`                                                      |
 | Profesionales  | `professionals`, `professional_services`, `community_recommendations`, `sponsorships` |
 | Documentación  | `documents`, `document_versions`, `document_permissions`             |
 | Seguridad      | `access_events`, `retention_policies`                                |
