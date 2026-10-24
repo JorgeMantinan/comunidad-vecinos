@@ -1,9 +1,9 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, Navigate, useNavigate } from 'react-router-dom';
 import { z } from 'zod';
-import { Button, Card, ErrorAlert, Field, Input } from '../components/ui';
-import { useRegister } from '../lib/auth';
+import { Button, Card, ErrorAlert, Field, Input, Spinner } from '../components/ui';
+import { useRegister, useSession } from '../lib/auth';
 
 const registerSchema = z.object({
   name: z.string().trim().min(2, 'Introduce tu nombre'),
@@ -15,14 +15,32 @@ type RegisterValues = z.infer<typeof registerSchema>;
 export function RegisterPage() {
   const navigate = useNavigate();
   const register = useRegister();
+  const { data: session, isLoading: sessionLoading } = useSession();
   const form = useForm<RegisterValues>({
     resolver: zodResolver(registerSchema),
     defaultValues: { name: '', email: '', password: '' },
   });
 
-  const onSubmit = form.handleSubmit((values) => {
-    register.mutate(values, { onSuccess: () => navigate('/') });
+  const onSubmit = form.handleSubmit(async (values) => {
+    try {
+      // Espera a que la sesión quede refrescada antes de navegar.
+      await register.mutateAsync(values);
+      navigate('/', { replace: true });
+    } catch {
+      // El error queda registrado en register.error y se muestra abajo.
+    }
   });
+
+  if (session) {
+    return <Navigate to="/" replace />;
+  }
+  if (sessionLoading) {
+    return (
+      <div className="mx-auto flex max-w-md justify-center py-16">
+        <Spinner />
+      </div>
+    );
+  }
 
   return (
     <div className="mx-auto max-w-md">

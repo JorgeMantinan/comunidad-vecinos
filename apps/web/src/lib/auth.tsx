@@ -39,8 +39,10 @@ export function useLogin() {
         method: 'POST',
         body: JSON.stringify(input),
       }),
-    onSuccess: () => {
-      void queryClient.invalidateQueries({ queryKey: sessionKey });
+    // Espera a refrescar la sesión: si no, `RequireAuth` leería el
+    // `null` cacheado y rebotaría al usuario a /login.
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: sessionKey });
     },
   });
 }
@@ -53,8 +55,8 @@ export function useRegister() {
         method: 'POST',
         body: JSON.stringify(input),
       }),
-    onSuccess: () => {
-      void queryClient.invalidateQueries({ queryKey: sessionKey });
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: sessionKey });
     },
   });
 }
