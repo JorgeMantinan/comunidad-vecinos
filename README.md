@@ -5,7 +5,8 @@ fincas gestionen información, economía, reuniones, incidencias,
 documentación y profesionales desde una única plataforma.
 
 > Estado: **Fase 2 — gestión esencial (MVP)**: avisos, reuniones
-> (orden del día, actas y acuerdos) y gastos con estados.
+> (orden del día, actas y acuerdos), gastos y facturas con estados,
+> derramas por coeficiente y exportación de datos.
 
 ## Enlaces
 
