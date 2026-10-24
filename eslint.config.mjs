@@ -12,6 +12,8 @@ export default tseslint.config(
       '**/drizzle/**',
       '**/.pglite/**',
       '**/.vercel/**',
+      // Función serverless generada por tsup (pnpm build).
+      '**/apps/api/api/**',
     ],
   },
   js.configs.recommended,

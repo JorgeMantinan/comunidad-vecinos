@@ -27,6 +27,8 @@ jobs:
         run: pnpm format:check
       - name: Tipos
         run: pnpm typecheck
+      - name: Build
+        run: pnpm build
       - name: Tests
         run: pnpm test
 

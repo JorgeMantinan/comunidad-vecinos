@@ -1,2 +1,4 @@
 .vercel
 .env*
+# Generado por `pnpm build` (tsup): función serverless de Vercel.
+api/index.js
