@@ -46,9 +46,10 @@ Requisitos: Node.js 22+ y pnpm 9+.
 
 ```bash
 pnpm install
-cp apps/api/.env.example apps/api/.env   # configura DATABASE_URL y AUTH_SECRET
-pnpm db:migrate                           # aplica migraciones
-pnpm dev                                 # api + web en local
+cp apps/api/.env.example apps/api/.env     # configura AUTH_SECRET (DATABASE_URL opcional)
+cp apps/web/.env.example apps/web/.env     # VITE_API_URL=http://localhost:3001
+pnpm db:migrate                            # aplica migraciones (PGlite local si no hay DATABASE_URL)
+pnpm dev                                   # api (:3001) + web (:5173)
 ```
 
 Comandos de calidad (se ejecutan en CI y antes de cada PR):

@@ -1,0 +1,26 @@
+@import 'tailwindcss';
+
+/*
+ * Paleta corporativa (docs/design-system.md):
+ * #A30B37 primario · #BD6B73 primario suave · #BBB6DF acento ·
+ * #C6C8EE acento suave · #FCFCFF superficie
+ */
+@theme {
+  --color-primary: #a30b37;
+  --color-primary-soft: #bd6b73;
+  --color-accent: #bbb6df;
+  --color-accent-soft: #c6c8ee;
+  --color-surface: #fcfcff;
+}
+
+body {
+  background-color: var(--color-surface);
+  color: #1f1618;
+  font-family:
+    ui-sans-serif,
+    system-ui,
+    -apple-system,
+    'Segoe UI',
+    Roboto,
+    sans-serif;
+}
