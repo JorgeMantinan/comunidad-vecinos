@@ -15,7 +15,10 @@ funciona y que no rompe lo existente.
 -  **Unitarias (Vitest):** lógica de servicios y utilidades puras.
 -  **Integración:** repositorios y endpoints contra base de datos real
    (PGlite en local/CI; PostgreSQL del proveedor en staging).
--  **E2E (Playwright):** flujos críticos; pendiente de implementar.
+-  **E2E (Playwright):** flujos críticos con navegador real. Tests en
+   `apps/web/e2e/` con servidores propios y base aislada
+   (`.pglite-e2e`): `pnpm --filter @comunidad/web e2e`. La CI ejecuta
+   el job `e2e` en cada PR.
 
 ## Mínimo exigible por cambio
 

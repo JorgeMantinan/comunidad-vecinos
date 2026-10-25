@@ -17,7 +17,7 @@ out/
 # Base de datos locales
 *.sqlite
 *.db
-.pglite/
+.pglite*
 
 # Tests y cobertura
 coverage/
