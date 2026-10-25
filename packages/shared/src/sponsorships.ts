@@ -7,7 +7,15 @@ export type SponsorshipStatus = z.infer<typeof sponsorshipStatusSchema>;
 
 export const createSponsorshipInputSchema = z.object({
   businessName: z.string().trim().min(2, 'Indica el nombre').max(150),
-  website: z.url('URL inválida').nullish().or(z.literal('')),
+  // Solo http(s): bloquea `javascript:` y demás esquemas peligrosos.
+  website: z
+    .url('URL inválida')
+    .refine(
+      (value) => value.startsWith('http://') || value.startsWith('https://'),
+      'La web debe empezar por http:// o https://',
+    )
+    .nullish()
+    .or(z.literal('')),
   contactEmail: z.email('Email inválido').nullish().or(z.literal('')),
   monthlyAmount: decimalAmountSchema.nullish().or(z.literal('')),
   notes: z.string().trim().max(1000).nullish(),

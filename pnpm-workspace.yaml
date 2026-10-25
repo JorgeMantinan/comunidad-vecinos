@@ -4,5 +4,11 @@ packages:
 
 onlyBuiltDependencies:
   - esbuild
+
+# Dependencias transversales con vulnerabilidades conocidas:
+# forzamos la versión parcheada (p. ej. esbuild de @esbuild-kit vía drizzle-kit).
+overrides:
+  esbuild: '>=0.25.12'
+  zod: '^4.6.7'
 allowBuilds:
   esbuild: true
