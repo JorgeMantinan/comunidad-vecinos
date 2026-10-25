@@ -29,6 +29,11 @@ proyectos de Vercel (web y API) desde este monorepo.
     -  `CORS_ORIGIN`: `https://mantivecinos.vercel.app` (red de
        seguridad; el tráfico real va por proxy en el mismo dominio).
     -  `NODE_ENV`: `production`.
+    -  `BLOB_READ_WRITE_TOKEN`: se añade solo al conectar la tienda
+       privada de Blob (`vercel blob create-store mantivecinos
+       --access private`).
+    -  `RESEND_API_KEY` + `EMAIL_FROM` (opcional): activa el correo de
+       invitaciones; sin ellas el envío se omite con aviso.
 5.  Desplegar. La API quedará en `mantivecinos-api.vercel.app`.
 
 ## 3. Proyecto del frontend

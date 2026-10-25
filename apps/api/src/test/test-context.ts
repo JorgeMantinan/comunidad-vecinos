@@ -9,6 +9,7 @@ import type { Database } from '../db/client';
 import * as schema from '../db/schema';
 import { MIGRATIONS_FOLDER } from '../db/migrate';
 import { createAuth } from '../lib/auth';
+import { RecordingEmail } from '../lib/email';
 import { InMemoryStorage } from '../lib/storage';
 
 export interface TestUser {
@@ -28,6 +29,7 @@ export interface TestContext {
   app: ReturnType<typeof createApp>;
   db: Database;
   storage: InMemoryStorage;
+  email: RecordingEmail;
   request: (path: string, options?: RequestOptions) => Promise<Response>;
   signUp: (input: {
     name: string;
@@ -72,7 +74,8 @@ export async function createTestContext(): Promise<TestContext> {
     trustedOrigins: config.corsOrigins,
   });
   const storage = new InMemoryStorage();
-  const app = createApp({ db, auth, config, storage });
+  const email = new RecordingEmail();
+  const app = createApp({ db, auth, config, storage, email });
 
   const request = async (
     path: string,
@@ -120,6 +123,7 @@ export async function createTestContext(): Promise<TestContext> {
     app,
     db,
     storage,
+    email,
     request,
     signUp,
     close: async () => {

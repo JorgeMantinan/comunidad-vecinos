@@ -1,5 +1,5 @@
 import { eq } from 'drizzle-orm';
-import { afterAll, beforeAll, describe, expect, it } from 'vitest';
+import { afterAll, beforeAll, describe, expect, it, vi } from 'vitest';
 import { invitations } from '../../db/schema';
 import type { TestContext, TestUser } from '../../test/test-context';
 import { createCommunityAs, createTestContext } from '../../test/test-context';
@@ -200,5 +200,29 @@ describe('Módulo de invitaciones', () => {
   it('un token inventado responde 404', async () => {
     const acceptRes = await accept(member.cookie, 'f'.repeat(64));
     expect(acceptRes.status).toBe(404);
+  });
+
+  it('envía el correo de invitación con el enlace de uso único', async () => {
+    const res = await invite(owner.cookie, {
+      email: 'correoinvitado@ejemplo.local',
+      role: 'member',
+    });
+    expect(res.status).toBe(201);
+    const { token } = (await res.json()) as { token: string };
+
+    // El envío es asíncrono y best-effort: se espera a que llegue.
+    await vi.waitFor(() => {
+      const message = ctx.email.sent.find(
+        (item) => item.to === 'correoinvitado@ejemplo.local',
+      );
+      expect(message).toBeDefined();
+    });
+
+    const message = ctx.email.sent.find(
+      (item) => item.to === 'correoinvitado@ejemplo.local',
+    );
+    expect(message?.subject).toContain('Comunidad de prueba');
+    expect(message?.text).toContain(`/invite/${token}`);
+    expect(message?.text).toContain('caduca');
   });
 });

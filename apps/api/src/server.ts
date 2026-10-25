@@ -4,6 +4,7 @@ import { loadConfig } from './config';
 import { createDatabase } from './db/client';
 import { createLocalDatabase } from './db/local';
 import { createAuth } from './lib/auth';
+import { createEmailSender } from './lib/email';
 import { createBlobStorage } from './lib/storage';
 
 const config = loadConfig();
@@ -24,6 +25,7 @@ const app = createApp({
   auth,
   config,
   storage: createBlobStorage(),
+  email: createEmailSender(),
 });
 
 const server = serve({ fetch: app.fetch, port: config.port }, (info) => {
