@@ -52,22 +52,22 @@ export function invitationRoutes(
       const user = c.get('user');
       const created = await createInvitation(db, user, id, input);
 
-      // El correo es best-effort: el enlace también queda en la respuesta
-      // y en la lista de pendientes del invitado.
-      void findCommunityOfUser(db, user.id, id)
-        .then((community) =>
-          sendInvitationEmail(email, {
-            to: input.email,
-            communityName: community?.name ?? 'una comunidad',
-            role: input.role,
-            token: created.token,
-            expiresAt: new Date(created.invitation.expiresAt),
-            webBaseUrl,
-          }),
-        )
-        .catch((error: unknown) => {
-          console.error('[correo] no se pudo enviar la invitación', error);
+      // El envío se espera antes de responder: en serverless el trabajo
+      // tras la respuesta se congela. Sigue siendo best-effort: un fallo
+      // de correo jamás bloquea la invitación (queda en la interfaz).
+      try {
+        const community = await findCommunityOfUser(db, user.id, id);
+        await sendInvitationEmail(email, {
+          to: input.email,
+          communityName: community?.name ?? 'una comunidad',
+          role: input.role,
+          token: created.token,
+          expiresAt: new Date(created.invitation.expiresAt),
+          webBaseUrl,
         });
+      } catch (error) {
+        console.error('[correo] no se pudo enviar la invitación', error);
+      }
 
       return c.json(
         {
