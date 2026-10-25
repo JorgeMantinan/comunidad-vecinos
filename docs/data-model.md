@@ -70,6 +70,14 @@ Roles (`community_memberships.role`):
 -  `polls` + `poll_options` + `poll_votes` — encuestas informales **no
    vinculantes** con un voto por miembro (índice único `poll+user`),
    cierre manual o por fecha y recuentos por opción.
+-  `assets` — inventario de elementos comunes: categoría, ubicación,
+   estados `operational`/`maintenance`/`broken` y garantía opcional.
+-  `maintenance_contracts` — contratos con proveedor, importe, ventana
+   `start_on`→`renewal_on` (restricción en BD) y estados
+   `active`/`ended`.
+-  `professionals` — profesionales **recomendados por la comunidad**
+   (recomendación vecinal; los patrocinios identificados llegan en la
+   Fase 5 como entidad separada).
 
 ## Mapa objetivo (fases posteriores)
 
@@ -77,8 +85,8 @@ Roles (`community_memberships.role`):
 | -------------- | -------------------------------------------------------------------- |
 | Economía       | `budgets`, `payments`, `financial_periods`                           |
 | Reuniones      | `votes` (escrutinios de acuerdos)                                    |
-| Mantenimiento  | `assets`, `maintenance_contracts`                                    |
 | Comunicación   | `notifications`                                                      |
+| Profesionales  | `sponsorships` (publicidad identificada; Fase 5)                     |
 | Profesionales  | `professionals`, `professional_services`, `community_recommendations`, `sponsorships` |
 | Documentación  | `documents`, `document_versions`, `document_permissions`             |
 | Seguridad      | `access_events`, `retention_policies`                                |
