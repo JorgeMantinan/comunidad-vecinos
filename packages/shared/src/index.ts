@@ -1,4 +1,5 @@
 export * from './api';
+export * from './admin';
 export * from './announcements';
 export * from './assets';
 export * from './assessments';
@@ -14,6 +15,7 @@ export * from './invoices';
 export * from './meetings';
 export * from './polls';
 export * from './professionals';
+export * from './reports';
 export * from './roles';
 export * from './suggestions';
 export * from './tasks';

@@ -18,6 +18,7 @@ import {
   useUpdateMeeting,
 } from '../features/meetings/api';
 import { meetingStatusBadge } from '../features/meetings/meetings-card';
+import { useCreateTask } from '../features/tasks/api';
 import { useCommunity } from '../lib/api';
 import { useSession } from '../lib/auth';
 
@@ -32,6 +33,12 @@ const agreementLabels: Record<AgreementStatus, string> = {
   approved: 'Aprobado',
   rejected: 'Rechazado',
 };
+
+const taskStatusLabels = {
+  todo: 'Por hacer',
+  doing: 'En curso',
+  done: 'Hecha',
+} as const;
 
 export function MeetingPage() {
   const { id, meetingId } = useParams<{ id: string; meetingId: string }>();
@@ -300,6 +307,7 @@ function AgreementsSection({
       title: string;
       body: string;
       status: AgreementStatus;
+      linkedTask: { id: string; title: string; status: string } | null;
     }>;
   };
   manage: boolean;
@@ -308,6 +316,7 @@ function AgreementsSection({
 }) {
   const add = useAddAgreement(communityId, meetingId);
   const setStatus = useSetAgreementStatus(communityId, meetingId);
+  const createTask = useCreateTask(communityId);
   const form = useForm<z.infer<typeof createAgreementInputSchema>>({
     resolver: zodResolver(createAgreementInputSchema),
     defaultValues: { title: '', body: '' },
@@ -317,6 +326,7 @@ function AgreementsSection({
     <Card title="Acuerdos">
       {add.error ? <ErrorAlert message={add.error.message} /> : null}
       {setStatus.error ? <ErrorAlert message={setStatus.error.message} /> : null}
+      {createTask.error ? <ErrorAlert message={createTask.error.message} /> : null}
 
       {meeting.agreements.length === 0 ? (
         <p className="text-sm text-neutral-600">No hay acuerdos registrados.</p>
@@ -328,6 +338,30 @@ function AgreementsSection({
                 <div>
                   <p className="font-medium text-neutral-800">{agreement.title}</p>
                   <p className="text-sm text-neutral-600">{agreement.body}</p>
+                  {agreement.linkedTask ? (
+                    <p className="mt-1 text-xs text-neutral-700">
+                      📌 Tarea derivada:{' '}
+                      <span className="font-medium">{agreement.linkedTask.title}</span>{' '}
+                      ·{' '}
+                      {taskStatusLabels[
+                        agreement.linkedTask.status as keyof typeof taskStatusLabels
+                      ] ?? agreement.linkedTask.status}
+                    </p>
+                  ) : manage ? (
+                    <button
+                      type="button"
+                      className="mt-1 text-xs text-primary underline"
+                      onClick={() =>
+                        createTask.mutate({
+                          title: agreement.title,
+                          agreementId: agreement.id,
+                        })
+                      }
+                      disabled={createTask.isPending}
+                    >
+                      Crear tarea del acuerdo
+                    </button>
+                  ) : null}
                 </div>
                 <span
                   className={

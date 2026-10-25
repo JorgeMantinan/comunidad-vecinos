@@ -68,6 +68,10 @@ añade un nuevo ADR).
 ## Qué no hacer
 
 -  No crear microservicios, colas ni Redis sin necesidad real.
+-  **No incorporar funciones de IA** (ver `docs/decisions/006-sin-inteligencia-artificial.md`):
+   sin chatbots, resúmenes automáticos, embeddings ni llamadas a
+   proveedores de modelos. Las estadísticas son consultas SQL
+   agregadas. Toda propuesta de IA requiere un nuevo ADR aprobado.
 -  No subir binarios a PostgreSQL (van a almacenamiento de objetos).
 -  No publicar decisiones ni emitir dictámenes jurídicos automáticos.
 -  No migrar proveedores ni ejecutar acciones sobre producción sin

@@ -63,7 +63,9 @@ Roles (`community_memberships.role`):
    (incluida la residente), estados `open`/`in_progress`/`resolved` con
    `resolved_at` obligatorio al resolver y limpio al reabrir.
 -  `tasks` — tareas: vencimiento opcional, responsable validado como
-   miembro de la comunidad y estados `todo`/`doing`/`done`.
+   miembro de la comunidad, estados `todo`/`doing`/`done` y
+   **vínculo opcional con un acuerdo** (`agreement_id`) para el
+   seguimiento de acuerdos.
 -  `suggestions` — sugerencias de cualquier miembro con revisión de la
    junta (`open`/`under_review`/`accepted`/`rejected`); solo el autor o
    la administración pueden eliminarlas.

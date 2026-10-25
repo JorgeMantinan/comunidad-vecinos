@@ -1,7 +1,7 @@
-import { and, asc, eq } from 'drizzle-orm';
+import { and, asc, eq, inArray } from 'drizzle-orm';
 import type { TaskStatus } from '@comunidad/shared';
 import type { Database } from '../../db/client';
-import { tasks, user } from '../../db/schema';
+import { agreements, tasks, user } from '../../db/schema';
 import { newId } from '../../lib/ids';
 
 export interface TaskRow {
@@ -13,6 +13,8 @@ export interface TaskRow {
   status: TaskStatus;
   assigneeId: string | null;
   assigneeName: string | null;
+  agreementId: string | null;
+  agreementTitle: string | null;
   createdAt: Date;
 }
 
@@ -25,6 +27,8 @@ const columns = {
   status: tasks.status,
   assigneeId: tasks.assigneeId,
   assigneeName: user.name,
+  agreementId: tasks.agreementId,
+  agreementTitle: agreements.title,
   createdAt: tasks.createdAt,
 } as const;
 
@@ -34,6 +38,7 @@ export async function listTasks(db: Database, communityId: string): Promise<Task
     .select(columns)
     .from(tasks)
     .leftJoin(user, eq(tasks.assigneeId, user.id))
+    .leftJoin(agreements, eq(tasks.agreementId, agreements.id))
     .where(eq(tasks.communityId, communityId))
     .orderBy(asc(tasks.dueOn), asc(tasks.createdAt));
 }
@@ -47,7 +52,43 @@ export async function findTaskById(
     .select(columns)
     .from(tasks)
     .leftJoin(user, eq(tasks.assigneeId, user.id))
+    .leftJoin(agreements, eq(tasks.agreementId, agreements.id))
     .where(and(eq(tasks.id, taskId), eq(tasks.communityId, communityId)))
+    .limit(1);
+  return row ?? null;
+}
+
+/** Tareas derivadas de los acuerdos indicados (seguimiento). */
+export async function listTasksByAgreementIds(
+  db: Database,
+  agreementIds: string[],
+): Promise<
+  Array<{ id: string; agreementId: string | null; title: string; status: TaskStatus }>
+> {
+  if (agreementIds.length === 0) {
+    return [];
+  }
+  return db
+    .select({
+      id: tasks.id,
+      agreementId: tasks.agreementId,
+      title: tasks.title,
+      status: tasks.status,
+    })
+    .from(tasks)
+    .where(inArray(tasks.agreementId, agreementIds));
+}
+
+/** Acuerdo de referencia: debe pertenecer a la misma comunidad. */
+export async function findAgreementRef(
+  db: Database,
+  communityId: string,
+  agreementId: string,
+): Promise<{ id: string; title: string } | null> {
+  const [row] = await db
+    .select({ id: agreements.id, title: agreements.title })
+    .from(agreements)
+    .where(and(eq(agreements.id, agreementId), eq(agreements.communityId, communityId)))
     .limit(1);
   return row ?? null;
 }
@@ -60,6 +101,7 @@ export async function createTask(
     description: string | null;
     dueOn: string | null;
     assigneeId: string | null;
+    agreementId: string | null;
     createdById: string;
   },
 ): Promise<TaskRow> {
@@ -85,6 +127,7 @@ export async function updateTask(
     description: string | null;
     dueOn: string | null;
     assigneeId: string | null;
+    agreementId: string | null;
     status: TaskStatus;
   }>,
 ): Promise<void> {
