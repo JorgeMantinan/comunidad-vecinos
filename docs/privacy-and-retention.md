@@ -36,9 +36,18 @@ legal (ej. registros económicos), no solo borrado físico.
 
 ## Copias de seguridad y portabilidad
 
--  Exportaciones periódicas de PostgreSQL fuera del proveedor principal.
--  Copias de documentos y procedimientos de restauración versionados y
-   probados periódicamente.
+-  **Exportación propia**: `pnpm --filter @comunidad/api db:backup`
+   vuelca todas las tablas a JSON versionado (`apps/api/backups/`,
+   ignorado por git: los datos nunca suben al repositorio). Guardar la
+   copia fuera de Vercel/Neon.
+-  **Restauración probada**: `pnpm --filter @comunidad/api db:restore
+   -- backups/<archivo>.json` sobre una base recién migrada; existe un
+   test de ida y vuelta en la suite (`backup.test.ts`).
+-  **Purga por retención**: `pnpm --filter @comunidad/api db:purge`
+   aplica la tabla «Ciclo de vida de los datos» (invitaciones
+   caducadas > 90 días; auditoría > 24 meses) y es idempotente.
+-  Puntos de restauración diarios de **Neon** (primera línea) y esta
+   exportación como red de seguridad independiente y portable.
 -  Ruta de migración a otro proveedor documentada (el vendor lock-in no
    debe ser un riesgo irreversible).
 

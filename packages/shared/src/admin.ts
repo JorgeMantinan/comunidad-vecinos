@@ -24,3 +24,19 @@ export const adminCommunitySummarySchema = z.object({
 export type AdminCommunitySummary = z.infer<typeof adminCommunitySummarySchema>;
 
 export const adminOverviewSchema = z.array(adminCommunitySummarySchema);
+
+/**
+ * Métricas de cuota para la administración de plataforma: agregados
+ * globales de la base de datos (sin IA, sin proveedores externos).
+ */
+export const platformMetricsSchema = z.object({
+  users: z.number().int().min(0),
+  communities: z.number().int().min(0),
+  memberships: z.number().int().min(0),
+  activeSessions: z.number().int().min(0),
+  pendingInvitations: z.number().int().min(0),
+  auditEvents: z.number().int().min(0),
+  /** Bytes de documentos y fotos declarados en la base de datos. */
+  storedBytes: z.number().int().min(0),
+});
+export type PlatformMetrics = z.infer<typeof platformMetricsSchema>;

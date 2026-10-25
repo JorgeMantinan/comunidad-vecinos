@@ -4,16 +4,17 @@ SaaS multi-comunidad para que vecinos, presidentes y administradores de
 fincas gestionen información, economía, reuniones, incidencias,
 documentación y profesionales desde una única plataforma.
 
-> Estado: **Fase 5 — monetización sin IA, COMPLETA**: patrocinios
-> claramente identificados como publicidad (gestión de plataforma,
-> sin acceso a datos de vecinos) y estadísticas de uso con SQL
-> agregado. Se mantienen de fases anteriores el panel de
-> administración, informes con CSV, plantillas y procesos repetitivos.
+> Estado: **Fase 6 — preparación para producción (en curso)**:
+> copias de seguridad con restauración probada, purga por retención,
+> métricas de cuota y procedimiento de respuesta a incidentes.
+> Pendientes: revisión de seguridad independiente, revisión jurídica
+> y pruebas de carga.
 >
-> **Decisión de producto (ADR 006): la plataforma no incorpora
-> funciones de IA** — sin chatbots, resúmenes automáticos ni llamadas
-> a proveedores de modelos; el coste de uso no recae en los vecinos.
-> Pendiente: Fase 6 (producción: RGPD, copias, revisión de seguridad).
+> Fases 0-5 completadas: infraestructura y aislamiento, MVP de gestión,
+> mantenimiento y participación, administración de fincas y
+> monetización **sin IA** (ADR 006: sin chatbots, resúmenes automáticos
+> ni llamadas a proveedores de modelos; el coste de uso no recae en los
+> vecinos).
 
 ## Enlaces
 
@@ -21,6 +22,7 @@ documentación y profesionales desde una única plataforma.
 -  Roadmap técnico: [docs/roadmap.md](docs/roadmap.md)
 -  Arquitectura: [docs/architecture.md](docs/architecture.md)
 -  Despliegue en Vercel: [docs/deploy-vercel.md](docs/deploy-vercel.md)
+-  Respuesta a incidentes: [docs/incident-response.md](docs/incident-response.md)
 -  Decisiones (ADRs): [docs/decisions/](docs/decisions/)
 
 ## Stack
