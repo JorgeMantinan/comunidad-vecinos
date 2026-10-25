@@ -109,7 +109,7 @@ test('el conmutador de tema aplica el modo oscuro y lo recuerda', async ({ page 
   await page.getByRole('button', { name: /Oscuro/ }).click();
   await expect(html).toHaveClass(/dark/);
 
-  // La elecci�n sobrevive a la recarga (localStorage + script previo).
+  // La elección sobrevive a la recarga (localStorage + script previo).
   await page.reload();
   await expect(html).toHaveClass(/dark/);
 

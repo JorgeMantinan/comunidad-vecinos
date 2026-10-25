@@ -68,9 +68,9 @@ venden datos personales.
 
 | Proveedor | Uso | Ubicación |
 | --------- | --- | --------- |
-| **Vercel Inc.** | Alojamiento web y ejecución de la API | `[PLACEHOLDER: verificar región]` |
+| **Vercel Inc.** | Alojamiento web y ejecución de la API | Fráncfort, UE (`fra1`) |
 | **Neon Inc.** (PostgreSQL) | Base de datos | Región configurada en producción (`eu-west-2`, Reino Unido) |
-| **Vercel Blob** | Almacenamiento de archivos privados (actas, facturas, fotos) | `[PLACEHOLDER: región actual `iad1`, EE. UU. — priorizar UE]` |
+| **Vercel Blob** | Almacenamiento de archivos privados (actas, facturas, fotos) | Fráncfort, UE (`fra1`) |
 | **Resend Inc.** | Envío de correos transaccionales (invitaciones y avisos) | `[PLACEHOLDER]` |
 
 Todos ellos actúan como **encargados** del tratamiento, con contrato de
