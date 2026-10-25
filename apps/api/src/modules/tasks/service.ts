@@ -1,4 +1,8 @@
-import type { CreateTaskInput, UpdateTaskInput } from '@comunidad/shared';
+import type {
+  CreateTaskInput,
+  TaskRecurrence,
+  UpdateTaskInput,
+} from '@comunidad/shared';
 import { recordAuditEvent } from '../../lib/audit';
 import type { Database } from '../../db/client';
 import { notFound, validationError } from '../../lib/errors';
@@ -54,6 +58,7 @@ export async function createTask(
     dueOn: input.dueOn ?? null,
     assigneeId: input.assigneeId ?? null,
     agreementId: input.agreementId ?? null,
+    recurrence: input.recurrence ?? null,
     createdById: actor.id,
   });
 
@@ -67,10 +72,29 @@ export async function createTask(
       title: input.title,
       dueOn: input.dueOn ?? null,
       agreementId: input.agreementId ?? null,
+      recurrence: input.recurrence ?? null,
     },
   });
 
   return task;
+}
+
+/**
+ * Desplaza el vencimiento de una tarea recurrente recortando al último
+ * día válido del mes objetivo (31 de enero + 1 mes → 28/29 de febrero).
+ */
+function shiftDueOn(dueOn: string, recurrence: TaskRecurrence): string {
+  const [year, month, day] = dueOn.split('-').map(Number);
+  const months = recurrence === 'monthly' ? 1 : recurrence === 'quarterly' ? 3 : 12;
+
+  const target = new Date(Date.UTC(year ?? 2000, (month ?? 1) - 1 + months, 1));
+  const lastDayOfTargetMonth = new Date(
+    Date.UTC(target.getUTCFullYear(), target.getUTCMonth() + 1, 0),
+  ).getUTCDate();
+  const clampedDay = Math.min(day ?? 1, lastDayOfTargetMonth);
+  target.setUTCDate(clampedDay);
+
+  return target.toISOString().slice(0, 10);
 }
 
 export async function editTask(
@@ -97,12 +121,40 @@ export async function editTask(
   if (input.dueOn !== undefined) values.dueOn = input.dueOn;
   if (input.assigneeId !== undefined) values.assigneeId = input.assigneeId;
   if (input.agreementId !== undefined) values.agreementId = input.agreementId;
+  if (input.recurrence !== undefined) values.recurrence = input.recurrence;
   if (input.status !== undefined) values.status = input.status;
   if (Object.keys(values).length === 0) {
     return;
   }
 
   await repo.updateTask(db, taskId, values);
+
+  // Proceso repetitivo: al completarse nace la siguiente ocurrencia.
+  if (input.status === 'done' && existing.status !== 'done' && existing.recurrence) {
+    const next = await repo.createTask(db, {
+      communityId,
+      title: existing.title,
+      description: existing.description,
+      dueOn: existing.dueOn ? shiftDueOn(existing.dueOn, existing.recurrence) : null,
+      assigneeId: existing.assigneeId,
+      agreementId: existing.agreementId,
+      recurrence: existing.recurrence,
+      createdById: actor.id,
+    });
+    await recordAuditEvent(db, {
+      communityId,
+      actorId: actor.id,
+      action: 'task.recurred',
+      targetType: 'task',
+      targetId: next.id,
+      metadata: {
+        sourceTaskId: taskId,
+        recurrence: existing.recurrence,
+        dueOn: next.dueOn,
+      },
+    });
+  }
+
   await recordAuditEvent(db, {
     communityId,
     actorId: actor.id,

@@ -63,3 +63,28 @@ export const incidentPhotos = pgTable(
 
 export type Document = typeof documents.$inferSelect;
 export type IncidentPhoto = typeof incidentPhotos.$inferSelect;
+
+/**
+ * Plantillas de documentos (modelos de textos: convocatorias, actas…).
+ * La generación crea un documento `.txt` en el almacén privado.
+ */
+export const documentTemplates = pgTable(
+  'document_templates',
+  {
+    id: text('id').primaryKey(),
+    communityId: text('community_id')
+      .notNull()
+      .references(() => communities.id, { onDelete: 'cascade' }),
+    name: text('name').notNull(),
+    category: text('category').$type<DocumentCategory>().notNull(),
+    content: text('content').notNull(),
+    createdById: text('created_by_id').references(() => user.id, {
+      onDelete: 'set null',
+    }),
+    createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
+    updatedAt: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow(),
+  },
+  (t) => [index('document_templates_community_idx').on(t.communityId)],
+);
+
+export type DocumentTemplate = typeof documentTemplates.$inferSelect;

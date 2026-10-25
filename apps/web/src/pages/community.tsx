@@ -29,6 +29,7 @@ import { EconomyReportCard } from '../features/reports/reports-card';
 import { ProfessionalsCard } from '../features/professionals/professionals-card';
 import { SuggestionsCard } from '../features/suggestions/suggestions-card';
 import { TasksCard } from '../features/tasks/tasks-card';
+import { TemplatesCard } from '../features/templates/templates-card';
 import { UnitsCard } from '../features/units/units-card';
 import {
   useAuditEvents,
@@ -104,6 +105,7 @@ export function CommunityPage() {
             role={community.data.role}
           />
           <DocumentsCard communityId={community.data.id} role={community.data.role} />
+          <TemplatesCard communityId={community.data.id} role={community.data.role} />
         </>
       ) : null}
       <SuggestionsCard communityId={community.data.id} role={community.data.role} />

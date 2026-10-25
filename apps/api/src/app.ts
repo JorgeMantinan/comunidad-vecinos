@@ -28,6 +28,7 @@ import { professionalRoutes } from './modules/professionals/routes';
 import { reportRoutes } from './modules/reports/routes';
 import { suggestionRoutes } from './modules/suggestions/routes';
 import { taskRoutes } from './modules/tasks/routes';
+import { templateRoutes } from './modules/templates/routes';
 import { unitRoutes } from './modules/units/routes';
 
 export interface AppDependencies {
@@ -83,6 +84,7 @@ export function createApp({
   app.route('/api/communities', contractRoutes(db, auth));
   app.route('/api/communities', professionalRoutes(db, auth));
   app.route('/api/communities', documentRoutes(db, auth, storage));
+  app.route('/api/communities', templateRoutes(db, auth, storage));
   app.route('/api/communities', reportRoutes(db, auth));
   app.route('/api/communities', exportRoutes(db, auth));
   app.route('/api/communities', auditRoutes(db, auth));

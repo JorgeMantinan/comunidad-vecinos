@@ -47,6 +47,8 @@ hacer en esta comunidad". Se implementan por separado.
 | Descargar CSV del periodo             | ❌             | ✅    | ✅    | ❌     | ❌       |
 | Ver el panel de administración        | ❌             | ✅    | ✅    | ❌     | ❌       |
 | Crear tareas derivadas de acuerdos    | ❌             | ✅    | ✅    | ❌     | ❌       |
+| Ver y usar plantillas                 | ❌             | ✅    | ✅    | ❌     | ❌       |
+| Generar documentos desde plantillas   | ❌             | ✅    | ✅    | ❌     | ❌       |
 | Editar datos de la comunidad          | ❌             | ✅    | ✅    | ❌     | ❌       |
 | Invitar miembros                     | ❌             | ✅    | ✅    | ❌     | ❌       |
 | Revocar invitaciones                  | ❌             | ✅    | ✅    | ❌     | ❌       |
