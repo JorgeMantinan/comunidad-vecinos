@@ -22,6 +22,18 @@ async function assertAssigneeIsMember(
   }
 }
 
+/** El acuerdo vinculado debe pertenecer a la misma comunidad. */
+async function assertAgreementBelongs(
+  db: Database,
+  communityId: string,
+  agreementId: string,
+): Promise<void> {
+  const agreement = await repo.findAgreementRef(db, communityId, agreementId);
+  if (!agreement) {
+    throw validationError('El acuerdo indicado no pertenece a esta comunidad');
+  }
+}
+
 export async function createTask(
   db: Database,
   actor: Actor,
@@ -31,6 +43,9 @@ export async function createTask(
   if (input.assigneeId) {
     await assertAssigneeIsMember(db, communityId, input.assigneeId);
   }
+  if (input.agreementId) {
+    await assertAgreementBelongs(db, communityId, input.agreementId);
+  }
 
   const task = await repo.createTask(db, {
     communityId,
@@ -38,6 +53,7 @@ export async function createTask(
     description: input.description ?? null,
     dueOn: input.dueOn ?? null,
     assigneeId: input.assigneeId ?? null,
+    agreementId: input.agreementId ?? null,
     createdById: actor.id,
   });
 
@@ -47,7 +63,11 @@ export async function createTask(
     action: 'task.created',
     targetType: 'task',
     targetId: task.id,
-    metadata: { title: input.title, dueOn: input.dueOn ?? null },
+    metadata: {
+      title: input.title,
+      dueOn: input.dueOn ?? null,
+      agreementId: input.agreementId ?? null,
+    },
   });
 
   return task;
@@ -67,12 +87,16 @@ export async function editTask(
   if (input.assigneeId) {
     await assertAssigneeIsMember(db, communityId, input.assigneeId);
   }
+  if (input.agreementId) {
+    await assertAgreementBelongs(db, communityId, input.agreementId);
+  }
 
   const values: Parameters<typeof repo.updateTask>[2] = {};
   if (input.title !== undefined) values.title = input.title;
   if (input.description !== undefined) values.description = input.description;
   if (input.dueOn !== undefined) values.dueOn = input.dueOn;
   if (input.assigneeId !== undefined) values.assigneeId = input.assigneeId;
+  if (input.agreementId !== undefined) values.agreementId = input.agreementId;
   if (input.status !== undefined) values.status = input.status;
   if (Object.keys(values).length === 0) {
     return;

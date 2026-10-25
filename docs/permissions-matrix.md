@@ -43,6 +43,10 @@ hacer en esta comunidad". Se implementan por separado.
 | Subir y eliminar documentos           | ❌             | ✅    | ✅    | ❌     | ❌       |
 | Adjuntar fotos a incidencias          | ❌             | ✅    | ✅    | ✅     | ✅       |
 | Eliminar fotos (propias; admin, todas)| ❌             | ✅    | ✅    | ✅     | ✅       |
+| Ver informe económico del periodo      | ❌             | ✅    | ✅    | ✅     | ❌       |
+| Descargar CSV del periodo             | ❌             | ✅    | ✅    | ❌     | ❌       |
+| Ver el panel de administración        | ❌             | ✅    | ✅    | ❌     | ❌       |
+| Crear tareas derivadas de acuerdos    | ❌             | ✅    | ✅    | ❌     | ❌       |
 | Editar datos de la comunidad          | ❌             | ✅    | ✅    | ❌     | ❌       |
 | Invitar miembros                     | ❌             | ✅    | ✅    | ❌     | ❌       |
 | Revocar invitaciones                  | ❌             | ✅    | ✅    | ❌     | ❌       |
@@ -83,6 +87,9 @@ hacer en esta comunidad". Se implementan por separado.
     firmada de 10 minutos. Cualquier miembro puede adjuntar fotos a
     incidencias y borrar las suyas; `owner`/`admin` pueden borrar
     cualquier foto.
+9.  El panel de administración solo agrega comunidades donde el usuario
+    es `owner`/`admin` (las de mero miembro no aparecen nunca) y el CSV
+    del informe queda restringido a `owner`/`admin`.
 
 ## Evolución
 

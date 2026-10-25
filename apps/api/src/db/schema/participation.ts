@@ -17,6 +17,7 @@ import type {
 } from '@comunidad/shared';
 import { user } from './auth';
 import { communities } from './communities';
+import { agreements } from './management';
 
 /** Incidencias/averías: cualquier miembro puede reportarlas. */
 export const incidents = pgTable(
@@ -62,6 +63,10 @@ export const tasks = pgTable(
       onDelete: 'set null',
     }),
     status: text('status').$type<TaskStatus>().notNull().default('todo'),
+    /** Acuerdo del que deriva la tarea (seguimiento de acuerdos). */
+    agreementId: text('agreement_id').references(() => agreements.id, {
+      onDelete: 'set null',
+    }),
     createdById: text('created_by_id').references(() => user.id, {
       onDelete: 'set null',
     }),
@@ -70,6 +75,7 @@ export const tasks = pgTable(
   },
   (t) => [
     index('tasks_community_due_idx').on(t.communityId, t.dueOn),
+    index('tasks_agreement_idx').on(t.agreementId),
     check('tasks_status_ck', sql`status in ('todo', 'doing', 'done')`),
   ],
 );

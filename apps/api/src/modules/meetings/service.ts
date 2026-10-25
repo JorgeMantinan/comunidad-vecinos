@@ -8,6 +8,7 @@ import type {
 import { recordAuditEvent } from '../../lib/audit';
 import type { Database } from '../../db/client';
 import { notFound } from '../../lib/errors';
+import { listTasksByAgreementIds } from '../tasks/repository';
 import * as repo from './repository';
 import type { AgreementRow, AgendaItemRow, MeetingRow } from './repository';
 
@@ -18,7 +19,11 @@ export interface Actor {
 export interface MeetingDetail {
   meeting: MeetingRow;
   agenda: AgendaItemRow[];
-  agreements: AgreementRow[];
+  agreements: Array<
+    AgreementRow & {
+      linkedTask: { id: string; title: string; status: string } | null;
+    }
+  >;
 }
 
 export async function getMeetingDetail(
@@ -30,11 +35,24 @@ export async function getMeetingDetail(
   if (!meeting) {
     throw notFound('Reunión no encontrada');
   }
+
   const [agenda, agreements] = await Promise.all([
     repo.listAgenda(db, meetingId),
     repo.listAgreements(db, meetingId),
   ]);
-  return { meeting, agenda, agreements };
+
+  // Seguimiento: cada acuerdo con la tarea derivada, si existe.
+  const linkedTasks = await listTasksByAgreementIds(
+    db,
+    agreements.map((agreement) => agreement.id),
+  );
+  const taskByAgreement = new Map(linkedTasks.map((task) => [task.agreementId, task]));
+  const agreementsWithTasks = agreements.map((agreement) => ({
+    ...agreement,
+    linkedTask: taskByAgreement.get(agreement.id) ?? null,
+  }));
+
+  return { meeting, agenda, agreements: agreementsWithTasks };
 }
 
 export async function createMeeting(

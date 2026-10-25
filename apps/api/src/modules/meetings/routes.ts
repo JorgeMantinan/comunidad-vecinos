@@ -57,8 +57,16 @@ const serializeMeeting = (row: MeetingRow) =>
 
 const serializeAgenda = (row: AgendaItemRow) => agendaItemSchema.parse(row);
 
-const serializeAgreement = (row: AgreementRow) =>
-  agreementSchema.parse({ ...row, createdAt: toIso(row.createdAt) });
+const serializeAgreement = (
+  row: AgreementRow & {
+    linkedTask?: { id: string; title: string; status: string } | null;
+  },
+) =>
+  agreementSchema.parse({
+    ...row,
+    linkedTask: row.linkedTask ?? null,
+    createdAt: toIso(row.createdAt),
+  });
 
 /** Reuniones: convocatoria, orden del día, acta y acuerdos. */
 export function meetingRoutes(db: Database, auth: Auth): Hono<AppEnv> {
@@ -170,7 +178,7 @@ export function meetingRoutes(db: Database, auth: Auth): Hono<AppEnv> {
       const { id, meetingId } = pathParams(meetingParams, c.req.param());
       const input = await jsonBody(createAgreementInputSchema, c);
       const agreement = await addAgreement(db, c.get('user'), id, meetingId, input);
-      return c.json(serializeAgreement(agreement), 201);
+      return c.json(serializeAgreement({ ...agreement, linkedTask: null }), 201);
     },
   );
 

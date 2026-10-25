@@ -8,6 +8,7 @@ import type { AppEnv } from './lib/context';
 import type { EmailPort } from './lib/email';
 import type { StoragePort } from './lib/storage';
 import { errorHandler, notFoundHandler } from './middleware/error-handler';
+import { adminRoutes } from './modules/admin/routes';
 import { announcementRoutes } from './modules/announcements/routes';
 import { assetRoutes } from './modules/assets/routes';
 import { assessmentRoutes } from './modules/assessments/routes';
@@ -24,6 +25,7 @@ import { meetingRoutes } from './modules/meetings/routes';
 import { incidentRoutes } from './modules/incidents/routes';
 import { pollRoutes } from './modules/polls/routes';
 import { professionalRoutes } from './modules/professionals/routes';
+import { reportRoutes } from './modules/reports/routes';
 import { suggestionRoutes } from './modules/suggestions/routes';
 import { taskRoutes } from './modules/tasks/routes';
 import { unitRoutes } from './modules/units/routes';
@@ -81,9 +83,11 @@ export function createApp({
   app.route('/api/communities', contractRoutes(db, auth));
   app.route('/api/communities', professionalRoutes(db, auth));
   app.route('/api/communities', documentRoutes(db, auth, storage));
+  app.route('/api/communities', reportRoutes(db, auth));
   app.route('/api/communities', exportRoutes(db, auth));
   app.route('/api/communities', auditRoutes(db, auth));
   app.route('/api', invitationRoutes(db, auth, email, config.corsOrigins[0] ?? ''));
+  app.route('/api/admin', adminRoutes(db, auth));
 
   return app;
 }

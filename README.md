@@ -4,12 +4,13 @@ SaaS multi-comunidad para que vecinos, presidentes y administradores de
 fincas gestionen información, economía, reuniones, incidencias,
 documentación y profesionales desde una única plataforma.
 
-> Estado: **Fase 3 — mantenimiento y participación** con archivos
-> privados: incidencias (con fotos), tareas, sugerencias, encuestas,
-> inventario, contratos y profesionales; documentación privada en
-> Vercel Blob con descargas por URL firmada.
-> Pendientes: activar el correo con `RESEND_API_KEY` (adaptador listo)
-> y patrocinios (Fase 5).
+> Estado: **Fase 4 — administración de fincas**: panel agregado por
+> comunidad (owner/admin), informe económico por periodo con CSV y
+> seguimiento de acuerdos con tareas derivadas.
+>
+> **Decisión de producto (ADR 006): la plataforma no incorpora
+> funciones de IA** — sin chatbots, resúmenes automáticos ni llamadas
+> a proveedores de modelos; el coste de uso no recae en los vecinos.
 
 ## Enlaces
 

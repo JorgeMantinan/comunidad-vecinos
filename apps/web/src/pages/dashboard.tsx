@@ -13,6 +13,7 @@ import {
   RoleBadge,
   Spinner,
 } from '../components/ui';
+import { AdminOverviewCard } from '../features/admin/admin-overview-card';
 import { useAnnouncements } from '../features/announcements/api';
 import { formatEuro, useExpenses } from '../features/expenses/api';
 import { useMeetings } from '../features/meetings/api';
@@ -66,7 +67,10 @@ export function DashboardPage() {
       <CreateCommunityCard />
 
       <div className="md:col-span-3">
-        <CommunityOverview />
+        <AdminOverviewCard />
+        <div className="mt-6">
+          <CommunityOverview />
+        </div>
       </div>
     </div>
   );

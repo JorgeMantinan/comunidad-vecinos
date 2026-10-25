@@ -9,6 +9,8 @@ export const createTaskInputSchema = z.object({
   description: z.string().trim().max(2000).optional(),
   dueOn: z.iso.date().nullish(),
   assigneeId: z.string().min(1).nullish(),
+  /** Acuerdo del que deriva la tarea (seguimiento). */
+  agreementId: z.string().min(1).nullish(),
 });
 export type CreateTaskInput = z.infer<typeof createTaskInputSchema>;
 
@@ -26,6 +28,9 @@ export const taskSchema = z.object({
   status: taskStatusSchema,
   assigneeId: z.string().nullable(),
   assigneeName: z.string().nullable(),
+  agreementId: z.string().nullable(),
+  /** Título del acuerdo del que deriva (si procede). */
+  agreementTitle: z.string().nullable(),
   createdAt: z.iso.datetime(),
 });
 export type TaskView = z.infer<typeof taskSchema>;

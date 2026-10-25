@@ -43,6 +43,13 @@
       "when": 1792926858604,
       "tag": "0005_ancient_major_mapleleaf",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1792929362989,
+      "tag": "0006_jittery_wendell_rand",
+      "breakpoints": true
     }
   ]
 }

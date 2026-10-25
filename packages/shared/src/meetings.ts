@@ -1,5 +1,6 @@
 import { z } from 'zod';
 import { communityIdSchema } from './communities';
+import { taskStatusSchema } from './tasks';
 
 export const meetingStatusSchema = z.enum(['planned', 'finished', 'cancelled']);
 export type MeetingStatus = z.infer<typeof meetingStatusSchema>;
@@ -52,6 +53,10 @@ export const agreementSchema = z.object({
   body: z.string(),
   status: agreementStatusSchema,
   createdAt: z.iso.datetime(),
+  /** Tarea derivada del acuerdo, si existe (seguimiento). */
+  linkedTask: z
+    .object({ id: z.string(), title: z.string(), status: taskStatusSchema })
+    .nullable(),
 });
 export type AgreementView = z.infer<typeof agreementSchema>;
 

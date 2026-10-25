@@ -25,6 +25,7 @@ import { IncidentsCard } from '../features/incidents/incidents-card';
 import { InvoicesCard } from '../features/invoices/invoices-card';
 import { MeetingsCard } from '../features/meetings/meetings-card';
 import { PollsCard } from '../features/polls/polls-card';
+import { EconomyReportCard } from '../features/reports/reports-card';
 import { ProfessionalsCard } from '../features/professionals/professionals-card';
 import { SuggestionsCard } from '../features/suggestions/suggestions-card';
 import { TasksCard } from '../features/tasks/tasks-card';
@@ -98,6 +99,10 @@ export function CommunityPage() {
           <ExpensesCard communityId={community.data.id} role={community.data.role} />
           <InvoicesCard communityId={community.data.id} role={community.data.role} />
           <AssessmentsCard communityId={community.data.id} role={community.data.role} />
+          <EconomyReportCard
+            communityId={community.data.id}
+            role={community.data.role}
+          />
           <DocumentsCard communityId={community.data.id} role={community.data.role} />
         </>
       ) : null}
