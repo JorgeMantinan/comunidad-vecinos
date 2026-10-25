@@ -92,6 +92,26 @@ describe('Módulo de avisos', () => {
     expect(rows.map((row) => row.title)).toContain('Corte de agua');
   });
 
+  it('notifica por correo a los miembros (nunca al autor)', async () => {
+    const announcementMail = ctx.email.sent.filter((message) =>
+      message.subject.includes('Nuevo aviso'),
+    );
+    const toMember = announcementMail.find(
+      (message) => message.to === 'vecino@ejemplo.local',
+    );
+    expect(toMember).toBeDefined();
+    expect(toMember?.subject).toContain('Corte de agua');
+    expect(toMember?.text).toContain('Ver avisos: http://localhost:5173');
+
+    expect(
+      announcementMail.some((message) => message.to === 'residente@ejemplo.local'),
+    ).toBe(true);
+    // El autor ya lo ha escrito: no se notifica a sí mismo.
+    expect(
+      announcementMail.some((message) => message.to === 'presidente@ejemplo.local'),
+    ).toBe(false);
+  });
+
   it('rechaza una caducidad en el pasado', async () => {
     const res = await createAnnouncement(owner.cookie, {
       title: 'Aviso caducado',

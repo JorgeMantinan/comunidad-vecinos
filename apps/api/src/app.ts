@@ -76,7 +76,10 @@ export function createApp({
 
   app.route('/api/health', healthRoutes());
   app.route('/api/communities', communityRoutes(db, auth));
-  app.route('/api/communities', announcementRoutes(db, auth));
+  app.route(
+    '/api/communities',
+    announcementRoutes(db, auth, email, config.corsOrigins[0] ?? ''),
+  );
   app.route('/api/communities', meetingRoutes(db, auth));
   app.route('/api/communities', expenseRoutes(db, auth));
   app.route('/api/communities', invoiceRoutes(db, auth));
