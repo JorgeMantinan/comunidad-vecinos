@@ -16,6 +16,7 @@ import { assessmentRoutes } from './modules/assessments/routes';
 import { auditRoutes } from './modules/audit/routes';
 import { communityRoutes } from './modules/communities/routes';
 import { contractRoutes } from './modules/contracts/routes';
+import { cronRoutes } from './modules/cron/routes';
 import { documentRoutes } from './modules/documents/routes';
 import { expenseRoutes } from './modules/expenses/routes';
 import { exportRoutes } from './modules/export/routes';
@@ -102,6 +103,7 @@ export function createApp({
   app.route('/api/communities', auditRoutes(db, auth));
   app.route('/api', invitationRoutes(db, auth, email, config.corsOrigins[0] ?? ''));
   app.route('/api/account', accountRoutes(db, auth, storage));
+  app.route('/api/cron', cronRoutes(db, storage));
   app.route('/api/admin', adminRoutes(db, auth));
   app.route('/api/platform', platformSponsorshipRoutes(db, auth));
   app.route('/api/platform', platformMetricRoutes(db, auth));

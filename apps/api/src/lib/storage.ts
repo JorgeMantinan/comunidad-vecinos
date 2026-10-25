@@ -1,4 +1,10 @@
-import { del, issueSignedToken, presignUrl, put } from '@vercel/blob';
+import {
+  del,
+  issueSignedToken,
+  list as listBlobs,
+  presignUrl,
+  put,
+} from '@vercel/blob';
 import { serviceUnavailable } from './errors';
 
 /**
@@ -14,6 +20,8 @@ export interface StoragePort {
   ) => Promise<{ key: string; size: number }>;
   getSignedUrl: (key: string, validForMs?: number) => Promise<string>;
   delete: (key: string) => Promise<void>;
+  /** Claves de un prefijo (para rotar copias de seguridad). */
+  list: (prefix: string) => Promise<Array<{ key: string; uploadedAt: string }>>;
 }
 
 /** Validez de las URLs de descarga: 10 minutos. */
@@ -72,6 +80,15 @@ export function createBlobStorage(): StoragePort {
       requireConfig();
       await del(key);
     },
+
+    async list(prefix) {
+      requireConfig();
+      const { blobs } = await listBlobs({ prefix, limit: 1000 });
+      return blobs.map((blob) => ({
+        key: blob.pathname,
+        uploadedAt: blob.uploadedAt.toISOString(),
+      }));
+    },
   };
 }
 
@@ -81,6 +98,7 @@ export function createBlobStorage(): StoragePort {
  */
 export class InMemoryStorage implements StoragePort {
   readonly objects = new Map<string, { body: Buffer; contentType: string }>();
+  private readonly stamps = new Map<string, string>();
 
   async put(
     key: string,
@@ -91,6 +109,7 @@ export class InMemoryStorage implements StoragePort {
       throw new Error(`Clave ya existente: ${key}`);
     }
     this.objects.set(key, { body, contentType });
+    this.stamps.set(key, new Date().toISOString());
     return { key, size: body.byteLength };
   }
 
@@ -103,5 +122,15 @@ export class InMemoryStorage implements StoragePort {
 
   async delete(key: string): Promise<void> {
     this.objects.delete(key);
+    this.stamps.delete(key);
+  }
+
+  async list(prefix: string): Promise<Array<{ key: string; uploadedAt: string }>> {
+    return [...this.objects.keys()]
+      .filter((key) => key.startsWith(prefix))
+      .map((key) => ({
+        key,
+        uploadedAt: this.stamps.get(key) ?? new Date(0).toISOString(),
+      }));
   }
 }

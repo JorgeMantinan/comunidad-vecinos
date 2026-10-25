@@ -36,18 +36,27 @@ legal (ej. registros económicos), no solo borrado físico.
 
 ## Copias de seguridad y portabilidad
 
--  **Exportación propia**: `pnpm --filter @comunidad/api db:backup`
-   vuelca todas las tablas a JSON versionado (`apps/api/backups/`,
-   ignorado por git: los datos nunca suben al repositorio). Guardar la
-   copia fuera de Vercel/Neon.
+-  **Copia automática semanal**: Vercel Cron llama a
+   `GET /api/cron/backup` **los domingos a las 03:00** (autorizado con
+   la variable `CRON_SECRET`). El volcado se guarda en el **almacén
+   privado** —en Vercel el disco de la función es temporal— bajo
+   `backups/`, y las copias de **más de 30 días se borran solas**. Con
+   volcados de ~50 KB y 4-5 ficheros vives el coste es de centavos:
+   dentro de las cuotas gratuitas (1 cron de los 2 que permite Hobby).
+-  **Exportación manual**: `pnpm --filter @comunidad/api db:backup`
+   vuelca todas las tablas a JSON versionado en `apps/api/backups/`
+   (ignorado por git: los datos nunca suben al repositorio). Útil para
+   llevarse una copia fuera de Vercel/Neon.
 -  **Restauración probada**: `pnpm --filter @comunidad/api db:restore
    -- backups/<archivo>.json` sobre una base recién migrada; existe un
    test de ida y vuelta en la suite (`backup.test.ts`).
 -  **Purga por retención**: `pnpm --filter @comunidad/api db:purge`
    aplica la tabla «Ciclo de vida de los datos» (invitaciones
    caducadas > 90 días; auditoría > 24 meses) y es idempotente.
--  Puntos de restauración diarios de **Neon** (primera línea) y esta
-   exportación como red de seguridad independiente y portable.
+-  Puntos de restauración de **Neon** (primera línea: el plan gratuito
+   solo conserva **6 horas**, por eso la copia semanal aporta
+   cobertura real) y esta exportación como red de seguridad
+   independiente y portable.
 -  Ruta de migración a otro proveedor documentada (el vendor lock-in no
    debe ser un riesgo irreversible).
 
