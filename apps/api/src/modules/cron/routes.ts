@@ -2,6 +2,7 @@ import { timingSafeEqual } from 'node:crypto';
 import { Hono } from 'hono';
 import { createBackup } from '../../db/backup';
 import type { Database } from '../../db/client';
+import { runPurge } from '../../db/purge';
 import type { AppEnv } from '../../lib/context';
 import { unauthorized } from '../../lib/errors';
 import type { StoragePort } from '../../lib/storage';
@@ -10,20 +11,25 @@ import type { StoragePort } from '../../lib/storage';
 const RETENTION_DAYS = 30;
 
 /**
- * Copia de seguridad semanal de la base de datos.
+ * Mantenimiento semanal de producción: **purga por retención** y
+ * **copia de seguridad**, en la misma ejecución para no gastar un cron
+ * más (Hobby permite 2 y esta es la primera).
  *
  * Vercel Cron llama a esta ruta con `Authorization: Bearer $CRON_SECRET`.
  * El volcado se guarda en el almacén privado (en Vercel el disco de la
- * función es temporal y desaparecería) y las copias de más de 30 días
- * se borran al terminar, así que el coste se mantiene en centavos.
+ * función es temporal y desaparecería) y las copias de más de 30 días se
+ * borran al terminar: el coste se mantiene en centavos.
  */
 export function cronRoutes(db: Database, storage: StoragePort): Hono<AppEnv> {
   const routes = new Hono<AppEnv>();
 
-  routes.get('/backup', async (c) => {
+  routes.get('/maintenance', async (c) => {
     if (!isAuthorized(c.req.header('authorization'))) {
       throw unauthorized('Cron no autorizado');
     }
+
+    // Primero la purga: la copia no arrastra datos ya caducados.
+    const purge = await runPurge(db);
 
     const backup = await createBackup(db);
     const key = `backups/backup-${backup.exportedAt.replaceAll(':', '-')}.json`;
@@ -36,7 +42,14 @@ export function cronRoutes(db: Database, storage: StoragePort): Hono<AppEnv> {
       0,
     );
 
-    return c.json({ ok: true, key, bytes: body.byteLength, rows, pruned });
+    return c.json({
+      ok: true,
+      key,
+      bytes: body.byteLength,
+      rows,
+      pruned,
+      purge,
+    });
   });
 
   return routes;

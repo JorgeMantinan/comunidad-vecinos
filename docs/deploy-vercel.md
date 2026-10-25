@@ -69,17 +69,23 @@ pnpm --filter @comunidad/api db:backup    # JSON en apps/api/backups/ (ignorado 
 pnpm --filter @comunidad/api db:purge     # aplica la política de retención
 ```
 
-**Copia automática semanal** (`apps/api/vercel.json`): Vercel Cron
-dispara `GET /api/cron/backup` **los domingos a las 03:00** y la ruta
-vuelca las tablas al almacén privado (`backups/backup-…json`), borrando
-las de más de 30 días. Requisitos y comprobación:
+**Mantenimiento automático semanal** (`apps/api/vercel.json`): Vercel
+Cron dispara `GET /api/cron/maintenance` **los domingos a las 03:00** y
+la ruta hace, en la misma ejecución:
+
+1. **Purga por retención** (invitaciones caducadas > 90 días y
+   auditoría > 24 meses), igual que `db:purge`.
+2. **Copia de seguridad** al almacén privado (`backups/backup-…json`),
+   borrando las de más de 30 días.
+
+Requisitos y comprobación:
 
 -  Variable `CRON_SECRET` en el proyecto de la API (production y
    preview); la petición llega con `Authorization: Bearer <secret>` y
    se compara en tiempo constante.
 -  `curl -H "Authorization: Bearer $CRON_SECRET"
-   https://mantivecinos-api.vercel.app/api/cron/backup` →
-   `{"ok":true,"key":"backups/…","rows":N,"pruned":[]}`.
+   https://mantivecinos-api.vercel.app/api/cron/maintenance` →
+   `{"ok":true,"key":"backups/…","rows":N,"pruned":[],"purge":{"invitations":0,"auditEvents":0}}`.
 -  Hobby permite 2 cron con mínimo 1 ejecución/día: esta es 1 de ellas.
 
 El CI ya valida que las migraciones se aplican sobre PostgreSQL limpio.
