@@ -1,6 +1,6 @@
 import { and, desc, eq, gt, isNull, or } from 'drizzle-orm';
 import type { Database } from '../../db/client';
-import { announcements, user } from '../../db/schema';
+import { announcements, communityMemberships, user } from '../../db/schema';
 import { newId } from '../../lib/ids';
 
 export interface AnnouncementRow {
@@ -107,4 +107,22 @@ export async function deleteAnnouncement(
   announcementId: string,
 ): Promise<void> {
   await db.delete(announcements).where(eq(announcements.id, announcementId));
+}
+
+/** Emails de los miembros (para notificaciones); excluye al autor. */
+export async function listMemberEmails(
+  db: Database,
+  communityId: string,
+  excludeUserId: string,
+): Promise<string[]> {
+  const rows = await db
+    .select({ email: user.email, userId: communityMemberships.userId })
+    .from(communityMemberships)
+    .innerJoin(user, eq(communityMemberships.userId, user.id))
+    .where(eq(communityMemberships.communityId, communityId));
+  return [
+    ...new Set(
+      rows.filter((row) => row.userId !== excludeUserId).map((row) => row.email),
+    ),
+  ];
 }

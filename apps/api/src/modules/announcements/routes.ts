@@ -9,14 +9,17 @@ import { Hono } from 'hono';
 import type { Database } from '../../db/client';
 import type { Auth } from '../../lib/auth';
 import type { AppEnv } from '../../lib/context';
+import type { EmailPort } from '../../lib/email';
 import { jsonBody, pathParams, toIso, toIsoOrNull } from '../../lib/http';
+import { findCommunityOfUser } from '../communities/repository';
 import { requireAuth } from '../../middleware/require-auth';
 import {
   adminRoles,
   anyMemberRoles,
   requireCommunityRole,
 } from '../../middleware/require-community-role';
-import { listAnnouncements } from './repository';
+import { sendAnnouncementEmail } from './email';
+import { listAnnouncements, listMemberEmails } from './repository';
 import { editAnnouncement, publishAnnouncement, removeAnnouncement } from './service';
 
 const announcementParamsSchema = z.object({
@@ -32,7 +35,12 @@ const serialize = (row: Awaited<ReturnType<typeof listAnnouncements>>[number]) =
   });
 
 /** Avisos de la comunidad: lectura para miembros, escritura para admin. */
-export function announcementRoutes(db: Database, auth: Auth): Hono<AppEnv> {
+export function announcementRoutes(
+  db: Database,
+  auth: Auth,
+  email: EmailPort,
+  webBaseUrl: string,
+): Hono<AppEnv> {
   const routes = new Hono<AppEnv>();
 
   routes.get(
@@ -60,6 +68,29 @@ export function announcementRoutes(db: Database, auth: Auth): Hono<AppEnv> {
         id,
         input,
       );
+
+      // Notificación por correo a los miembros (best-effort): un fallo
+      // de correo jamás bloquea la publicación del aviso.
+      try {
+        const community = await findCommunityOfUser(db, user.id, id);
+        const recipients = await listMemberEmails(db, id, user.id);
+        await Promise.all(
+          recipients.map((to) =>
+            sendAnnouncementEmail(email, {
+              to,
+              communityName: community?.name ?? 'tu comunidad',
+              title: input.title,
+              body: input.body,
+              webBaseUrl,
+            }).catch((error: unknown) => {
+              console.error('[correo] aviso no enviado', error);
+            }),
+          ),
+        );
+      } catch (error) {
+        console.error('[correo] aviso no notificado', error);
+      }
+
       return c.json(serialize(created), 201);
     },
   );

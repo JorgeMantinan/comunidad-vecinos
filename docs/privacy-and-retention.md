@@ -74,10 +74,12 @@ EE. UU.).
 ## Pendiente
 
 -  **Correo (Resend)**: el adaptador está implementado
-   (`apps/api/src/lib/email.ts` + plantilla de invitación) y se activa
-   solo al definir `RESEND_API_KEY` (+ `EMAIL_FROM` con el remitente
-   verificado). Sin clave, el envío se omite con aviso y el enlace de
-   invitación sigue disponible en la interfaz.
+   (`apps/api/src/lib/email.ts` + plantillas de invitación **y de
+   avisos**) y se activa solo al definir `RESEND_API_KEY` (+ `EMAIL_FROM`
+   con el remitente verificado). Sin clave, el envío se omite con aviso
+   y el enlace sigue disponible en la interfaz. En modo test de Resend
+   solo se entrega a la dirección de la cuenta; al publicar un aviso se
+   notifica a todos los miembros excepto al autor.
 -  Documento de privacidad para usuarios finales.
 -  Registro de tratamiento de actividades.
 -  Procedimiento operativo de atención de solicitudes ARSUL.
