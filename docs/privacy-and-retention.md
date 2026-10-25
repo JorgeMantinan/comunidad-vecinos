@@ -55,10 +55,10 @@ legal (ej. registros económicos), no solo borrado físico.
 
 | Servicio | Uso | Notas |
 | -------- | --- | ----- |
-| **Vercel Blob** (tienda `mantivecinos`, región `iad1`) | Documentación privada y fotos de incidencias (`access: 'private'`) | Binarios nunca en la BD; descarga solo con URL firmada de 10 min; token en variables de entorno de Vercel |
+| **Vercel Blob** (tienda `mantivecinos-eu`, región `fra1`, Fráncfort) | Documentación privada y fotos de incidencias (`access: 'private'`) | Binarios nunca en la BD; descarga solo con URL firmada de 10 min; token en variables de entorno de Vercel |
 | **Neon** (región `eu-west-2`, Reino Unido) | PostgreSQL | Migraciones exclusivamente desde el repositorio |
-| **Vercel Functions** | API y frontend | Cookies de sesión `SameSite=None; Secure` en producción |
-| **Resend** | Correo transaccional (invitaciones) | Clave en variables de entorno; en modo test solo admite el correo de la cuenta; sin dominio verificado no se envía a terceros |
+| **Vercel Functions** (región `fra1`, Fráncfort) | API y frontend | Cookies de sesión `SameSite=None; Secure` en producción |
+| **Resend** | Correo transaccional (invitaciones y avisos) | Clave en variables de entorno; en modo test solo admite el correo de la cuenta; sin dominio verificado no se envía a terceros |
 
 **Publicidad (patrocinios):** los anunciantes no son usuarios de la
 plataforma: no reciben credenciales ni acceden a datos de vecinos, a
@@ -67,9 +67,10 @@ su espacio siempre etiquetado como «Publicidad», separado de las
 recomendaciones vecinales.
 
 Antes de producción: registrar proveedores, ubicación de los datos,
-subencargados y transferencias internacionales. Priorizar proveedores
-con datos en la UE (revisar la región del almacén de Blob: `iad1`,
-EE. UU.).
+subencargados y transferencias internacionales. **Regiones en Europa:**
+funciones (`fra1`), almacén de archivos (`fra1`) y base de datos
+(`eu-west-2`, Reino Unido con decisión de adecuación). Queda pendiente
+de revisión la ubicación de Resend (correo).
 
 ## Documentación legal (plantillas pendientes de revisión)
 

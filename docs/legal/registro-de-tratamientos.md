@@ -57,7 +57,7 @@
 | Interesados | Miembros y personas mencionadas en la documentación |
 | Categorías de datos | Archivos aportados por la comunidad |
 | Destinatarios | Vercel Blob (almacenamiento privado), Vercel (API) |
-| Transferencias | `[PLACEHOLDER: región actual del Blob es EE. UU. — priorizar UE]` |
+| Transferencias | Sin transferencia: almacén en la UE (`fra1`, Fráncfort) |
 | Plazos | Vigencia de la comunidad (actas/contratos); borrado de fotos al cerrar la incidencia |
 | Medidas | `access: private`, nunca en base de datos, URL firmada de corta duración, sin acceso directo público |
 
@@ -113,10 +113,10 @@
 
 | Encargado | Servicio | Cláusulas | Registro de transferencias |
 | --------- | -------- | --------- | -------------------------- |
-| Vercel Inc. | Hosting y functions | `[PLACEHOLDER: DPA vigente]` | `[PENDIENTE]` |
-| Neon Inc. | PostgreSQL | `[PLACEHOLDER: DPA vigente]` | `[PENDIENTE]` |
-| Resend Inc. | Correo transaccional | `[PLACEHOLDER: DPA vigente]` | `[PENDIENTE]` |
-| Vercel Blob | Almacenamiento de objetos | `[PLACEHOLDER: DPA vigente]` | `[PENDIENTE]` |
+| Vercel Inc. | Hosting y functions | `[PLACEHOLDER: DPA vigente]` | UE (`fra1`, Fráncfort) |
+| Neon Inc. | PostgreSQL | `[PLACEHOLDER: DPA vigente]` | Reino Unido (`eu-west-2`, decisión de adecuación) |
+| Resend Inc. | Correo transaccional | `[PLACEHOLDER: DPA vigente]` | `[PENDIENTE: EE. UU.]` |
+| Vercel Blob | Almacenamiento de objetos | `[PLACEHOLDER: DPA vigente]` | UE (`fra1`, Fráncfort) |
 
 ## 10. Medidas de seguridad generales
 
