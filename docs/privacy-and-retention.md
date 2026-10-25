@@ -106,6 +106,10 @@ está publicado todavía:
    [`docs/legal/registro-de-tratamientos.md`](legal/registro-de-tratamientos.md)
 -  **Procedimiento operativo ARSUL** (derechos de las personas
    interesadas): [`docs/legal/arsul.md`](legal/arsul.md)
+-  **Checklist de la revisión**: qué falta, quién lo pone y dónde —
+   [`docs/legal/checklist-revision-juridica.md`](legal/checklist-revision-juridica.md)
+-  **Control de firmas y marca temporal** (para cuando se publique):
+   [`docs/legal/control-firmas-y-marca-temporal.md`](legal/control-firmas-y-marca-temporal.md)
 
 Mientras no se publiquen, este documento sigue siendo la referencia
 técnica interna.
