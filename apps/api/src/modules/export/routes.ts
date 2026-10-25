@@ -1,29 +1,44 @@
 import {
   announcementSchema,
   assessmentDetailSchema,
+  assetSchema,
   communitySummarySchema,
   communityIdSchema,
+  contractSchema,
   expenseSchema,
+  incidentSchema,
   invoiceSchema,
   meetingDetailSchema,
   memberSchema,
+  pollDetailSchema,
+  professionalSchema,
+  suggestionSchema,
+  taskSchema,
   unitSchema,
 } from '@comunidad/shared';
 import { z } from 'zod';
 import { Hono } from 'hono';
 import { findCommunityOfUser, listMembers } from '../communities/repository';
 import { listAnnouncements } from '../announcements/repository';
+import { listAssets } from '../assets/repository';
+import { listContracts } from '../contracts/repository';
 import { listExpenses } from '../expenses/repository';
+import { listIncidents } from '../incidents/repository';
 import { listInvoices } from '../invoices/repository';
 import { listMeetings } from '../meetings/repository';
 import { getMeetingDetail } from '../meetings/service';
 import { listAssessments, listCharges } from '../assessments/repository';
+import { listPolls } from '../polls/repository';
+import { getPollDetail } from '../polls/service';
+import { listProfessionals } from '../professionals/repository';
+import { listSuggestions } from '../suggestions/repository';
+import { listTasks } from '../tasks/repository';
 import { listUnits } from '../units/repository';
 import type { Database } from '../../db/client';
 import type { Auth } from '../../lib/auth';
 import type { AppEnv } from '../../lib/context';
 import { notFound } from '../../lib/errors';
-import { pathParams, toIso } from '../../lib/http';
+import { pathParams, toIso, toIsoOrNull } from '../../lib/http';
 import { requireAuth } from '../../middleware/require-auth';
 import {
   adminRoles,
@@ -35,6 +50,9 @@ const communityParams = z.object({ id: communityIdSchema });
 /**
  * Exportación inicial (derecho de portabilidad y salida del proveedor):
  * JSON descargable con todos los datos de la comunidad.
+ *
+ * Los votos de encuestas se exportan agregados (recuentos por opción),
+ * sin vincularlos a personas: minimización de datos.
  */
 export function exportRoutes(db: Database, auth: Auth): Hono<AppEnv> {
   const routes = new Hono<AppEnv>();
@@ -58,6 +76,13 @@ export function exportRoutes(db: Database, auth: Auth): Hono<AppEnv> {
         expenseRows,
         invoiceRows,
         assessmentRows,
+        incidentRows,
+        taskRows,
+        suggestionRows,
+        pollRows,
+        assetRows,
+        contractRows,
+        professionalRows,
       ] = await Promise.all([
         listMembers(db, id),
         listUnits(db, id),
@@ -66,6 +91,13 @@ export function exportRoutes(db: Database, auth: Auth): Hono<AppEnv> {
         listExpenses(db, id, 1000),
         listInvoices(db, id, 1000),
         listAssessments(db, id, 1000),
+        listIncidents(db, id),
+        listTasks(db, id),
+        listSuggestions(db, id),
+        listPolls(db, id),
+        listAssets(db, id),
+        listContracts(db, id),
+        listProfessionals(db, id),
       ]);
 
       const meetingDetails = await Promise.all(
@@ -76,6 +108,9 @@ export function exportRoutes(db: Database, auth: Auth): Hono<AppEnv> {
           assessment,
           charges: await listCharges(db, assessment.id),
         })),
+      );
+      const pollDetails = await Promise.all(
+        pollRows.map(async (poll) => getPollDetail(db, id, poll.id)),
       );
 
       const payload = {
@@ -100,7 +135,7 @@ export function exportRoutes(db: Database, auth: Auth): Hono<AppEnv> {
           announcementRows.map((row) => ({
             ...row,
             publishedAt: toIso(row.publishedAt),
-            expiresAt: row.expiresAt ? toIso(row.expiresAt) : null,
+            expiresAt: toIsoOrNull(row.expiresAt),
           })),
         ),
         meetings: z.array(meetingDetailSchema).parse(
@@ -131,6 +166,48 @@ export function exportRoutes(db: Database, auth: Auth): Hono<AppEnv> {
             ...detail.assessment,
             createdAt: toIso(detail.assessment.createdAt),
             charges: detail.charges,
+          })),
+        ),
+        incidents: z.array(incidentSchema).parse(
+          incidentRows.map((row) => ({
+            ...row,
+            resolvedAt: toIsoOrNull(row.resolvedAt),
+            createdAt: toIso(row.createdAt),
+          })),
+        ),
+        tasks: z
+          .array(taskSchema)
+          .parse(taskRows.map((row) => ({ ...row, createdAt: toIso(row.createdAt) }))),
+        suggestions: z.array(suggestionSchema).parse(
+          suggestionRows.map((row) => ({
+            ...row,
+            createdAt: toIso(row.createdAt),
+          })),
+        ),
+        polls: z.array(pollDetailSchema).parse(
+          pollDetails.map((detail) => ({
+            ...detail.poll,
+            status: detail.status,
+            totalVotes: detail.totalVotes,
+            closesOn: toIsoOrNull(detail.poll.closesOn),
+            createdAt: toIso(detail.poll.createdAt),
+            options: detail.options,
+            myVoteOptionId: null,
+          })),
+        ),
+        assets: z
+          .array(assetSchema)
+          .parse(assetRows.map((row) => ({ ...row, createdAt: toIso(row.createdAt) }))),
+        contracts: z.array(contractSchema).parse(
+          contractRows.map((row) => ({
+            ...row,
+            createdAt: toIso(row.createdAt),
+          })),
+        ),
+        professionals: z.array(professionalSchema).parse(
+          professionalRows.map((row) => ({
+            ...row,
+            createdAt: toIso(row.createdAt),
           })),
         ),
       };
