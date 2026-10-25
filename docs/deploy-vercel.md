@@ -54,12 +54,19 @@ Las cookies de sesión usan `SameSite=None; Secure` en producción (ver
 `apps/api/src/lib/auth.ts`) como red de seguridad por si algún día se
 separan dominios.
 
-## 4. Migraciones en producción
+## 4. Migraciones y copias en producción
 
 Nunca desde el panel de Neon. Desde el repositorio:
 
 ```bash
 DATABASE_URL="postgresql://..." pnpm --filter @comunidad/api db:migrate
+```
+
+Copias de seguridad (ver `docs/incident-response.md`):
+
+```bash
+pnpm --filter @comunidad/api db:backup    # JSON en apps/api/backups/ (ignorado por git)
+pnpm --filter @comunidad/api db:purge     # aplica la política de retención
 ```
 
 El CI ya valida que las migraciones se aplican sobre PostgreSQL limpio.

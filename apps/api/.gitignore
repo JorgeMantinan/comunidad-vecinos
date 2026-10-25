@@ -1,4 +1,4 @@
 .vercel
 .env*
-
-.env*
+# Copias de seguridad locales (nunca se versionan datos de vecinos).
+backups/

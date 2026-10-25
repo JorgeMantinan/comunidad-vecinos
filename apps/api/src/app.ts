@@ -33,6 +33,7 @@ import {
   platformSponsorshipRoutes,
   communitySponsorshipRoutes,
 } from './modules/sponsorships/routes';
+import { platformMetricRoutes } from './modules/platform/routes';
 import { statsRoutes } from './modules/stats/routes';
 import { unitRoutes } from './modules/units/routes';
 
@@ -98,6 +99,7 @@ export function createApp({
   app.route('/api', invitationRoutes(db, auth, email, config.corsOrigins[0] ?? ''));
   app.route('/api/admin', adminRoutes(db, auth));
   app.route('/api/platform', platformSponsorshipRoutes(db, auth));
+  app.route('/api/platform', platformMetricRoutes(db, auth));
 
   return app;
 }
