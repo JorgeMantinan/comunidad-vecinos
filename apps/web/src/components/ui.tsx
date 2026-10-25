@@ -9,9 +9,10 @@ export function Button({
   variant?: 'primary' | 'secondary' | 'danger' | 'ghost';
 }) {
   const variants = {
-    primary: 'bg-primary text-white hover:bg-primary-soft',
-    secondary: 'bg-accent-soft text-primary border border-accent hover:bg-accent',
-    danger: 'bg-white text-primary border border-primary-soft hover:bg-accent-soft',
+    primary: 'bg-primary text-on-primary hover:bg-primary-soft',
+    secondary:
+      'bg-accent-soft text-primary border border-accent hover:bg-accent-strong',
+    danger: 'bg-card text-primary border border-primary-soft hover:bg-accent-soft',
     ghost: 'text-primary hover:bg-accent-soft',
   } as const;
   return (
@@ -33,7 +34,7 @@ export function Card({
 }) {
   return (
     <section
-      className={`rounded-xl border border-accent-soft bg-white p-5 shadow-sm ${className}`}
+      className={`rounded-xl border border-accent-soft bg-card p-5 shadow-sm ${className}`}
     >
       {title ? (
         <h2 className="mb-4 text-lg font-semibold text-primary">{title}</h2>
@@ -51,10 +52,7 @@ export function Label({
   htmlFor?: string;
 }) {
   return (
-    <label
-      htmlFor={htmlFor}
-      className="mb-1 block text-sm font-medium text-neutral-700"
-    >
+    <label htmlFor={htmlFor} className="mb-1 block text-sm font-medium text-body">
       {children}
     </label>
   );
@@ -64,7 +62,7 @@ export function Input(props: InputHTMLAttributes<HTMLInputElement>) {
   const { className = '', ...rest } = props;
   return (
     <input
-      className={`w-full rounded-lg border border-accent bg-white px-3 py-2 text-sm outline-none focus:border-primary focus:ring-2 focus:ring-accent-soft ${className}`}
+      className={`w-full rounded-lg border border-accent bg-card px-3 py-2 text-sm outline-none focus:border-primary focus:ring-2 focus:ring-accent-soft ${className}`}
       {...rest}
     />
   );

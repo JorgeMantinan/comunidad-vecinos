@@ -91,9 +91,7 @@ export function TemplatesCard({
 
       {templates.isLoading ? <Spinner /> : null}
       {!templates.isLoading && (templates.data?.length ?? 0) === 0 ? (
-        <p className="text-sm text-neutral-600">
-          Sin plantillas (convocatorias, actas…).
-        </p>
+        <p className="text-sm text-muted">Sin plantillas (convocatorias, actas…).</p>
       ) : null}
 
       <ul className="divide-y divide-accent-soft">
@@ -101,13 +99,13 @@ export function TemplatesCard({
           <li key={template.id} className="py-3 text-sm">
             <div className="flex flex-wrap items-start justify-between gap-2">
               <div>
-                <p className="font-medium text-neutral-800">
+                <p className="font-medium text-body">
                   {template.name}
                   <span className="ml-2 rounded-full bg-accent-soft px-2 py-0.5 text-xs text-primary">
                     {categoryLabels[template.category]}
                   </span>
                 </p>
-                <p className="line-clamp-2 whitespace-pre-line text-xs text-neutral-500">
+                <p className="line-clamp-2 whitespace-pre-line text-xs text-subtle">
                   {template.content.slice(0, 160)}
                 </p>
               </div>
@@ -160,7 +158,7 @@ export function TemplatesCard({
             >
               <select
                 id="template-category"
-                className="w-full rounded-lg border border-accent bg-white px-3 py-2 text-sm"
+                className="w-full rounded-lg border border-accent bg-card px-3 py-2 text-sm"
                 {...form.register('category')}
               >
                 {(
@@ -182,7 +180,7 @@ export function TemplatesCard({
           <textarea
             id="template-content"
             rows={6}
-            className="w-full rounded-lg border border-accent bg-white px-3 py-2 text-sm outline-none focus:border-primary focus:ring-2 focus:ring-accent-soft"
+            className="w-full rounded-lg border border-accent bg-card px-3 py-2 text-sm outline-none focus:border-primary focus:ring-2 focus:ring-accent-soft"
             placeholder={'CONVOCATORIA\n\nPor la presente se convoca…'}
             {...form.register('content')}
           />

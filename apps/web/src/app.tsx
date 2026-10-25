@@ -9,6 +9,7 @@ import {
   useNavigate,
 } from 'react-router-dom';
 import { Button, Spinner } from './components/ui';
+import { ThemeToggle } from './components/theme-toggle';
 import { usePlatformSponsorships } from './features/sponsorships/api';
 import { useLogout, useSession } from './lib/auth';
 import { CommunityPage } from './pages/community';
@@ -79,33 +80,36 @@ function Header() {
   const navigate = useNavigate();
 
   return (
-    <header className="border-b border-accent-soft bg-white">
+    <header className="border-b border-accent-soft bg-card">
       <div className="mx-auto flex max-w-5xl flex-wrap items-center justify-between gap-x-4 gap-y-2 px-4 py-3">
         <Link to="/" className="text-lg font-bold text-primary sm:text-xl">
           Mantivecinos
         </Link>
-        {data ? (
-          <div className="flex flex-wrap items-center gap-x-4 gap-y-1">
-            <Link to="/" className="text-sm font-medium text-primary hover:underline">
-              Inicio
-            </Link>
-            <PlatformLink />
-            <span className="hidden max-w-[40vw] truncate text-sm text-neutral-600 sm:inline">
-              {data.user.email}
-            </span>
-            <Button
-              variant="ghost"
-              onClick={() => {
-                logout.mutate(undefined, {
-                  onSuccess: () => navigate('/login'),
-                });
-              }}
-            >
-              <span className="sm:hidden">Salir</span>
-              <span className="hidden sm:inline">Cerrar sesión</span>
-            </Button>
-          </div>
-        ) : null}
+        <div className="flex flex-wrap items-center gap-x-4 gap-y-1">
+          {data ? (
+            <>
+              <Link to="/" className="text-sm font-medium text-primary hover:underline">
+                Inicio
+              </Link>
+              <PlatformLink />
+              <span className="hidden max-w-[40vw] truncate text-sm text-muted sm:inline">
+                {data.user.email}
+              </span>
+              <Button
+                variant="ghost"
+                onClick={() => {
+                  logout.mutate(undefined, {
+                    onSuccess: () => navigate('/login'),
+                  });
+                }}
+              >
+                <span className="sm:hidden">Salir</span>
+                <span className="hidden sm:inline">Cerrar sesión</span>
+              </Button>
+            </>
+          ) : null}
+          <ThemeToggle />
+        </div>
       </div>
     </header>
   );
@@ -114,8 +118,8 @@ function Header() {
 /** Pie con los avisos legales (públicos, sin sesión). */
 function LegalFooter() {
   return (
-    <footer className="border-t border-accent-soft bg-white">
-      <div className="mx-auto flex max-w-5xl flex-wrap items-center justify-between gap-x-6 gap-y-2 px-4 py-4 text-sm text-neutral-600">
+    <footer className="border-t border-accent-soft bg-card">
+      <div className="mx-auto flex max-w-5xl flex-wrap items-center justify-between gap-x-6 gap-y-2 px-4 py-4 text-sm text-muted">
         <span>Mantivecinos · gestión de comunidades de propietarios</span>
         <nav aria-label="Avisos legales" className="flex flex-wrap gap-4">
           <Link to="/legal/privacidad" className="hover:underline">

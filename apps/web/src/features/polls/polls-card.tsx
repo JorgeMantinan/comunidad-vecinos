@@ -76,7 +76,7 @@ export function PollsCard({
 
       {polls.isLoading ? <Spinner /> : null}
       {!polls.isLoading && (polls.data?.length ?? 0) === 0 ? (
-        <p className="text-sm text-neutral-600">No hay encuestas abiertas.</p>
+        <p className="text-sm text-muted">No hay encuestas abiertas.</p>
       ) : null}
 
       <ul className="divide-y divide-accent-soft">
@@ -92,7 +92,7 @@ export function PollsCard({
                 aria-expanded={openId === poll.id}
               >
                 <p className="font-medium text-primary">{poll.question}</p>
-                <p className="text-neutral-600">
+                <p className="text-muted">
                   {poll.totalVotes} voto{poll.totalVotes === 1 ? '' : 's'}
                   {poll.closesOn
                     ? ` · cierra el ${new Date(poll.closesOn).toLocaleDateString('es-ES')}`
@@ -103,7 +103,7 @@ export function PollsCard({
                 className={
                   poll.status === 'open'
                     ? 'rounded-full bg-accent-soft px-2.5 py-0.5 text-xs font-medium text-primary'
-                    : 'rounded-full bg-neutral-200 px-2.5 py-0.5 text-xs font-medium text-neutral-600'
+                    : 'rounded-full bg-chip px-2.5 py-0.5 text-xs font-medium text-muted'
                 }
               >
                 {statusLabels[poll.status]}
@@ -120,7 +120,7 @@ export function PollsCard({
         ))}
       </ul>
 
-      <p className="mt-3 text-xs text-neutral-500">{POLL_NON_BINDING_NOTE}</p>
+      <p className="mt-3 text-xs text-subtle">{POLL_NON_BINDING_NOTE}</p>
 
       {manage ? (
         <form onSubmit={onSubmit} noValidate className="mt-4 border-t pt-4">
@@ -140,7 +140,7 @@ export function PollsCard({
             <textarea
               id="poll-options"
               rows={3}
-              className="w-full rounded-lg border border-accent bg-white px-3 py-2 text-sm outline-none focus:border-primary focus:ring-2 focus:ring-accent-soft"
+              className="w-full rounded-lg border border-accent bg-card px-3 py-2 text-sm outline-none focus:border-primary focus:ring-2 focus:ring-accent-soft"
               {...form.register('optionsText')}
             />
           </Field>
@@ -204,14 +204,12 @@ function PollDetailSection({
         return (
           <div key={option.id} className="text-sm">
             <div className="flex items-center justify-between gap-2">
-              <span
-                className={selected ? 'font-semibold text-primary' : 'text-neutral-800'}
-              >
+              <span className={selected ? 'font-semibold text-primary' : 'text-body'}>
                 {selected ? '✓ ' : ''}
                 {option.text}
               </span>
               <span className="flex items-center gap-2">
-                <span className="text-neutral-600">
+                <span className="text-muted">
                   {option.votes} voto{option.votes === 1 ? '' : 's'}
                 </span>
                 {poll.status === 'open' && !poll.myVoteOptionId ? (
@@ -224,7 +222,7 @@ function PollDetailSection({
                 ) : null}
               </span>
             </div>
-            <div className="mt-1 h-2 rounded bg-white">
+            <div className="mt-1 h-2 rounded bg-card">
               <div
                 className="h-2 rounded bg-accent"
                 style={{ width: `${width}%` }}

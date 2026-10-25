@@ -37,7 +37,7 @@ export function UnitsCard({
 
       {units.isLoading ? <Spinner /> : null}
       {units.data && units.data.length === 0 ? (
-        <p className="text-sm text-neutral-600">
+        <p className="text-sm text-muted">
           Sin unidades registradas: añádelas para poder repartir derramas.
         </p>
       ) : null}
@@ -45,12 +45,12 @@ export function UnitsCard({
       <ul className="divide-y divide-accent-soft">
         {units.data?.map((unit) => (
           <li key={unit.id} className="flex items-center justify-between py-2 text-sm">
-            <span className="font-medium text-neutral-800">
+            <span className="font-medium text-body">
               {unit.portal ? `${unit.portal} · ` : ''}
               {unit.number}
             </span>
             <span className="flex items-center gap-3">
-              <span className="text-neutral-600">Coeficiente {unit.coefficient}</span>
+              <span className="text-muted">Coeficiente {unit.coefficient}</span>
               {manage ? (
                 <Button
                   variant="danger"

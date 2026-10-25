@@ -21,9 +21,9 @@ const statusLabels: Record<AssetStatus, string> = {
 };
 
 const statusBadge: Record<AssetStatus, string> = {
-  operational: 'bg-green-100 text-green-800',
-  maintenance: 'bg-amber-100 text-amber-800',
-  broken: 'bg-red-100 text-red-800',
+  operational: 'bg-success text-on-success',
+  maintenance: 'bg-warning text-on-warning',
+  broken: 'bg-danger text-on-danger',
 };
 
 export function AssetsCard({
@@ -72,7 +72,7 @@ export function AssetsCard({
 
       {assets.isLoading ? <Spinner /> : null}
       {!assets.isLoading && (assets.data?.length ?? 0) === 0 ? (
-        <p className="text-sm text-neutral-600">
+        <p className="text-sm text-muted">
           Sin elementos inventariados (ascensores, instalaciones…).
         </p>
       ) : null}
@@ -82,8 +82,8 @@ export function AssetsCard({
           <li key={asset.id} className="py-3 text-sm">
             <div className="flex flex-wrap items-start justify-between gap-2">
               <div>
-                <p className="font-medium text-neutral-800">{asset.name}</p>
-                <p className="text-neutral-600">
+                <p className="font-medium text-body">{asset.name}</p>
+                <p className="text-muted">
                   {categoryLabels[asset.category]}
                   {asset.location ? ` · ${asset.location}` : ''}
                   {asset.warrantyUntil
@@ -91,7 +91,7 @@ export function AssetsCard({
                     : ''}
                 </p>
                 {asset.notes ? (
-                  <p className="text-xs text-neutral-500">{asset.notes}</p>
+                  <p className="text-xs text-subtle">{asset.notes}</p>
                 ) : null}
               </div>
               <div className="flex items-center gap-2">
@@ -112,7 +112,7 @@ export function AssetsCard({
                         },
                       })
                     }
-                    className="rounded-lg border border-accent bg-white px-2 py-1 text-xs"
+                    className="rounded-lg border border-accent bg-card px-2 py-1 text-xs"
                   >
                     {(Object.entries(statusLabels) as Array<[AssetStatus, string]>).map(
                       ([value, label]) => (
@@ -159,7 +159,7 @@ export function AssetsCard({
               >
                 <select
                   id="asset-category"
-                  className="w-full rounded-lg border border-accent bg-white px-3 py-2 text-sm"
+                  className="w-full rounded-lg border border-accent bg-card px-3 py-2 text-sm"
                   {...form.register('category')}
                 >
                   {(

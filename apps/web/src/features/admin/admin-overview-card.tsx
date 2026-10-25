@@ -33,7 +33,7 @@ export function AdminOverviewCard() {
       <div className="overflow-x-auto">
         <table className="w-full min-w-[720px] text-sm">
           <thead>
-            <tr className="border-b border-accent-soft text-left text-neutral-500">
+            <tr className="border-b border-accent-soft text-left text-subtle">
               <th className="py-2">Comunidad</th>
               <th className="py-2">Rol</th>
               <th className="py-2 text-right">Miembros</th>
@@ -74,7 +74,7 @@ export function AdminOverviewCard() {
           </tbody>
         </table>
       </div>
-      <p className="mt-3 text-xs text-neutral-500">
+      <p className="mt-3 text-xs text-subtle">
         «Renuevan pronto»: contratos de servicio (ascensor, limpieza, jardinería…) que
         vencen en los próximos 30 días. Conviene revisarlos a tiempo para prorrogarlos o
         pedir otras ofertas.

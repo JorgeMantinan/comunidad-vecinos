@@ -1,21 +1,71 @@
 @import 'tailwindcss';
 
+/* Tema por clase: la pone/quita el botón de la cabecera (y el script de
+   index.html, antes del primer pintado, para que no haya parpadeo). */
+@custom-variant dark (&:where(.dark, .dark *));
+
 /*
- * Paleta corporativa (docs/design-system.md):
- * #A30B37 primario · #BD6B73 primario suave · #BBB6DF acento ·
- * #C6C8EE acento suave · #FCFCFF superficie
+ * Paleta corporativa (docs/design-system.md), un punto más profunda que
+ * la versión original para que la interfaz no se quede tan clara, con
+ * modo oscuro. Los componentes solo usan estos tokens: al cambiar de
+ * tema se cambian los valores, nunca las clases.
+ *
+ * Todos los pares texto/fondo están comprobados con contraste WCAG AA
+ * (>= 4,5:1) en los dos temas.
  */
 @theme {
-  --color-primary: #a30b37;
-  --color-primary-soft: #bd6b73;
-  --color-accent: #bbb6df;
-  --color-accent-soft: #c6c8ee;
-  --color-surface: #fcfcff;
+  /* Marca — modo claro (por defecto) */
+  --color-primary: #8b0a2c;
+  --color-primary-soft: #ab4155;
+  --color-accent: #a8a1e0;
+  --color-accent-soft: #dedcf7;
+  --color-accent-strong: #c9c5f2;
+
+  /* Superficies y texto — modo claro */
+  --color-surface: #ededf3;
+  --color-card: #ffffff;
+  --color-body: #1e1519;
+  --color-muted: #554c52;
+  --color-subtle: #6f6670;
+  --color-chip: #e4e3ee;
+  --color-on-primary: #ffffff;
+
+  /* Estados — modo claro */
+  --color-success: #dcfce7;
+  --color-on-success: #166534;
+  --color-warning: #fef3c7;
+  --color-on-warning: #92400e;
+  --color-danger: #fee2e2;
+  --color-on-danger: #991b1b;
+}
+
+/* Modo oscuro: mismos nombres de token, otros valores. */
+html.dark {
+  --color-primary: #f97a97;
+  --color-primary-soft: #ffa8bd;
+  --color-accent: #6f67b8;
+  --color-accent-soft: #332c4d;
+  --color-accent-strong: #262040;
+
+  --color-surface: #121016;
+  --color-card: #1c1922;
+  --color-body: #ece8f2;
+  --color-muted: #b0a8be;
+  --color-subtle: #8b8499;
+  --color-chip: #2e2a3a;
+  --color-on-primary: #2a0209;
+
+  --color-success: #12321f;
+  --color-on-success: #86efac;
+  --color-warning: #3a2c0d;
+  --color-on-warning: #fcd34d;
+  --color-danger: #3a161c;
+  --color-on-danger: #fca5a5;
 }
 
 body {
   background-color: var(--color-surface);
-  color: #1f1618;
+  color: var(--color-body);
   font-family:
     ui-sans-serif,
     system-ui,

@@ -18,7 +18,7 @@ function LegalLayout({ title, children }: { title: string; children: ReactNode }
       </Link>
       <header>
         <h1 className="text-2xl font-bold text-primary sm:text-3xl">{title}</h1>
-        <p className="text-sm text-neutral-600">Versión 1.0 · octubre de 2026</p>
+        <p className="text-sm text-muted">Versión 1.0 · octubre de 2026</p>
       </header>
       {children}
     </div>
@@ -63,7 +63,7 @@ export function LegalIndexPage() {
     <div className="space-y-5">
       <header>
         <h1 className="text-2xl font-bold text-primary sm:text-3xl">Avisos legales</h1>
-        <p className="text-sm text-neutral-600">
+        <p className="text-sm text-muted">
           Información clara sobre tus datos y cómo ejercer tus derechos.
         </p>
       </header>
@@ -72,12 +72,10 @@ export function LegalIndexPage() {
           <Link
             key={entry.to}
             to={entry.to}
-            className="rounded-2xl border border-accent bg-white p-6 shadow-sm transition hover:border-primary hover:shadow-md"
+            className="rounded-2xl border border-accent bg-card p-6 shadow-sm transition hover:border-primary hover:shadow-md"
           >
             <span className="block text-xl font-bold text-primary">{entry.title}</span>
-            <span className="mt-1 block text-sm text-neutral-600">
-              {entry.subtitle}
-            </span>
+            <span className="mt-1 block text-sm text-muted">{entry.subtitle}</span>
           </Link>
         ))}
       </nav>
@@ -90,7 +88,7 @@ export function PrivacyPage() {
   return (
     <LegalLayout title="Política de privacidad">
       <Card title="Quién trata tus datos">
-        <p className="text-sm leading-6 text-neutral-700">
+        <p className="text-sm leading-6 text-body">
           La plataforma Mantivecinos trata los datos de tu cuenta (nombre, correo
           electrónico y contraseña cifrada) y los datos de gestión de tu comunidad:
           miembros, reuniones, actas, gastos, cuotas, incidencias y los documentos que
@@ -99,12 +97,12 @@ export function PrivacyPage() {
       </Card>
 
       <Card title="Para qué los usamos">
-        <p className="text-sm leading-6 text-neutral-700">
+        <p className="text-sm leading-6 text-body">
           Solo para gestionar la comunidad que te invita: mantener tu acceso, mostrarte
           la información a la que tienes permiso y dejar constancia de las acciones
           importantes (registro de actividad).
         </p>
-        <p className="mt-2 text-sm leading-6 text-neutral-700">
+        <p className="mt-2 text-sm leading-6 text-body">
           <strong>
             No hay perfiles automáticos ni decisiones tomadas por ordenador sobre ti
           </strong>
@@ -113,7 +111,7 @@ export function PrivacyPage() {
       </Card>
 
       <Card title="Con quién se comparte">
-        <p className="text-sm leading-6 text-neutral-700">
+        <p className="text-sm leading-6 text-body">
           Solo con los proveedores que prestan el servicio (alojamiento, base de datos,
           almacenamiento de archivos y envío de correos transaccionales), y siempre con
           la información mínima necesaria. No se venden datos ni se comparten con
@@ -123,7 +121,7 @@ export function PrivacyPage() {
       </Card>
 
       <Card title="Cuánto tiempo se guardan">
-        <ul className="list-inside list-disc space-y-1 text-sm text-neutral-700">
+        <ul className="list-inside list-disc space-y-1 text-sm text-body">
           <li>Tu cuenta: mientras la tengas activa.</li>
           <li>Registros económicos y actas: por obligación legal.</li>
           <li>Registro de actividad: 24 meses.</li>
@@ -132,7 +130,7 @@ export function PrivacyPage() {
       </Card>
 
       <Card title="Seguridad">
-        <p className="text-sm leading-6 text-neutral-700">
+        <p className="text-sm leading-6 text-body">
           Todo viaja cifrado (HTTPS), las contraseñas se guardan con hash, cada
           comunidad está aislada de las demás y solo se accede a los documentos con un
           enlace firmado de pocos minutos. Hay copias de seguridad diarias.
@@ -141,7 +139,7 @@ export function PrivacyPage() {
 
       <Card title="Contacto">
         <ContactLine />
-        <p className="mt-2 text-sm text-neutral-600">
+        <p className="mt-2 text-sm text-muted">
           Puedes descargar o borrar tus datos desde{' '}
           <Link to="/" className="font-medium text-primary underline">
             tu panel
@@ -162,7 +160,7 @@ export function RightsPage() {
   return (
     <LegalLayout title="Tus derechos">
       <Card title="Qué puedes pedir">
-        <ul className="list-inside list-disc space-y-1 text-sm text-neutral-700">
+        <ul className="list-inside list-disc space-y-1 text-sm text-body">
           <li>
             <strong>Acceso</strong>: copia de los datos que tenemos sobre ti.
           </li>
@@ -189,7 +187,7 @@ export function RightsPage() {
       </Card>
 
       <Card title="Cómo pedirlo">
-        <p className="text-sm leading-6 text-neutral-700">
+        <p className="text-sm leading-6 text-body">
           Escríbenos indicando qué derecho quieres ejercer. Te confirmamos la recepción
           en pocos días y respondemos en el plazo de un mes (ampliable en casos
           complejos, siempre avisándote).
@@ -197,14 +195,14 @@ export function RightsPage() {
         <div className="mt-2">
           <ContactLine />
         </div>
-        <p className="mt-2 text-sm text-neutral-600">
+        <p className="mt-2 text-sm text-muted">
           También puedes descargar tus datos al momento desde tu panel («Descargar mis
           datos»).
         </p>
       </Card>
 
       <Card title="Si no quedas conforme">
-        <p className="text-sm leading-6 text-neutral-700">
+        <p className="text-sm leading-6 text-body">
           Puedes reclamar ante la Agencia Española de Protección de Datos: C/ Jorge Juan
           6, 28001 Madrid ·{' '}
           <a
@@ -226,7 +224,7 @@ export function CookiesPage() {
   return (
     <LegalLayout title="Cookies">
       <Card title="Solo la cookie de sesión">
-        <p className="text-sm leading-6 text-neutral-700">
+        <p className="text-sm leading-6 text-body">
           La aplicación usa una única cookie: la de sesión, que sirve para mantenerte
           identificado mientras navegas. Es técnica y imprescindible; sin ella tendrías
           que escribir tu contraseña en cada pantalla.
@@ -234,7 +232,7 @@ export function CookiesPage() {
       </Card>
 
       <Card title="Lo que NO usamos">
-        <ul className="list-inside list-disc space-y-1 text-sm text-neutral-700">
+        <ul className="list-inside list-disc space-y-1 text-sm text-body">
           <li>Ni cookies de análisis o estadísticas.</li>
           <li>Ni cookies de publicidad conductual.</li>
           <li>Ni cookies de terceros para rastrearte por internet.</li>
@@ -242,7 +240,7 @@ export function CookiesPage() {
       </Card>
 
       <Card title="Si la bloqueas">
-        <p className="text-sm leading-6 text-neutral-700">
+        <p className="text-sm leading-6 text-body">
           Puedes eliminarla desde la configuración de tu navegador. Al hacerlo se cierra
           la sesión y tendrás que volver a entrar con tu correo y tu contraseña; el
           resto de la aplicación sigue funcionando.

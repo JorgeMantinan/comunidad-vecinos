@@ -75,13 +75,13 @@ export function ExpensesCard({
       {rows.length > 0 ? (
         <>
           <div className="mb-3 flex gap-4 text-sm">
-            <span className="text-neutral-600">
+            <span className="text-muted">
               Pendiente:{' '}
               <strong className="text-primary">
                 {formatEuro(String(totalRegistered))}
               </strong>
             </span>
-            <span className="text-neutral-600">
+            <span className="text-muted">
               Pagado:{' '}
               <strong className="text-primary">{formatEuro(String(totalPaid))}</strong>
             </span>
@@ -89,7 +89,7 @@ export function ExpensesCard({
           <div className="overflow-x-auto">
             <table className="w-full min-w-[620px] text-sm">
               <thead>
-                <tr className="border-b border-accent-soft text-left text-neutral-500">
+                <tr className="border-b border-accent-soft text-left text-subtle">
                   <th className="py-2">Concepto</th>
                   <th className="py-2">Fecha</th>
                   <th className="py-2">Categoría</th>
@@ -101,13 +101,11 @@ export function ExpensesCard({
               <tbody>
                 {rows.map((expense) => (
                   <tr key={expense.id} className="border-b border-accent-soft/60">
-                    <td className="py-2 font-medium text-neutral-800">
-                      {expense.concept}
-                    </td>
-                    <td className="py-2 text-neutral-600">
+                    <td className="py-2 font-medium text-body">{expense.concept}</td>
+                    <td className="py-2 text-muted">
                       {new Date(expense.incurredOn).toLocaleDateString('es-ES')}
                     </td>
-                    <td className="py-2 text-neutral-600">
+                    <td className="py-2 text-muted">
                       {categoryLabels[expense.category]}
                     </td>
                     <td className="py-2 text-right">{formatEuro(expense.amount)}</td>
@@ -115,7 +113,7 @@ export function ExpensesCard({
                       <span
                         className={
                           expense.status === 'paid'
-                            ? 'rounded-full bg-green-100 px-2 py-0.5 text-xs text-green-800'
+                            ? 'rounded-full bg-success px-2 py-0.5 text-xs text-on-success'
                             : 'rounded-full bg-accent-soft px-2 py-0.5 text-xs text-primary'
                         }
                       >
@@ -150,7 +148,7 @@ export function ExpensesCard({
         </>
       ) : (
         !expenses.isLoading && (
-          <p className="text-sm text-neutral-600">No hay gastos registrados.</p>
+          <p className="text-sm text-muted">No hay gastos registrados.</p>
         )
       )}
 
@@ -189,7 +187,7 @@ export function ExpensesCard({
               >
                 <select
                   id="expense-category"
-                  className="w-full rounded-lg border border-accent bg-white px-3 py-2 text-sm"
+                  className="w-full rounded-lg border border-accent bg-card px-3 py-2 text-sm"
                   {...form.register('category')}
                 >
                   {(

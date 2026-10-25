@@ -22,8 +22,8 @@ const statusLabels: Record<MeetingStatus, string> = {
 
 export const meetingStatusBadge: Record<MeetingStatus, string> = {
   planned: 'bg-accent-soft text-primary',
-  finished: 'bg-green-100 text-green-800',
-  cancelled: 'bg-neutral-200 text-neutral-600',
+  finished: 'bg-success text-on-success',
+  cancelled: 'bg-chip text-muted',
 };
 
 export function MeetingsCard({
@@ -60,7 +60,7 @@ export function MeetingsCard({
 
       {meetings.isLoading ? <Spinner /> : null}
       {meetings.data && meetings.data.length === 0 ? (
-        <p className="text-sm text-neutral-600">No hay reuniones convocadas.</p>
+        <p className="text-sm text-muted">No hay reuniones convocadas.</p>
       ) : null}
 
       <ul className="divide-y divide-accent-soft">
@@ -72,7 +72,7 @@ export function MeetingsCard({
             >
               <div>
                 <p className="font-medium text-primary">{meeting.title}</p>
-                <p className="text-sm text-neutral-600">
+                <p className="text-sm text-muted">
                   {new Date(meeting.scheduledFor).toLocaleString('es-ES', {
                     dateStyle: 'long',
                     timeStyle: 'short',

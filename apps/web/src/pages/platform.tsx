@@ -64,7 +64,7 @@ export function PlatformPage() {
   if (forbidden) {
     return (
       <Card title="Publicidad">
-        <p className="text-sm text-neutral-600">
+        <p className="text-sm text-muted">
           Esta cuenta no está autorizada para gestionar la publicidad de plataforma. Si
           necesitas acceso, contacta con el operador del servicio.
         </p>
@@ -76,7 +76,7 @@ export function PlatformPage() {
     <div className="space-y-6">
       <header>
         <h1 className="text-2xl font-bold text-primary">Gestión de publicidad</h1>
-        <p className="text-sm text-neutral-600">
+        <p className="text-sm text-muted">
           Los patrocinios se muestran como «Publicidad» en las comunidades asignadas.
           Los anunciantes no acceden a ningún dato de la comunidad.
         </p>
@@ -92,7 +92,7 @@ export function PlatformPage() {
 
         {sponsorships.isLoading ? <Spinner /> : null}
         {sponsorships.data && sponsorships.data.length === 0 ? (
-          <p className="text-sm text-neutral-600">Sin patrocinios.</p>
+          <p className="text-sm text-muted">Sin patrocinios.</p>
         ) : null}
 
         <ul className="divide-y divide-accent-soft">
@@ -102,13 +102,13 @@ export function PlatformPage() {
               className="flex flex-wrap items-center justify-between gap-2 py-3 text-sm"
             >
               <div>
-                <p className="font-medium text-neutral-800">
+                <p className="font-medium text-body">
                   {sponsorship.businessName}
                   <span className="ml-2 rounded-full bg-accent-soft px-2 py-0.5 text-xs uppercase text-primary">
                     {statusLabels[sponsorship.status]}
                   </span>
                 </p>
-                <p className="text-xs text-neutral-500">
+                <p className="text-xs text-subtle">
                   {sponsorship.communityIds.length} comunidad
                   {sponsorship.communityIds.length === 1 ? '' : 'es'}
                   {sponsorship.monthlyAmount
@@ -216,7 +216,7 @@ export function PlatformPage() {
                 </label>
               ))}
               {communities.data?.length === 0 ? (
-                <span className="text-xs text-neutral-500">
+                <span className="text-xs text-subtle">
                   No perteneces a ninguna comunidad todavía.
                 </span>
               ) : null}

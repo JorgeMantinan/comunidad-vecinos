@@ -23,8 +23,8 @@ export function AuditCard({
       <ul className="divide-y divide-accent-soft text-sm">
         {events.data?.map((event) => (
           <li key={event.id} className="flex justify-between py-2">
-            <span className="font-medium text-neutral-800">{event.action}</span>
-            <span className="text-neutral-500">
+            <span className="font-medium text-body">{event.action}</span>
+            <span className="text-subtle">
               {new Date(event.createdAt).toLocaleString('es-ES')}
             </span>
           </li>

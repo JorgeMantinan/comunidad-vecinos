@@ -95,7 +95,7 @@ export function DocumentsCard({
 
       {documents.isLoading ? <Spinner /> : null}
       {!documents.isLoading && (documents.data?.length ?? 0) === 0 ? (
-        <p className="text-sm text-neutral-600">
+        <p className="text-sm text-muted">
           Sin documentos. Se guardan en un almacén privado y cada descarga usa un enlace
           temporal.
         </p>
@@ -108,13 +108,13 @@ export function DocumentsCard({
             className="flex flex-wrap items-center justify-between gap-2 py-3 text-sm"
           >
             <div>
-              <p className="font-medium text-neutral-800">
+              <p className="font-medium text-body">
                 {document.title}
                 <span className="ml-2 rounded-full bg-accent-soft px-2 py-0.5 text-xs text-primary">
                   {categoryLabels[document.category]}
                 </span>
               </p>
-              <p className="text-xs text-neutral-500">
+              <p className="text-xs text-subtle">
                 {formatBytes(document.sizeBytes)} ·{' '}
                 {new Date(document.createdAt).toLocaleDateString('es-ES')}
                 {document.uploadedByName
@@ -171,7 +171,7 @@ export function DocumentsCard({
               >
                 <select
                   id="document-category"
-                  className="w-full rounded-lg border border-accent bg-white px-3 py-2 text-sm"
+                  className="w-full rounded-lg border border-accent bg-card px-3 py-2 text-sm"
                   {...form.register('category')}
                 >
                   {(
@@ -192,7 +192,7 @@ export function DocumentsCard({
               type="file"
               accept=".pdf,.jpg,.jpeg,.png,.webp,.txt,.docx"
               onChange={(event) => setSelectedFile(event.target.files?.[0] ?? null)}
-              className="block w-full text-sm text-neutral-600 file:mr-3 file:rounded-lg file:border-0 file:bg-accent-soft file:px-3 file:py-1.5 file:text-sm file:font-medium file:text-primary"
+              className="block w-full text-sm text-muted file:mr-3 file:rounded-lg file:border-0 file:bg-accent-soft file:px-3 file:py-1.5 file:text-sm file:font-medium file:text-primary"
             />
           </Field>
           {selectedFile && selectedFile.size > MAX_FILE_BYTES ? (

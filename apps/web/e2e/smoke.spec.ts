@@ -100,3 +100,19 @@ test('crear comunidad abre el menú de botones y publica un aviso', async ({ pag
   await page.getByRole('button', { name: /Volver al menú/ }).click();
   await page.waitForURL(/\/communities\/[^/]+$/);
 });
+
+test('el conmutador de tema aplica el modo oscuro y lo recuerda', async ({ page }) => {
+  await page.goto('/legal');
+  const html = page.locator('html');
+  await expect(html).not.toHaveClass(/dark/);
+
+  await page.getByRole('button', { name: /Oscuro/ }).click();
+  await expect(html).toHaveClass(/dark/);
+
+  // La elecci�n sobrevive a la recarga (localStorage + script previo).
+  await page.reload();
+  await expect(html).toHaveClass(/dark/);
+
+  await page.getByRole('button', { name: /Claro/ }).click();
+  await expect(html).not.toHaveClass(/dark/);
+});

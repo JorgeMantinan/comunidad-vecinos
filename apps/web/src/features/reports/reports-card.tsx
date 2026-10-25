@@ -80,29 +80,29 @@ export function EconomyReportCard({
       {report.data ? (
         <div className="grid gap-4 text-sm md:grid-cols-3">
           <div className="rounded-lg bg-accent-soft/40 p-3">
-            <p className="text-xs uppercase text-neutral-500">Gastos</p>
+            <p className="text-xs uppercase text-subtle">Gastos</p>
             <p className="text-lg font-semibold text-primary">
               {formatEuro(report.data.expenses.total)}
             </p>
-            <p className="text-xs text-neutral-600">
+            <p className="text-xs text-muted">
               {report.data.expenses.count} apunte
               {report.data.expenses.count === 1 ? '' : 's'} · pendiente{' '}
               {formatEuro(report.data.expenses.pendingTotal)}
             </p>
           </div>
           <div className="rounded-lg bg-accent-soft/40 p-3">
-            <p className="text-xs uppercase text-neutral-500">Pagado</p>
+            <p className="text-xs uppercase text-subtle">Pagado</p>
             <p className="text-lg font-semibold text-primary">
               {formatEuro(report.data.expenses.paidTotal)}
             </p>
-            <p className="text-xs text-neutral-600">
+            <p className="text-xs text-muted">
               facturas: {report.data.invoices.count} por{' '}
               {formatEuro(report.data.invoices.total)}
             </p>
           </div>
           <div className="rounded-lg bg-accent-soft/40 p-3">
-            <p className="text-xs uppercase text-neutral-500">Por categoría</p>
-            <ul className="mt-1 space-y-0.5 text-xs text-neutral-700">
+            <p className="text-xs uppercase text-subtle">Por categoría</p>
+            <ul className="mt-1 space-y-0.5 text-xs text-body">
               {report.data.expenses.byCategory.map((row) => (
                 <li key={row.category} className="flex justify-between gap-2">
                   <span>{categoryLabels[row.category] ?? row.category}</span>
@@ -110,7 +110,7 @@ export function EconomyReportCard({
                 </li>
               ))}
               {report.data.expenses.byCategory.length === 0 ? (
-                <li className="text-neutral-500">Sin gastos en el periodo</li>
+                <li className="text-subtle">Sin gastos en el periodo</li>
               ) : null}
             </ul>
           </div>

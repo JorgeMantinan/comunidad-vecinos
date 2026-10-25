@@ -7,6 +7,20 @@
       name="description"
       content="Mantivecinos: gestión de comunidades de propietarios"
     />
+    <script>
+      // Tema antes del primer pintado: sin parpadeo blanco ni negro.
+      (function () {
+        try {
+          var guardado = localStorage.getItem('theme');
+          var oscuro = guardado
+            ? guardado === 'dark'
+            : window.matchMedia('(prefers-color-scheme: dark)').matches;
+          if (oscuro) document.documentElement.classList.add('dark');
+        } catch (error) {
+          /* sin almacenamiento disponible: tema claro */
+        }
+      })();
+    </script>
     <title>Mantivecinos</title>
   </head>
   <body>

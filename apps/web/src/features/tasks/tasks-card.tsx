@@ -15,8 +15,8 @@ const statusLabels: Record<TaskStatus, string> = {
 
 const statusBadge: Record<TaskStatus, string> = {
   todo: 'bg-accent-soft text-primary',
-  doing: 'bg-amber-100 text-amber-800',
-  done: 'bg-green-100 text-green-800',
+  doing: 'bg-warning text-on-warning',
+  done: 'bg-success text-on-success',
 };
 
 const recurrenceLabels: Record<TaskRecurrence, string> = {
@@ -82,7 +82,7 @@ export function TasksCard({
 
       {tasks.isLoading ? <Spinner /> : null}
       {!tasks.isLoading && (tasks.data?.length ?? 0) === 0 ? (
-        <p className="text-sm text-neutral-600">No hay tareas pendientes.</p>
+        <p className="text-sm text-muted">No hay tareas pendientes.</p>
       ) : null}
 
       <ul className="divide-y divide-accent-soft">
@@ -90,9 +90,9 @@ export function TasksCard({
           <li key={task.id} className="py-3 text-sm">
             <div className="flex flex-wrap items-start justify-between gap-2">
               <div>
-                <p className="font-medium text-neutral-800">{task.title}</p>
+                <p className="font-medium text-body">{task.title}</p>
                 {task.agreementTitle ? (
-                  <span className="ml-2 rounded-full bg-accent px-2 py-0.5 align-middle text-xs text-white">
+                  <span className="ml-2 rounded-full bg-accent px-2 py-0.5 align-middle text-xs text-on-primary">
                     Derivada de acuerdo
                   </span>
                 ) : null}
@@ -102,9 +102,9 @@ export function TasksCard({
                   </span>
                 ) : null}
                 {task.description ? (
-                  <p className="text-neutral-600">{task.description}</p>
+                  <p className="text-muted">{task.description}</p>
                 ) : null}
-                <p className="mt-1 text-xs text-neutral-500">
+                <p className="mt-1 text-xs text-subtle">
                   {task.dueOn
                     ? `Vence el ${new Date(task.dueOn).toLocaleDateString('es-ES')} · `
                     : ''}
@@ -127,7 +127,7 @@ export function TasksCard({
                         changes: { status: event.target.value as TaskStatus },
                       })
                     }
-                    className="rounded-lg border border-accent bg-white px-2 py-1 text-xs"
+                    className="rounded-lg border border-accent bg-card px-2 py-1 text-xs"
                   >
                     {(Object.entries(statusLabels) as Array<[TaskStatus, string]>).map(
                       ([value, label]) => (
@@ -188,7 +188,7 @@ export function TasksCard({
               >
                 <select
                   id="task-recurrence"
-                  className="w-full rounded-lg border border-accent bg-white px-3 py-2 text-sm"
+                  className="w-full rounded-lg border border-accent bg-card px-3 py-2 text-sm"
                   {...form.register('recurrence')}
                 >
                   <option value="">No se repite</option>
@@ -206,7 +206,7 @@ export function TasksCard({
               >
                 <select
                   id="task-assignee"
-                  className="w-full rounded-lg border border-accent bg-white px-3 py-2 text-sm"
+                  className="w-full rounded-lg border border-accent bg-card px-3 py-2 text-sm"
                   {...form.register('assigneeId')}
                 >
                   <option value="">Sin asignar</option>
