@@ -105,7 +105,7 @@ export function InvitationsCard({
         {invitations.data?.map((invitation) => (
           <li
             key={invitation.id}
-            className="flex items-center justify-between py-2 text-sm"
+            className="flex flex-wrap items-center justify-between gap-2 py-2 text-sm"
           >
             <div>
               <p className="font-medium text-neutral-800">{invitation.email}</p>

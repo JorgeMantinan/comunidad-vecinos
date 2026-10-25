@@ -95,9 +95,11 @@ export function CommunityPage() {
         <Link to="/" className="text-lg font-medium text-primary">
           ← Mis comunidades
         </Link>
-        <div className="mt-2 flex items-center justify-between">
+        <div className="mt-2 flex flex-wrap items-center justify-between gap-2">
           <div>
-            <h1 className="text-3xl font-bold text-primary">{community.data.name}</h1>
+            <h1 className="text-2xl font-bold text-primary sm:text-3xl">
+              {community.data.name}
+            </h1>
             <p className="text-neutral-600">
               {community.data.address ?? 'Sin dirección registrada'}
             </p>

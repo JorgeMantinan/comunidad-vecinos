@@ -50,7 +50,7 @@ export function DashboardPage() {
                 <li key={community.id}>
                   <Link
                     to={`/communities/${community.id}`}
-                    className="flex items-center justify-between py-3 hover:bg-accent-soft/40"
+                    className="flex flex-wrap items-center justify-between gap-2 py-3 hover:bg-accent-soft/40"
                   >
                     <div>
                       <p className="font-medium text-primary">{community.name}</p>
@@ -252,7 +252,7 @@ function PendingInvitations() {
         <ul className="divide-y divide-accent-soft">
           {pending.data.map((invitation) => (
             <li key={invitation.id} className="py-3">
-              <div className="flex items-center justify-between">
+              <div className="flex flex-wrap items-center justify-between gap-2">
                 <div>
                   <p className="font-medium text-neutral-800">
                     {invitation.communityName}

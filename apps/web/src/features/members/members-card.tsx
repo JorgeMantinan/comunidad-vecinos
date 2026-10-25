@@ -18,31 +18,35 @@ export function MembersCard({ communityId }: { communityId: string }) {
   return (
     <Card title="Miembros">
       {members.isLoading ? <Spinner /> : null}
-      <table className="w-full text-sm">
-        <thead>
-          <tr className="border-b border-accent-soft text-left text-neutral-500">
-            <th className="py-2">Nombre</th>
-            <th className="py-2">Email</th>
-            <th className="py-2">Rol</th>
-            <th className="py-2" />
-          </tr>
-        </thead>
-        <tbody>
-          {members.data?.map((member) => (
-            <MemberRow
-              key={member.id}
-              member={member}
-              canManage={
-                myRole !== undefined &&
-                canManageRole(myRole, member.role) &&
-                member.userId !== session?.user.id
-              }
-              onChangeRole={(role) => changeRole.mutate({ memberId: member.id, role })}
-              onRemove={() => removeMember.mutate(member.id)}
-            />
-          ))}
-        </tbody>
-      </table>
+      <div className="overflow-x-auto">
+        <table className="w-full min-w-[540px] text-sm">
+          <thead>
+            <tr className="border-b border-accent-soft text-left text-neutral-500">
+              <th className="py-2">Nombre</th>
+              <th className="py-2">Email</th>
+              <th className="py-2">Rol</th>
+              <th className="py-2" />
+            </tr>
+          </thead>
+          <tbody>
+            {members.data?.map((member) => (
+              <MemberRow
+                key={member.id}
+                member={member}
+                canManage={
+                  myRole !== undefined &&
+                  canManageRole(myRole, member.role) &&
+                  member.userId !== session?.user.id
+                }
+                onChangeRole={(role) =>
+                  changeRole.mutate({ memberId: member.id, role })
+                }
+                onRemove={() => removeMember.mutate(member.id)}
+              />
+            ))}
+          </tbody>
+        </table>
+      </div>
     </Card>
   );
 }

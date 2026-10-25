@@ -31,7 +31,7 @@ export function AdminOverviewCard() {
   return (
     <Card title="Panel de administración">
       <div className="overflow-x-auto">
-        <table className="w-full text-sm">
+        <table className="w-full min-w-[720px] text-sm">
           <thead>
             <tr className="border-b border-accent-soft text-left text-neutral-500">
               <th className="py-2">Comunidad</th>

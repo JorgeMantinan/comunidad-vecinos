@@ -162,44 +162,46 @@ function AssessmentCharges({
   return (
     <div className="mt-3 rounded-lg bg-accent-soft/40 p-3">
       {pay.error ? <ErrorAlert message={pay.error.message} /> : null}
-      <table className="w-full text-sm">
-        <thead>
-          <tr className="text-left text-neutral-500">
-            <th className="py-1">Unidad</th>
-            <th className="py-1 text-right">Cuota</th>
-            <th className="py-1">Estado</th>
-            <th className="py-1" />
-          </tr>
-        </thead>
-        <tbody>
-          {detail.data?.charges.map((charge) => (
-            <tr key={charge.id} className="border-t border-accent-soft">
-              <td className="py-1.5 font-medium text-neutral-800">
-                {charge.unitPortal ? `${charge.unitPortal} · ` : ''}
-                {charge.unitNumber}
-              </td>
-              <td className="py-1.5 text-right">{formatEuro(charge.amount)}</td>
-              <td className="py-1.5">
-                {charge.status === 'paid' ? (
-                  <span className="text-xs text-green-700">Pagada</span>
-                ) : (
-                  <span className="text-xs text-primary">Pendiente</span>
-                )}
-              </td>
-              <td className="py-1.5 text-right">
-                {manage && charge.status === 'pending' ? (
-                  <Button
-                    onClick={() => pay.mutate({ assessmentId, chargeId: charge.id })}
-                    disabled={pay.isPending}
-                  >
-                    Cobrar
-                  </Button>
-                ) : null}
-              </td>
+      <div className="overflow-x-auto">
+        <table className="w-full min-w-[340px] text-sm">
+          <thead>
+            <tr className="text-left text-neutral-500">
+              <th className="py-1">Unidad</th>
+              <th className="py-1 text-right">Cuota</th>
+              <th className="py-1">Estado</th>
+              <th className="py-1" />
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {detail.data?.charges.map((charge) => (
+              <tr key={charge.id} className="border-t border-accent-soft">
+                <td className="py-1.5 font-medium text-neutral-800">
+                  {charge.unitPortal ? `${charge.unitPortal} · ` : ''}
+                  {charge.unitNumber}
+                </td>
+                <td className="py-1.5 text-right">{formatEuro(charge.amount)}</td>
+                <td className="py-1.5">
+                  {charge.status === 'paid' ? (
+                    <span className="text-xs text-green-700">Pagada</span>
+                  ) : (
+                    <span className="text-xs text-primary">Pendiente</span>
+                  )}
+                </td>
+                <td className="py-1.5 text-right">
+                  {manage && charge.status === 'pending' ? (
+                    <Button
+                      onClick={() => pay.mutate({ assessmentId, chargeId: charge.id })}
+                      disabled={pay.isPending}
+                    >
+                      Cobrar
+                    </Button>
+                  ) : null}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
       <p className="mt-2 text-xs text-neutral-600">
         Cobrado {formatEuro((paidTotal / 100).toFixed(2))} de{' '}
         {formatEuro(detail.data?.totalAmount ?? '0.00')} (
