@@ -83,7 +83,7 @@ describe('Patrocinios (publicidad de plataforma)', () => {
     sponsorshipId = sponsorship.id;
   });
 
-  it('rechaza comunidades inexistentes', async () => {
+  it('rechaza comunidades inexistentes y webs con esquemas inseguros', async () => {
     const res = await ctx.request('/api/platform/sponsorships', {
       method: 'POST',
       cookie: platformAdmin.cookie,
@@ -93,6 +93,18 @@ describe('Patrocinios (publicidad de plataforma)', () => {
       },
     });
     expect(res.status).toBe(400);
+
+    // javascript: en un href sería XSS al hacer clic.
+    const unsafeWebsite = await ctx.request('/api/platform/sponsorships', {
+      method: 'POST',
+      cookie: platformAdmin.cookie,
+      body: {
+        businessName: 'Sitio Raro',
+        website: 'javascript:alert(1)',
+        communityIds: [communityId],
+      },
+    });
+    expect(unsafeWebsite.status).toBe(400);
   });
 
   it('la comunidad solo ve publicidad activa, identificada y sin datos privados', async () => {

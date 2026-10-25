@@ -79,6 +79,13 @@ describe('Informe económico por periodo', () => {
       category: 'other',
       incurredOn: '2025-12-31',
     });
+    // Concepto hostil: si el CSV no lo neutraliza, Excel lo ejecutaría.
+    await createExpense({
+      concept: '=cmd|calc!A1',
+      amount: '1.00',
+      category: 'other',
+      incurredOn: '2026-06-01',
+    });
 
     await ctx.request(`/api/communities/${communityId}/invoices`, {
       method: 'POST',
@@ -104,9 +111,9 @@ describe('Informe económico por periodo', () => {
     expect(res.status).toBe(200);
     const report = (await res.json()) as EconomyReport;
 
-    expect(report.expenses.count).toBe(2);
-    expect(report.expenses.total).toBe('100.00');
-    expect(report.expenses.pendingTotal).toBe('39.70');
+    expect(report.expenses.count).toBe(3);
+    expect(report.expenses.total).toBe('101.00');
+    expect(report.expenses.pendingTotal).toBe('40.70');
     expect(report.invoices.count).toBe(1);
     expect(report.invoices.total).toBe('10.00');
     const categories = Object.fromEntries(
@@ -114,7 +121,9 @@ describe('Informe económico por periodo', () => {
     );
     expect(categories.supply).toBe('60.30');
     expect(categories.repair).toBe('39.70');
-    expect(categories.other).toBeUndefined();
+    // Solo el gasto hostil del periodo (el de 2025 queda fuera: si no,
+    // sumaría 999.00).
+    expect(categories.other).toBe('1.00');
   });
 
   it('la residente no lee el informe', async () => {
@@ -145,5 +154,7 @@ describe('Informe económico por periodo', () => {
     expect(csv).toContain('"factura","Suministros SL","10.00"');
     // Fuera de periodo y archivos binarios jamás aparecen.
     expect(csv).not.toContain('Fuera de periodo');
+    // Inyección de fórmulas neutralizada con comilla delante.
+    expect(csv).toContain(`"'=cmd|calc!A1"`);
   });
 });

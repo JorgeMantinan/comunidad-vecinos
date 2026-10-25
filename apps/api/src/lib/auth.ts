@@ -28,6 +28,13 @@ export function createAuth(db: Database, options: AuthOptions) {
       requireEmailVerification: false,
       minPasswordLength: 8,
     },
+    // Límite explícito de intentos de autenticación (fuerza bruta).
+    // Solo activo en producción: los tests reciben tráfico sintético.
+    rateLimit: {
+      enabled: process.env.NODE_ENV === 'production',
+      window: 60,
+      max: 100,
+    },
     session: {
       expiresIn: 60 * 60 * 24 * 30,
       updateAge: 60 * 60 * 24,

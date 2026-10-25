@@ -142,7 +142,15 @@ export async function buildEconomyReport(
   };
 }
 
-const escapeCsv = (value: string): string => `"${value.replaceAll('"', '""')}"`;
+/**
+ * Escapa celdas para CSV. Además neutraliza la «inyección de fórmulas»
+ * de Excel/Sheets (OWASP): un valor que empiece por =, +, - o @ se
+ * interpretaría como fórmula al abrir el archivo; se antepone comilla.
+ */
+const escapeCsv = (value: string): string => {
+  const sanitized = /^[=+\-@\t\r]/.test(value) ? `'${value}` : value;
+  return `"${sanitized.replaceAll('"', '""')}"`;
+};
 
 /** CSV del periodo (gastos y facturas) con BOM para Excel. */
 export async function buildEconomyCsv(

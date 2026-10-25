@@ -41,6 +41,7 @@ export default tseslint.config(
       '**/src/db/backup.ts',
       '**/src/db/restore.ts',
       '**/src/db/purge.ts',
+      '**/src/load-test.ts',
       '**/src/test/**/*.ts',
     ],
     rules: {
