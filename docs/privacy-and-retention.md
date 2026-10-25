@@ -66,6 +66,14 @@ quién solicita servicios o a métricas individuales. La interfaz muestra
 su espacio siempre etiquetado como «Publicidad», separado de las
 recomendaciones vecinales.
 
+**Selección por cercanía (sin geolocalización externa):** el anunciado
+puede indicar una **zona** (ciudad o barrio, p. ej. `Valencia, Rusafa`).
+El servidor la compara con la dirección de la finca y muestra el anuncio
+en las comunidades de esa zona, además de las asignadas a mano. El
+cruce ocurre **solo en el servidor**: el anunciante no recibe la
+dirección ni sabe en qué comunidades se le muestra, y la zona no permite
+identificar a ninguna persona.
+
 Antes de producción: registrar proveedores, ubicación de los datos,
 subencargados y transferencias internacionales. **Regiones en Europa:**
 funciones (`fra1`), almacén de archivos (`fra1`) y base de datos

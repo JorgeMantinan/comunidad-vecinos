@@ -25,6 +25,8 @@ export const sponsorships = pgTable('sponsorships', {
   businessName: text('business_name').notNull(),
   website: text('website'),
   contactEmail: text('contact_email'),
+  /** Zona del anunciante (ciudad o barrio) para mostrar por cercanía. */
+  zone: text('zone'),
   /** Importe mensual acordado (solo visible para la plataforma). */
   monthlyAmount: numeric('monthly_amount', { precision: 10, scale: 2 }),
   status: text('status').$type<SponsorshipStatus>().notNull().default('pending'),

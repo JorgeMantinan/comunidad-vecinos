@@ -17,6 +17,12 @@ export const createSponsorshipInputSchema = z.object({
     .nullish()
     .or(z.literal('')),
   contactEmail: z.email('Email inválido').nullish().or(z.literal('')),
+  /**
+   * Zona del anunciante (ciudad o barrio). El servidor la compara con la
+   * dirección de la finca para mostrar la publicidad por cercanía; no es
+   * geolocalización ni comparte datos de vecinos con el anunciante.
+   */
+  zone: z.string().trim().max(120, 'Zona demasiado larga').nullish().or(z.literal('')),
   monthlyAmount: decimalAmountSchema.nullish().or(z.literal('')),
   notes: z.string().trim().max(1000).nullish(),
   /** Comunidades donde se muestra la publicidad. */
@@ -35,6 +41,7 @@ export const sponsorshipSchema = z.object({
   businessName: z.string(),
   website: z.string().nullable(),
   contactEmail: z.string().nullable(),
+  zone: z.string().nullable(),
   monthlyAmount: decimalAmountSchema.nullable(),
   status: sponsorshipStatusSchema,
   notes: z.string().nullable(),

@@ -1,14 +1,16 @@
-import { and, asc, eq, inArray, sql } from 'drizzle-orm';
+import { asc, eq, inArray, sql } from 'drizzle-orm';
 import type { SponsorshipStatus } from '@comunidad/shared';
 import type { Database } from '../../db/client';
 import { communities, sponsorshipCommunities, sponsorships } from '../../db/schema';
 import { newId } from '../../lib/ids';
+import { zoneMatches } from './zone';
 
 export interface SponsorshipRow {
   id: string;
   businessName: string;
   website: string | null;
   contactEmail: string | null;
+  zone: string | null;
   monthlyAmount: string | null;
   status: SponsorshipStatus;
   notes: string | null;
@@ -21,6 +23,7 @@ const baseColumns = {
   businessName: sponsorships.businessName,
   website: sponsorships.website,
   contactEmail: sponsorships.contactEmail,
+  zone: sponsorships.zone,
   monthlyAmount: sponsorships.monthlyAmount,
   status: sponsorships.status,
   notes: sponsorships.notes,
@@ -90,6 +93,7 @@ export async function createSponsorship(
     businessName: string;
     website: string | null;
     contactEmail: string | null;
+    zone: string | null;
     monthlyAmount: string | null;
     notes: string | null;
     createdById: string;
@@ -104,6 +108,7 @@ export async function createSponsorship(
         businessName: values.businessName,
         website: values.website,
         contactEmail: values.contactEmail,
+        zone: values.zone,
         monthlyAmount: values.monthlyAmount,
         notes: values.notes,
         createdById: values.createdById,
@@ -130,6 +135,7 @@ export async function updateSponsorship(
     businessName?: string;
     website?: string | null;
     contactEmail?: string | null;
+    zone?: string | null;
     monthlyAmount?: string | null;
     notes?: string | null;
     status?: SponsorshipStatus;
@@ -165,26 +171,40 @@ export async function deleteSponsorship(
   await db.delete(sponsorships).where(eq(sponsorships.id, sponsorshipId));
 }
 
-/** Publicidad activa asignada a una comunidad (vista pública). */
+/**
+ * Publicidad visible en una comunidad (vista pública): la asignada a
+ * mano por la plataforma **más** la que coincide con la zona de la finca.
+ */
 export async function listCommunitySponsorships(
   db: Database,
   communityId: string,
 ): Promise<Array<{ id: string; businessName: string; website: string | null }>> {
-  return db
+  const [community] = await db
+    .select({ address: communities.address })
+    .from(communities)
+    .where(eq(communities.id, communityId))
+    .limit(1);
+
+  const active = await db
     .select({
       id: sponsorships.id,
       businessName: sponsorships.businessName,
       website: sponsorships.website,
+      zone: sponsorships.zone,
     })
-    .from(sponsorshipCommunities)
-    .innerJoin(sponsorships, eq(sponsorshipCommunities.sponsorshipId, sponsorships.id))
-    .where(
-      and(
-        eq(sponsorshipCommunities.communityId, communityId),
-        eq(sponsorships.status, 'active'),
-      ),
-    )
+    .from(sponsorships)
+    .where(eq(sponsorships.status, 'active'))
     .orderBy(asc(sponsorships.businessName));
+
+  const assignments = await db
+    .select({ sponsorshipId: sponsorshipCommunities.sponsorshipId })
+    .from(sponsorshipCommunities)
+    .where(eq(sponsorshipCommunities.communityId, communityId));
+  const assigned = new Set(assignments.map((row) => row.sponsorshipId));
+
+  return active
+    .filter((row) => assigned.has(row.id) || zoneMatches(row.zone, community?.address))
+    .map(({ id, businessName, website }) => ({ id, businessName, website }));
 }
 
 /** Cuenta comunidades existentes de una lista (validación de entrada). */

@@ -20,8 +20,10 @@ Además:
    de publicidad de plataforma) con la misma contraseña.
 -  **3 invitaciones pendientes** con enlace de aceptación funcional y
    1 revocada.
--  **3 patrocinios** (2 activos y 1 pendiente) asignados a
-   comunidades, visibles en el panel de publicidad.
+-  **3 patrocinios** (2 activos y 1 pendiente) con **zona**
+   (`Madrid, Sevilla` / `Valencia` / `Madrid`): uno está asignado solo
+   a Madrid y en El Pinar **llega por coincidir la zona**, para poder
+   ver la selección por cercanía en acción.
 -  **Eventos de auditoría** repartidos en el tiempo para que
    «Actividad reciente» tenga contenido.
 -  **Documentos reales** subidos al almacén privado (se descargan con

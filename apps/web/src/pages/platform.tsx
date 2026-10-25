@@ -40,6 +40,7 @@ export function PlatformPage() {
       businessName: '',
       website: '',
       monthlyAmount: '',
+      zone: '',
       notes: '',
       communityIds: [],
     },
@@ -51,6 +52,7 @@ export function PlatformPage() {
         businessName: values.businessName,
         website: values.website || undefined,
         monthlyAmount: values.monthlyAmount || undefined,
+        zone: values.zone || undefined,
         notes: values.notes || undefined,
         communityIds: values.communityIds,
       },
@@ -77,8 +79,10 @@ export function PlatformPage() {
       <header>
         <h1 className="text-2xl font-bold text-primary">Gestión de publicidad</h1>
         <p className="text-sm text-muted">
-          Los patrocinios se muestran como «Publicidad» en las comunidades asignadas.
-          Los anunciantes no acceden a ningún dato de la comunidad.
+          Los patrocinios se muestran como «Publicidad» en las comunidades asignadas y,
+          si indican zona, también en las fincas de esa ciudad o barrio. Los anunciantes
+          no acceden a ningún dato de la comunidad ni saben en qué comunidades se les
+          muestra.
         </p>
       </header>
 
@@ -111,6 +115,7 @@ export function PlatformPage() {
                 <p className="text-xs text-subtle">
                   {sponsorship.communityIds.length} comunidad
                   {sponsorship.communityIds.length === 1 ? '' : 'es'}
+                  {sponsorship.zone ? ` · Zona: ${sponsorship.zone}` : ''}
                   {sponsorship.monthlyAmount
                     ? ` · ${sponsorship.monthlyAmount} €/mes`
                     : ''}
@@ -195,6 +200,19 @@ export function PlatformPage() {
                 />
               </Field>
             </div>
+            <div className="min-w-52 flex-1">
+              <Field
+                label="Zona: ciudad o barrio (opcional)"
+                htmlFor="sponsor-zone"
+                error={form.formState.errors.zone?.message}
+              >
+                <Input
+                  id="sponsor-zone"
+                  placeholder="Valencia, Rusafa"
+                  {...form.register('zone')}
+                />
+              </Field>
+            </div>
           </div>
 
           <Field
@@ -221,6 +239,10 @@ export function PlatformPage() {
                 </span>
               ) : null}
             </div>
+            <p className="mt-1 text-xs text-subtle">
+              Además, si indicas zona, el anuncio se muestra en las fincas cuya
+              dirección incluya esa ciudad o barrio, aunque no estén asignadas.
+            </p>
           </Field>
 
           <Button type="submit" disabled={create.isPending}>

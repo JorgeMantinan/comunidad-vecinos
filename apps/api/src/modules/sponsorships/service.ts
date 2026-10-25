@@ -51,6 +51,7 @@ export async function addSponsorship(
     businessName: input.businessName,
     website: input.website || null,
     contactEmail: input.contactEmail || null,
+    zone: input.zone || null,
     monthlyAmount: input.monthlyAmount || null,
     notes: input.notes ?? null,
     createdById: actor.id,
@@ -87,6 +88,7 @@ export async function editSponsorship(
     businessName?: string;
     website?: string | null;
     contactEmail?: string | null;
+    zone?: string | null;
     monthlyAmount?: string | null;
     notes?: string | null;
     status?: SponsorshipRow['status'];
@@ -96,6 +98,7 @@ export async function editSponsorship(
   if (input.contactEmail !== undefined) {
     values.contactEmail = input.contactEmail || null;
   }
+  if (input.zone !== undefined) values.zone = input.zone || null;
   if (input.monthlyAmount !== undefined) {
     values.monthlyAmount = input.monthlyAmount || null;
   }

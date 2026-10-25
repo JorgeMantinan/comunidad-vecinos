@@ -116,6 +116,10 @@ sesión, nunca desde el cuerpo de la petición).
     comunidad. La publicidad mostrada se identifica siempre como tal y
     solo expone nombre y web: los anunciantes no son usuarios y no
     reciben ningún dato de los vecinos ni de quién solicita servicios.
+    El anuncio aparece en las comunidades **asignadas a mano** y, si
+    lleva **zona** (ciudad o barrio), también en las fincas cuya
+    dirección la incluye: el cruce lo hace el servidor y el anunciante
+    solo conoce su propia zona.
 11. La **baja de la cuenta** elimina la cuenta y las comunidades en las
     que la persona era el único miembro; se bloquea (409) si es la única
     `owner` de una comunidad con más miembros, para no dejarla huérfana.
