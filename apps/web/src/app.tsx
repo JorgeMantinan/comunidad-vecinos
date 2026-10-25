@@ -14,6 +14,7 @@ import { useLogout, useSession } from './lib/auth';
 import { CommunityPage } from './pages/community';
 import { DashboardPage } from './pages/dashboard';
 import { InvitePage } from './pages/invite';
+import { LegalIndexPage, CookiesPage, PrivacyPage, RightsPage } from './pages/legal';
 import { LoginPage } from './pages/login';
 import { MeetingPage } from './pages/meeting';
 import { PlatformPage } from './pages/platform';
@@ -107,6 +108,28 @@ function Header() {
         ) : null}
       </div>
     </header>
+  );
+}
+
+/** Pie con los avisos legales (públicos, sin sesión). */
+function LegalFooter() {
+  return (
+    <footer className="border-t border-accent-soft bg-white">
+      <div className="mx-auto flex max-w-5xl flex-wrap items-center justify-between gap-x-6 gap-y-2 px-4 py-4 text-sm text-neutral-600">
+        <span>Mantivecinos · gestión de comunidades de propietarios</span>
+        <nav aria-label="Avisos legales" className="flex flex-wrap gap-4">
+          <Link to="/legal/privacidad" className="hover:underline">
+            Privacidad
+          </Link>
+          <Link to="/legal/derechos" className="hover:underline">
+            Tus derechos
+          </Link>
+          <Link to="/legal/cookies" className="hover:underline">
+            Cookies
+          </Link>
+        </nav>
+      </div>
+    </footer>
   );
 }
 
@@ -247,9 +270,14 @@ export function App() {
                 </RequireAuth>
               }
             />
+            <Route path="/legal" element={<LegalIndexPage />} />
+            <Route path="/legal/privacidad" element={<PrivacyPage />} />
+            <Route path="/legal/derechos" element={<RightsPage />} />
+            <Route path="/legal/cookies" element={<CookiesPage />} />
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
         </main>
+        <LegalFooter />
       </BrowserRouter>
     </QueryClientProvider>
   );

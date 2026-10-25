@@ -8,6 +8,7 @@ import type { AppEnv } from './lib/context';
 import type { EmailPort } from './lib/email';
 import type { StoragePort } from './lib/storage';
 import { errorHandler, notFoundHandler } from './middleware/error-handler';
+import { accountRoutes } from './modules/account/routes';
 import { adminRoutes } from './modules/admin/routes';
 import { announcementRoutes } from './modules/announcements/routes';
 import { assetRoutes } from './modules/assets/routes';
@@ -100,6 +101,7 @@ export function createApp({
   app.route('/api/communities', exportRoutes(db, auth));
   app.route('/api/communities', auditRoutes(db, auth));
   app.route('/api', invitationRoutes(db, auth, email, config.corsOrigins[0] ?? ''));
+  app.route('/api/account', accountRoutes(db, auth, storage));
   app.route('/api/admin', adminRoutes(db, auth));
   app.route('/api/platform', platformSponsorshipRoutes(db, auth));
   app.route('/api/platform', platformMetricRoutes(db, auth));

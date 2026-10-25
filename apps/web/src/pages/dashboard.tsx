@@ -14,6 +14,7 @@ import {
   Spinner,
 } from '../components/ui';
 import { AdminOverviewCard } from '../features/admin/admin-overview-card';
+import { AccountCard } from '../features/account/account-card';
 import { useAnnouncements } from '../features/announcements/api';
 import { formatEuro, useExpenses } from '../features/expenses/api';
 import { useMeetings } from '../features/meetings/api';
@@ -72,6 +73,8 @@ export function DashboardPage() {
       </div>
 
       <CommunityOverview />
+
+      <AccountCard />
     </div>
   );
 }

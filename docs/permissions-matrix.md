@@ -65,6 +65,17 @@ hacer en esta comunidad". Se implementan por separado.
 \* `admin` solo puede modificar miembros con rol `member` o `resident`;
   nunca a otro `admin` ni al `owner`.
 
+## Acciones sobre la propia cuenta
+
+No dependen de un rol de comunidad: las ejecuta cualquier sesión sobre
+**sus propios datos** (el usuario se resuelve en servidor desde la
+sesión, nunca desde el cuerpo de la petición).
+
+| Acción                              | Requisito                        |
+| ----------------------------------- | -------------------------------- |
+| Descargar los propios datos (JSON)  | Sesión válida                    |
+| Darse de baja                       | Sesión + contraseña + `ELIMINAR` |
+
 ## Reglas de autorización
 
 1.  Toda ruta privada verifica sesión **y** membresía en la comunidad
@@ -100,6 +111,12 @@ hacer en esta comunidad". Se implementan por separado.
     comunidad. La publicidad mostrada se identifica siempre como tal y
     solo expone nombre y web: los anunciantes no son usuarios y no
     reciben ningún dato de los vecinos ni de quién solicita servicios.
+11. La **baja de la cuenta** elimina la cuenta y las comunidades en las
+    que la persona era el único miembro; se bloquea (409) si es la única
+    `owner` de una comunidad con más miembros, para no dejarla huérfana.
+    En el resto de comunidades solo desaparece la membresía y el actor
+    queda anónimo en la auditoría: los registros económicos y las actas
+    se conservan por obligación legal.
 
 ## Evolución
 
