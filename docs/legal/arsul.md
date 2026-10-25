@@ -86,11 +86,16 @@ administradores disponen de la exportación JSON de la comunidad
 (`GET /api/communities/:id/export`). **Pendiente:** ampliarla a la
 exportación individual que puede pedir cualquier persona interesada.
 
-**[PLACEHOLDER — decisión del asesor]** ¿Se ofrece botón de borrado de
-cuenta en la aplicación o se atiende solo por este procedimiento? Hoy la
-baja se resuelve operativamente `[PLACEHOLDER: describir el proceso
-acordado, que incluye borrar la cuenta, sus invitaciones pendientes y
-anonimizar lo que deba conservarse]`.
+**Baja en la aplicación:** la interfaz incluye «Tu cuenta y tus datos →
+Darme de baja» (`DELETE /api/account`), que exige contraseña y la frase
+`ELIMINAR`. Elimina la cuenta, sus invitaciones y las comunidades en las
+que la persona era el único miembro; en las comunidades con más vecinos
+solo desaparece la membresía y el actor queda anónimo en la auditoría,
+conservándose actas y registros económicos (sección 3). Si es la única
+`owner` de una comunidad con otros miembros, la aplicación **bloquea la
+baja** y pide transferir antes la presidencia. **[PLACEHOLDER —
+decisión del asesor]** validar este criterio y, si procede, habilitar un
+proceso excepcional de baja asistida.
 
 ## 5. Solicitudes de terceros mencionados en actas
 
@@ -124,12 +129,15 @@ que aparecen en actas o documentación aportada por otros. En ese caso:
 
 ## 8. Comprobación técnica antes de publicar
 
--  [ ] Canal de contacto publicado en la política de privacidad.
+-  [x] Canal de contacto publicado en la política de privacidad
+      (`/legal`, contacto configurable con `VITE_LEGAL_CONTACT_EMAIL`).
+-  [x] Exportación de datos: comunidad (owner/admin) **y personal**
+      (`GET /api/account/export`), con botón en el panel.
+-  [x] Baja de cuenta en la aplicación, probada con tests.
+-  [x] Borrado de los archivos privados de las comunidades eliminadas
+      (incluido en el proceso de baja).
+-  [ ] Verificar que el borrado llega a los respaldos antes de los
+      30 días de rotación.
 -  [ ] Acuse de recibo automático o manual en 3 días hábiles.
--  [ ] Exportación de datos disponible (hoy: comunidad, pendiente
-      individual).
--  [ ] Proceso de baja de cuenta definido y probado end-to-end.
--  [ ] Borrado de archivos privados verificado (incluidos los respaldos
-      en 30 días).
 -  [ ] Registro de solicitudes en marcha.
 -  [ ] Personal formado: quién recibe, quién responde, quién escala.

@@ -42,6 +42,27 @@ test('login navega al panel y NO se queda en /login (regresión)', async ({ page
   await expect(page.getByText('Mis comunidades')).toBeVisible();
 });
 
+test('los avisos legales son públicos y navegan', async ({ page }) => {
+  await page.goto('/legal');
+  await expect(
+    page.getByRole('link', { name: /Política de privacidad/ }),
+  ).toBeVisible();
+
+  await page.getByRole('link', { name: /Política de privacidad/ }).click();
+  await page.waitForURL('/legal/privacidad');
+  await expect(
+    page.getByRole('heading', { name: 'Política de privacidad' }),
+  ).toBeVisible();
+  await expect(page.getByText(/No hay perfiles automáticos/)).toBeVisible();
+
+  // Vuelta al índice y a derechos (sin sesión).
+  await page.getByRole('link', { name: /Volver a avisos legales/ }).click();
+  await page.waitForURL('/legal');
+  await page.getByRole('link', { name: /Tus derechos/ }).click();
+  await page.waitForURL('/legal/derechos');
+  await expect(page.getByRole('link', { name: 'www.aepd.es' })).toBeVisible();
+});
+
 test('crear comunidad abre el menú de botones y publica un aviso', async ({ page }) => {
   await page.goto('/register');
   await page.getByLabel('Nombre').fill('Menu E2E');

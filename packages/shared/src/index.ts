@@ -1,4 +1,5 @@
 export * from './api';
+export * from './account';
 export * from './admin';
 export * from './announcements';
 export * from './assets';
