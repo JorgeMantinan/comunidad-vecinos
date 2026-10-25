@@ -10,13 +10,16 @@ import { Hono } from 'hono';
 import type { Database } from '../../db/client';
 import type { Auth } from '../../lib/auth';
 import type { AppEnv } from '../../lib/context';
+import type { EmailPort } from '../../lib/email';
 import { jsonBody, pathParams, toIso } from '../../lib/http';
+import { findCommunityOfUser } from '../communities/repository';
 import { requireAuth } from '../../middleware/require-auth';
 import {
   adminRoles,
   requireCommunityRole,
 } from '../../middleware/require-community-role';
 import { listInvitations, listPendingInvitationsForEmail } from './repository';
+import { sendInvitationEmail } from './email';
 import {
   acceptInvitation,
   createInvitation,
@@ -30,7 +33,12 @@ const invitationParamsSchema = z.object({
   invitationId: z.string().min(1),
 });
 
-export function invitationRoutes(db: Database, auth: Auth): Hono<AppEnv> {
+export function invitationRoutes(
+  db: Database,
+  auth: Auth,
+  email: EmailPort,
+  webBaseUrl: string,
+): Hono<AppEnv> {
   const routes = new Hono<AppEnv>();
 
   /** Crea una invitación. Devuelve el token una única vez. */
@@ -41,7 +49,26 @@ export function invitationRoutes(db: Database, auth: Auth): Hono<AppEnv> {
     async (c) => {
       const { id } = pathParams(communityParamsSchema, c.req.param());
       const input = await jsonBody(createInvitationInputSchema, c);
-      const created = await createInvitation(db, c.get('user'), id, input);
+      const user = c.get('user');
+      const created = await createInvitation(db, user, id, input);
+
+      // El correo es best-effort: el enlace también queda en la respuesta
+      // y en la lista de pendientes del invitado.
+      void findCommunityOfUser(db, user.id, id)
+        .then((community) =>
+          sendInvitationEmail(email, {
+            to: input.email,
+            communityName: community?.name ?? 'una comunidad',
+            role: input.role,
+            token: created.token,
+            expiresAt: new Date(created.invitation.expiresAt),
+            webBaseUrl,
+          }),
+        )
+        .catch((error: unknown) => {
+          console.error('[correo] no se pudo enviar la invitación', error);
+        });
+
       return c.json(
         {
           invitation: invitationSchema.parse(created.invitation),

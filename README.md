@@ -8,8 +8,8 @@ documentación y profesionales desde una única plataforma.
 > privados: incidencias (con fotos), tareas, sugerencias, encuestas,
 > inventario, contratos y profesionales; documentación privada en
 > Vercel Blob con descargas por URL firmada.
-> Pendientes: notificaciones por correo (requiere API key) y
-> patrocinios (Fase 5).
+> Pendientes: activar el correo con `RESEND_API_KEY` (adaptador listo)
+> y patrocinios (Fase 5).
 
 ## Enlaces
 

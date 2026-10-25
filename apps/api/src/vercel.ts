@@ -3,6 +3,7 @@ import { createApp } from './app';
 import { loadConfig } from './config';
 import { createDatabase } from './db/client';
 import { createAuth } from './lib/auth';
+import { createEmailSender } from './lib/email';
 import { createBlobStorage } from './lib/storage';
 
 /**
@@ -25,7 +26,13 @@ const auth = createAuth(db, {
   trustedOrigins: config.corsOrigins,
   nodeEnv: config.nodeEnv,
 });
-const app = createApp({ db, auth, config, storage: createBlobStorage() });
+const app = createApp({
+  db,
+  auth,
+  config,
+  storage: createBlobStorage(),
+  email: createEmailSender(),
+});
 
 /**
  * El runtime de Node de Vercel detecta los manejadores web por el

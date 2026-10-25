@@ -57,8 +57,11 @@ EE. UU.).
 
 ## Pendiente
 
--  Proveedor de correo transaccional (invitaciones y avisos): requiere
-   API key (`RESEND_API_KEY`) y registro del remitente.
+-  **Correo (Resend)**: el adaptador está implementado
+   (`apps/api/src/lib/email.ts` + plantilla de invitación) y se activa
+   solo al definir `RESEND_API_KEY` (+ `EMAIL_FROM` con el remitente
+   verificado). Sin clave, el envío se omite con aviso y el enlace de
+   invitación sigue disponible en la interfaz.
 -  Documento de privacidad para usuarios finales.
 -  Registro de tratamiento de actividades.
 -  Procedimiento operativo de atención de solicitudes ARSUL.

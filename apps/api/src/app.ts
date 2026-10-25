@@ -5,6 +5,7 @@ import type { AppConfig } from './config';
 import type { Database } from './db/client';
 import type { Auth } from './lib/auth';
 import type { AppEnv } from './lib/context';
+import type { EmailPort } from './lib/email';
 import type { StoragePort } from './lib/storage';
 import { errorHandler, notFoundHandler } from './middleware/error-handler';
 import { announcementRoutes } from './modules/announcements/routes';
@@ -32,6 +33,7 @@ export interface AppDependencies {
   auth: Auth;
   config: AppConfig;
   storage: StoragePort;
+  email: EmailPort;
 }
 
 /**
@@ -43,6 +45,7 @@ export function createApp({
   auth,
   config,
   storage,
+  email,
 }: AppDependencies): Hono<AppEnv> {
   const app = new Hono<AppEnv>();
 
@@ -80,7 +83,7 @@ export function createApp({
   app.route('/api/communities', documentRoutes(db, auth, storage));
   app.route('/api/communities', exportRoutes(db, auth));
   app.route('/api/communities', auditRoutes(db, auth));
-  app.route('/api', invitationRoutes(db, auth));
+  app.route('/api', invitationRoutes(db, auth, email, config.corsOrigins[0] ?? ''));
 
   return app;
 }
