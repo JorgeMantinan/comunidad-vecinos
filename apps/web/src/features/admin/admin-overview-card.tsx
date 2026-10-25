@@ -75,7 +75,9 @@ export function AdminOverviewCard() {
         </table>
       </div>
       <p className="mt-3 text-xs text-neutral-500">
-        Renovaciones próximas: contratos que vencen en los próximos 30 días.
+        «Renuevan pronto»: contratos de servicio (ascensor, limpieza, jardinería…) que
+        vencen en los próximos 30 días. Conviene revisarlos a tiempo para prorrogarlos o
+        pedir otras ofertas.
       </p>
     </Card>
   );
