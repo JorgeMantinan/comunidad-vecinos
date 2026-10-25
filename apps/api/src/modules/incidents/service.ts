@@ -1,7 +1,14 @@
-import type { CreateIncidentInput, UpdateIncidentInput } from '@comunidad/shared';
+import type {
+  CreateIncidentInput,
+  UpdateIncidentInput,
+  UploadPhotoInput,
+} from '@comunidad/shared';
+import { MAX_FILE_BYTES } from '@comunidad/shared';
 import { recordAuditEvent } from '../../lib/audit';
 import type { Database } from '../../db/client';
-import { notFound } from '../../lib/errors';
+import { forbidden, notFound, validationError } from '../../lib/errors';
+import { newId } from '../../lib/ids';
+import { SIGNED_URL_TTL_MS, type StoragePort } from '../../lib/storage';
 import * as repo from './repository';
 import type { IncidentRow } from './repository';
 
@@ -106,5 +113,122 @@ export async function removeIncident(
     targetType: 'incident',
     targetId: incidentId,
     metadata: { title: existing.title },
+  });
+}
+
+const PHOTO_EXTENSION_BY_TYPE: Record<string, string> = {
+  'image/jpeg': '.jpg',
+  'image/png': '.png',
+  'image/webp': '.webp',
+};
+
+function decodePhotoOrThrow(contentBase64: string): Buffer {
+  const bytes = Buffer.from(contentBase64, 'base64');
+  if (bytes.byteLength === 0) {
+    throw validationError('La fotograf�a est� vac�a');
+  }
+  if (bytes.byteLength > MAX_FILE_BYTES) {
+    throw validationError('La fotograf�a supera el l�mite de 3 MB');
+  }
+  return bytes;
+}
+
+export interface PhotoActor {
+  id: string;
+  name: string;
+}
+
+export interface PhotoDeleterActor {
+  id: string;
+  role: 'owner' | 'admin' | 'member' | 'resident';
+}
+
+/** Adjunta una fotograf�a a una incidencia (cualquier miembro). */
+export async function uploadPhoto(
+  db: Database,
+  storage: StoragePort,
+  actor: PhotoActor,
+  communityId: string,
+  incidentId: string,
+  input: UploadPhotoInput,
+): Promise<repo.PhotoRow> {
+  const incident = await repo.findIncidentById(db, communityId, incidentId);
+  if (!incident) {
+    throw notFound('Incidencia no encontrada');
+  }
+
+  const bytes = decodePhotoOrThrow(input.contentBase64);
+  const photoId = newId('pho');
+  const extension = PHOTO_EXTENSION_BY_TYPE[input.contentType] ?? '';
+  const storageKey = `communities/${communityId}/incidents/${incidentId}/photos/${photoId}${extension}`;
+
+  const stored = await storage.put(storageKey, bytes, input.contentType);
+  const photo = await repo.insertPhoto(db, {
+    id: photoId,
+    incidentId,
+    communityId,
+    storageKey: stored.key,
+    contentType: input.contentType,
+    sizeBytes: stored.size,
+    uploadedById: actor.id,
+  });
+
+  await recordAuditEvent(db, {
+    communityId,
+    actorId: actor.id,
+    action: 'incident.photo_added',
+    targetType: 'incident',
+    targetId: incidentId,
+    metadata: { photoId, sizeBytes: photo.sizeBytes },
+  });
+
+  return { ...photo, uploadedByName: actor.name };
+}
+
+/** URL firmada (10 min) para ver una fotograf�a. */
+export async function getPhotoDownload(
+  db: Database,
+  storage: StoragePort,
+  communityId: string,
+  incidentId: string,
+  photoId: string,
+): Promise<{ url: string; expiresInSeconds: number }> {
+  const photo = await repo.findPhotoById(db, communityId, photoId);
+  if (!photo || photo.incidentId !== incidentId) {
+    throw notFound('Fotograf�a no encontrada');
+  }
+
+  const url = await storage.getSignedUrl(photo.storageKey, SIGNED_URL_TTL_MS);
+  return { url, expiresInSeconds: SIGNED_URL_TTL_MS / 1000 };
+}
+
+/** La pueden borrar su autor o la administraci�n de la comunidad. */
+export async function removePhoto(
+  db: Database,
+  storage: StoragePort,
+  actor: PhotoDeleterActor,
+  communityId: string,
+  incidentId: string,
+  photoId: string,
+): Promise<void> {
+  const photo = await repo.findPhotoById(db, communityId, photoId);
+  if (!photo || photo.incidentId !== incidentId) {
+    throw notFound('Fotograf�a no encontrada');
+  }
+  const isAdmin = actor.role === 'owner' || actor.role === 'admin';
+  if (!isAdmin && photo.uploadedById !== actor.id) {
+    throw forbidden('Solo puedes eliminar tus propias fotograf�as');
+  }
+
+  await storage.delete(photo.storageKey);
+  await repo.deletePhoto(db, photoId);
+
+  await recordAuditEvent(db, {
+    communityId,
+    actorId: actor.id,
+    action: 'incident.photo_removed',
+    targetType: 'incident',
+    targetId: incidentId,
+    metadata: { photoId },
   });
 }

@@ -5,6 +5,7 @@ import {
   communitySummarySchema,
   communityIdSchema,
   contractSchema,
+  documentSchema,
   expenseSchema,
   incidentSchema,
   invoiceSchema,
@@ -22,8 +23,9 @@ import { findCommunityOfUser, listMembers } from '../communities/repository';
 import { listAnnouncements } from '../announcements/repository';
 import { listAssets } from '../assets/repository';
 import { listContracts } from '../contracts/repository';
+import { listDocuments } from '../documents/repository';
 import { listExpenses } from '../expenses/repository';
-import { listIncidents } from '../incidents/repository';
+import { listIncidents, listPhotosByCommunity } from '../incidents/repository';
 import { listInvoices } from '../invoices/repository';
 import { listMeetings } from '../meetings/repository';
 import { getMeetingDetail } from '../meetings/service';
@@ -83,6 +85,8 @@ export function exportRoutes(db: Database, auth: Auth): Hono<AppEnv> {
         assetRows,
         contractRows,
         professionalRows,
+        documentRows,
+        photoRows,
       ] = await Promise.all([
         listMembers(db, id),
         listUnits(db, id),
@@ -98,7 +102,16 @@ export function exportRoutes(db: Database, auth: Auth): Hono<AppEnv> {
         listAssets(db, id),
         listContracts(db, id),
         listProfessionals(db, id),
+        listDocuments(db, id),
+        listPhotosByCommunity(db, id),
       ]);
+
+      const photosByIncident = new Map<string, typeof photoRows>();
+      for (const photo of photoRows) {
+        const list = photosByIncident.get(photo.incidentId) ?? [];
+        list.push(photo);
+        photosByIncident.set(photo.incidentId, list);
+      }
 
       const meetingDetails = await Promise.all(
         meetingRows.map((meeting) => getMeetingDetail(db, id, meeting.id)),
@@ -172,6 +185,19 @@ export function exportRoutes(db: Database, auth: Auth): Hono<AppEnv> {
           incidentRows.map((row) => ({
             ...row,
             resolvedAt: toIsoOrNull(row.resolvedAt),
+            createdAt: toIso(row.createdAt),
+            photos: (photosByIncident.get(row.id) ?? []).map((photo) => ({
+              id: photo.id,
+              contentType: photo.contentType,
+              sizeBytes: photo.sizeBytes,
+              uploadedByName: photo.uploadedByName,
+              createdAt: toIso(photo.createdAt),
+            })),
+          })),
+        ),
+        documents: z.array(documentSchema).parse(
+          documentRows.map((row) => ({
+            ...row,
             createdAt: toIso(row.createdAt),
           })),
         ),

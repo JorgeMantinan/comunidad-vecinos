@@ -79,6 +79,16 @@ Roles (`community_memberships.role`):
    (recomendación vecinal; los patrocinios identificados llegan en la
    Fase 5 como entidad separada).
 
+## Archivos privados (Vercel Blob)
+
+-  `documents` — documentación privada: metadatos en BD (título,
+   categoría, tipo MIME, tamaño, quién lo subió) y **binario en el
+   almacén privado** `mantivecinos` (Vercel Blob `access: 'private'`).
+   Cada descarga entrega una **URL firmada de 10 minutos**; nunca
+   existen URLs públicas permanentes.
+-  `incident_photos` — fotografías de incidencias: misma política;
+   subida limitada a 3 MB y tipos MIME de imagen.
+
 ## Mapa objetivo (fases posteriores)
 
 | Área           | Entidades                                                            |

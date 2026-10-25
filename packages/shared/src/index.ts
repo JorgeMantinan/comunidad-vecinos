@@ -5,6 +5,7 @@ export * from './assessments';
 export * from './audit';
 export * from './communities';
 export * from './contracts';
+export * from './documents';
 export * from './expenses';
 export * from './health';
 export * from './incidents';

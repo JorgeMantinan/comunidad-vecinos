@@ -1,5 +1,6 @@
 import { z } from 'zod';
 import { communityIdSchema } from './communities';
+import { incidentPhotoSchema } from './documents';
 
 export const incidentStatusSchema = z.enum(['open', 'in_progress', 'resolved']);
 export type IncidentStatus = z.infer<typeof incidentStatusSchema>;
@@ -30,5 +31,7 @@ export const incidentSchema = z.object({
   reportedByName: z.string().nullable(),
   resolvedAt: z.iso.datetime().nullable(),
   createdAt: z.iso.datetime(),
+  /** Fotografías adjuntas (URLs firmadas se piden bajo demanda). */
+  photos: z.array(incidentPhotoSchema),
 });
 export type IncidentView = z.infer<typeof incidentSchema>;

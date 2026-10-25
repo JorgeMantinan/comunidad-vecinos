@@ -44,12 +44,21 @@ legal (ej. registros económicos), no solo borrado físico.
 
 ## Proveedores
 
+| Servicio | Uso | Notas |
+| -------- | --- | ----- |
+| **Vercel Blob** (tienda `mantivecinos`, región `iad1`) | Documentación privada y fotos de incidencias (`access: 'private'`) | Binarios nunca en la BD; descarga solo con URL firmada de 10 min; token en variables de entorno de Vercel |
+| **Neon** (región `eu-west-2`, Reino Unido) | PostgreSQL | Migraciones exclusivamente desde el repositorio |
+| **Vercel Functions** | API y frontend | Cookies de sesión `SameSite=None; Secure` en producción |
+
 Antes de producción: registrar proveedores, ubicación de los datos,
 subencargados y transferencias internacionales. Priorizar proveedores
-con datos en la UE.
+con datos en la UE (revisar la región del almacén de Blob: `iad1`,
+EE. UU.).
 
 ## Pendiente
 
+-  Proveedor de correo transaccional (invitaciones y avisos): requiere
+   API key (`RESEND_API_KEY`) y registro del remitente.
 -  Documento de privacidad para usuarios finales.
 -  Registro de tratamiento de actividades.
 -  Procedimiento operativo de atención de solicitudes ARSUL.

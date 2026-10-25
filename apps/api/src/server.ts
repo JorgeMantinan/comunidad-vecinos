@@ -4,6 +4,7 @@ import { loadConfig } from './config';
 import { createDatabase } from './db/client';
 import { createLocalDatabase } from './db/local';
 import { createAuth } from './lib/auth';
+import { createBlobStorage } from './lib/storage';
 
 const config = loadConfig();
 
@@ -18,7 +19,12 @@ const auth = createAuth(connection.db, {
   nodeEnv: config.nodeEnv,
 });
 
-const app = createApp({ db: connection.db, auth, config });
+const app = createApp({
+  db: connection.db,
+  auth,
+  config,
+  storage: createBlobStorage(),
+});
 
 const server = serve({ fetch: app.fetch, port: config.port }, (info) => {
   console.info(`API escuchando en http://localhost:${info.port}`);
