@@ -53,7 +53,7 @@ export function InvoicesCard({
 
       {invoices.isLoading ? <Spinner /> : null}
       {!invoices.isLoading && rows.length === 0 ? (
-        <p className="text-sm text-neutral-600">No hay facturas registradas.</p>
+        <p className="text-sm text-muted">No hay facturas registradas.</p>
       ) : null}
 
       <ul className="divide-y divide-accent-soft">
@@ -61,10 +61,10 @@ export function InvoicesCard({
           <li key={invoice.id} className="py-3 text-sm">
             <div className="flex flex-wrap items-start justify-between gap-2">
               <div>
-                <p className="font-medium text-neutral-800">
+                <p className="font-medium text-body">
                   {invoice.number} · {invoice.supplier}
                 </p>
-                <p className="text-neutral-600">
+                <p className="text-muted">
                   Emitida el {new Date(invoice.issuedOn).toLocaleDateString('es-ES')}
                   {invoice.notes ? ` · ${invoice.notes}` : ''}
                 </p>
@@ -76,7 +76,7 @@ export function InvoicesCard({
                 <span
                   className={
                     invoice.status === 'paid'
-                      ? 'rounded-full bg-green-100 px-2 py-0.5 text-xs text-green-800'
+                      ? 'rounded-full bg-success px-2 py-0.5 text-xs text-on-success'
                       : 'rounded-full bg-accent-soft px-2 py-0.5 text-xs text-primary'
                   }
                 >

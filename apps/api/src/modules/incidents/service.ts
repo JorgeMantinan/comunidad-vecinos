@@ -125,10 +125,10 @@ const PHOTO_EXTENSION_BY_TYPE: Record<string, string> = {
 function decodePhotoOrThrow(contentBase64: string): Buffer {
   const bytes = Buffer.from(contentBase64, 'base64');
   if (bytes.byteLength === 0) {
-    throw validationError('La fotograf�a est� vac�a');
+    throw validationError('La fotografía está vacía');
   }
   if (bytes.byteLength > MAX_FILE_BYTES) {
-    throw validationError('La fotograf�a supera el l�mite de 3 MB');
+    throw validationError('La fotografía supera el límite de 3 MB');
   }
   return bytes;
 }
@@ -143,7 +143,7 @@ export interface PhotoDeleterActor {
   role: 'owner' | 'admin' | 'member' | 'resident';
 }
 
-/** Adjunta una fotograf�a a una incidencia (cualquier miembro). */
+/** Adjunta una fotografía a una incidencia (cualquier miembro). */
 export async function uploadPhoto(
   db: Database,
   storage: StoragePort,
@@ -185,7 +185,7 @@ export async function uploadPhoto(
   return { ...photo, uploadedByName: actor.name };
 }
 
-/** URL firmada (10 min) para ver una fotograf�a. */
+/** URL firmada (10 min) para ver una fotografía. */
 export async function getPhotoDownload(
   db: Database,
   storage: StoragePort,
@@ -195,14 +195,14 @@ export async function getPhotoDownload(
 ): Promise<{ url: string; expiresInSeconds: number }> {
   const photo = await repo.findPhotoById(db, communityId, photoId);
   if (!photo || photo.incidentId !== incidentId) {
-    throw notFound('Fotograf�a no encontrada');
+    throw notFound('Fotografía no encontrada');
   }
 
   const url = await storage.getSignedUrl(photo.storageKey, SIGNED_URL_TTL_MS);
   return { url, expiresInSeconds: SIGNED_URL_TTL_MS / 1000 };
 }
 
-/** La pueden borrar su autor o la administraci�n de la comunidad. */
+/** La pueden borrar su autor o la administración de la comunidad. */
 export async function removePhoto(
   db: Database,
   storage: StoragePort,
@@ -213,11 +213,11 @@ export async function removePhoto(
 ): Promise<void> {
   const photo = await repo.findPhotoById(db, communityId, photoId);
   if (!photo || photo.incidentId !== incidentId) {
-    throw notFound('Fotograf�a no encontrada');
+    throw notFound('Fotografía no encontrada');
   }
   const isAdmin = actor.role === 'owner' || actor.role === 'admin';
   if (!isAdmin && photo.uploadedById !== actor.id) {
-    throw forbidden('Solo puedes eliminar tus propias fotograf�as');
+    throw forbidden('Solo puedes eliminar tus propias fotografías');
   }
 
   await storage.delete(photo.storageKey);

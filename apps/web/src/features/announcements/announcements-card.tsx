@@ -54,7 +54,7 @@ export function AnnouncementsCard({
 
       {announcements.isLoading ? <Spinner /> : null}
       {announcements.data && announcements.data.length === 0 ? (
-        <p className="text-sm text-neutral-600">No hay avisos publicados.</p>
+        <p className="text-sm text-muted">No hay avisos publicados.</p>
       ) : null}
 
       <ul className="divide-y divide-accent-soft">
@@ -62,11 +62,11 @@ export function AnnouncementsCard({
           <li key={announcement.id} className="py-3">
             <div className="flex items-start justify-between gap-3">
               <div>
-                <p className="font-medium text-neutral-800">{announcement.title}</p>
-                <p className="whitespace-pre-line text-sm text-neutral-600">
+                <p className="font-medium text-body">{announcement.title}</p>
+                <p className="whitespace-pre-line text-sm text-muted">
                   {announcement.body}
                 </p>
-                <p className="mt-1 text-xs text-neutral-500">
+                <p className="mt-1 text-xs text-subtle">
                   {new Date(announcement.publishedAt).toLocaleString('es-ES')}
                   {announcement.authorName ? ` · ${announcement.authorName}` : ''}
                 </p>
@@ -103,7 +103,7 @@ export function AnnouncementsCard({
             <textarea
               id="announcement-body"
               rows={3}
-              className="w-full rounded-lg border border-accent bg-white px-3 py-2 text-sm outline-none focus:border-primary focus:ring-2 focus:ring-accent-soft"
+              className="w-full rounded-lg border border-accent bg-card px-3 py-2 text-sm outline-none focus:border-primary focus:ring-2 focus:ring-accent-soft"
               {...form.register('body')}
             />
           </Field>

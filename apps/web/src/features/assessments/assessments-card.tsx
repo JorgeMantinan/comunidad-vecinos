@@ -48,7 +48,7 @@ export function AssessmentsCard({
 
       {assessments.isLoading ? <Spinner /> : null}
       {!assessments.isLoading && (assessments.data?.length ?? 0) === 0 ? (
-        <p className="text-sm text-neutral-600">
+        <p className="text-sm text-muted">
           No hay derramas. Necesitas unidades registradas para repartir el importe.
         </p>
       ) : null}
@@ -68,7 +68,7 @@ export function AssessmentsCard({
                 aria-expanded={openId === assessment.id}
               >
                 <p className="font-medium text-primary">{assessment.concept}</p>
-                <p className="text-neutral-600">
+                <p className="text-muted">
                   {formatEuro(assessment.totalAmount)} ·{' '}
                   {new Date(assessment.createdAt).toLocaleDateString('es-ES')}
                 </p>
@@ -165,7 +165,7 @@ function AssessmentCharges({
       <div className="overflow-x-auto">
         <table className="w-full min-w-[340px] text-sm">
           <thead>
-            <tr className="text-left text-neutral-500">
+            <tr className="text-left text-subtle">
               <th className="py-1">Unidad</th>
               <th className="py-1 text-right">Cuota</th>
               <th className="py-1">Estado</th>
@@ -175,14 +175,14 @@ function AssessmentCharges({
           <tbody>
             {detail.data?.charges.map((charge) => (
               <tr key={charge.id} className="border-t border-accent-soft">
-                <td className="py-1.5 font-medium text-neutral-800">
+                <td className="py-1.5 font-medium text-body">
                   {charge.unitPortal ? `${charge.unitPortal} · ` : ''}
                   {charge.unitNumber}
                 </td>
                 <td className="py-1.5 text-right">{formatEuro(charge.amount)}</td>
                 <td className="py-1.5">
                   {charge.status === 'paid' ? (
-                    <span className="text-xs text-green-700">Pagada</span>
+                    <span className="text-xs text-on-success">Pagada</span>
                   ) : (
                     <span className="text-xs text-primary">Pendiente</span>
                   )}
@@ -202,7 +202,7 @@ function AssessmentCharges({
           </tbody>
         </table>
       </div>
-      <p className="mt-2 text-xs text-neutral-600">
+      <p className="mt-2 text-xs text-muted">
         Cobrado {formatEuro((paidTotal / 100).toFixed(2))} de{' '}
         {formatEuro(detail.data?.totalAmount ?? '0.00')} (
         {Math.round((paidTotal / Math.max(totalCents, 1)) * 100)}%)

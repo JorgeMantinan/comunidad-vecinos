@@ -82,7 +82,7 @@ export function RegisterPage() {
             {register.isPending ? 'Creando…' : 'Crear cuenta'}
           </Button>
         </form>
-        <p className="mt-4 text-center text-sm text-neutral-600">
+        <p className="mt-4 text-center text-sm text-muted">
           ¿Ya tienes cuenta?{' '}
           <Link to="/login" className="font-medium text-primary">
             Inicia sesión

@@ -71,7 +71,7 @@ export function MeetingPage() {
         <div className="mt-2 flex flex-wrap items-center justify-between gap-2">
           <div>
             <h1 className="text-2xl font-bold text-primary">{meeting.title}</h1>
-            <p className="text-neutral-600">
+            <p className="text-muted">
               {new Date(meeting.scheduledFor).toLocaleString('es-ES', {
                 dateStyle: 'full',
                 timeStyle: 'short',
@@ -109,7 +109,7 @@ export function MeetingPage() {
       />
 
       {!manage && session ? (
-        <p className="text-sm text-neutral-500">
+        <p className="text-sm text-subtle">
           Tu rol en esta comunidad no permite gestionar la reunión.
         </p>
       ) : null}
@@ -148,17 +148,17 @@ function AgendaSection({
       {remove.error ? <ErrorAlert message={remove.error.message} /> : null}
 
       {meeting.agenda.length === 0 ? (
-        <p className="text-sm text-neutral-600">Todavía no hay puntos propuestos.</p>
+        <p className="text-sm text-muted">Todavía no hay puntos propuestos.</p>
       ) : (
         <ol className="space-y-3">
           {meeting.agenda.map((item) => (
             <li key={item.id} className="flex items-start justify-between gap-3">
               <div>
-                <p className="font-medium text-neutral-800">
+                <p className="font-medium text-body">
                   {item.position}. {item.title}
                 </p>
                 {item.description ? (
-                  <p className="text-sm text-neutral-600">{item.description}</p>
+                  <p className="text-sm text-muted">{item.description}</p>
                 ) : null}
               </div>
               {manage ? (
@@ -229,13 +229,9 @@ function MinutesSection({
     return (
       <Card title="Acta">
         {meeting.minutes ? (
-          <p className="whitespace-pre-line text-sm text-neutral-700">
-            {meeting.minutes}
-          </p>
+          <p className="whitespace-pre-line text-sm text-body">{meeting.minutes}</p>
         ) : (
-          <p className="text-sm text-neutral-600">
-            El acta todavía no está disponible.
-          </p>
+          <p className="text-sm text-muted">El acta todavía no está disponible.</p>
         )}
       </Card>
     );
@@ -250,7 +246,7 @@ function MinutesSection({
           rows={6}
           value={draft}
           onChange={(event) => setDraft(event.target.value)}
-          className="w-full rounded-lg border border-accent bg-white px-3 py-2 text-sm outline-none focus:border-primary focus:ring-2 focus:ring-accent-soft"
+          className="w-full rounded-lg border border-accent bg-card px-3 py-2 text-sm outline-none focus:border-primary focus:ring-2 focus:ring-accent-soft"
           placeholder="Acuerdos, intervenciones…"
         />
       </Field>
@@ -258,7 +254,7 @@ function MinutesSection({
         <div>
           <label
             htmlFor="meeting-status"
-            className="mb-1 block text-sm font-medium text-neutral-700"
+            className="mb-1 block text-sm font-medium text-body"
           >
             Estado
           </label>
@@ -273,7 +269,7 @@ function MinutesSection({
                 },
               })
             }
-            className="rounded-lg border border-accent bg-white px-3 py-2 text-sm"
+            className="rounded-lg border border-accent bg-card px-3 py-2 text-sm"
           >
             {(Object.entries(statusLabels) as Array<[MeetingStatus, string]>).map(
               ([value, label]) => (
@@ -329,17 +325,17 @@ function AgreementsSection({
       {createTask.error ? <ErrorAlert message={createTask.error.message} /> : null}
 
       {meeting.agreements.length === 0 ? (
-        <p className="text-sm text-neutral-600">No hay acuerdos registrados.</p>
+        <p className="text-sm text-muted">No hay acuerdos registrados.</p>
       ) : (
         <ul className="divide-y divide-accent-soft">
           {meeting.agreements.map((agreement) => (
             <li key={agreement.id} className="py-3">
               <div className="flex flex-wrap items-start justify-between gap-2">
                 <div>
-                  <p className="font-medium text-neutral-800">{agreement.title}</p>
-                  <p className="text-sm text-neutral-600">{agreement.body}</p>
+                  <p className="font-medium text-body">{agreement.title}</p>
+                  <p className="text-sm text-muted">{agreement.body}</p>
                   {agreement.linkedTask ? (
-                    <p className="mt-1 text-xs text-neutral-700">
+                    <p className="mt-1 text-xs text-body">
                       📌 Tarea derivada:{' '}
                       <span className="font-medium">{agreement.linkedTask.title}</span>{' '}
                       ·{' '}
@@ -366,9 +362,9 @@ function AgreementsSection({
                 <span
                   className={
                     agreement.status === 'approved'
-                      ? 'rounded-full bg-green-100 px-2.5 py-0.5 text-xs font-medium text-green-800'
+                      ? 'rounded-full bg-success px-2.5 py-0.5 text-xs font-medium text-on-success'
                       : agreement.status === 'rejected'
-                        ? 'rounded-full bg-red-100 px-2.5 py-0.5 text-xs font-medium text-red-800'
+                        ? 'rounded-full bg-danger px-2.5 py-0.5 text-xs font-medium text-on-danger'
                         : 'rounded-full bg-accent-soft px-2.5 py-0.5 text-xs font-medium text-primary'
                   }
                 >
@@ -449,7 +445,7 @@ function AgreementsSection({
             <textarea
               id="agreement-body"
               rows={3}
-              className="w-full rounded-lg border border-accent bg-white px-3 py-2 text-sm outline-none focus:border-primary focus:ring-2 focus:ring-accent-soft"
+              className="w-full rounded-lg border border-accent bg-card px-3 py-2 text-sm outline-none focus:border-primary focus:ring-2 focus:ring-accent-soft"
               {...form.register('body')}
             />
           </Field>

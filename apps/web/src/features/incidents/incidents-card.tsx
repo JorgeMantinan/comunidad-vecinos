@@ -21,9 +21,9 @@ const statusLabels: Record<IncidentStatus, string> = {
 };
 
 const statusBadge: Record<IncidentStatus, string> = {
-  open: 'bg-red-100 text-red-800',
-  in_progress: 'bg-amber-100 text-amber-800',
-  resolved: 'bg-green-100 text-green-800',
+  open: 'bg-danger text-on-danger',
+  in_progress: 'bg-warning text-on-warning',
+  resolved: 'bg-success text-on-success',
 };
 
 export function IncidentsCard({
@@ -64,7 +64,7 @@ export function IncidentsCard({
 
       {incidents.isLoading ? <Spinner /> : null}
       {!incidents.isLoading && (incidents.data?.length ?? 0) === 0 ? (
-        <p className="text-sm text-neutral-600">Sin incidencias registradas.</p>
+        <p className="text-sm text-muted">Sin incidencias registradas.</p>
       ) : null}
 
       <ul className="divide-y divide-accent-soft">
@@ -72,11 +72,9 @@ export function IncidentsCard({
           <li key={incident.id} className="py-3 text-sm">
             <div className="flex flex-wrap items-start justify-between gap-2">
               <div>
-                <p className="font-medium text-neutral-800">{incident.title}</p>
-                <p className="whitespace-pre-line text-neutral-600">
-                  {incident.description}
-                </p>
-                <p className="mt-1 text-xs text-neutral-500">
+                <p className="font-medium text-body">{incident.title}</p>
+                <p className="whitespace-pre-line text-muted">{incident.description}</p>
+                <p className="mt-1 text-xs text-subtle">
                   {incident.reportedByName
                     ? `Reportada por ${incident.reportedByName} · `
                     : ''}
@@ -101,7 +99,7 @@ export function IncidentsCard({
                         },
                       })
                     }
-                    className="rounded-lg border border-accent bg-white px-2 py-1 text-xs"
+                    className="rounded-lg border border-accent bg-card px-2 py-1 text-xs"
                   >
                     {(
                       Object.entries(statusLabels) as Array<[IncidentStatus, string]>
@@ -134,13 +132,13 @@ export function IncidentsCard({
                       photoId: photo.id,
                     })
                   }
-                  className="rounded bg-accent-soft px-2 py-1 text-xs text-primary hover:bg-accent"
+                  className="rounded bg-accent-soft px-2 py-1 text-xs text-primary hover:bg-accent-strong"
                   title="Abrir fotografía con enlace temporal"
                 >
                   📷 {new Date(photo.createdAt).toLocaleDateString('es-ES')}
                 </button>
               ))}
-              <label className="cursor-pointer rounded border border-dashed border-accent px-2 py-1 text-xs text-neutral-500 hover:bg-accent-soft/50">
+              <label className="cursor-pointer rounded border border-dashed border-accent px-2 py-1 text-xs text-subtle hover:bg-accent-soft/50">
                 + adjuntar foto
                 <input
                   ref={(element) => {
@@ -185,7 +183,7 @@ export function IncidentsCard({
           <textarea
             id="incident-description"
             rows={3}
-            className="w-full rounded-lg border border-accent bg-white px-3 py-2 text-sm outline-none focus:border-primary focus:ring-2 focus:ring-accent-soft"
+            className="w-full rounded-lg border border-accent bg-card px-3 py-2 text-sm outline-none focus:border-primary focus:ring-2 focus:ring-accent-soft"
             {...form.register('description')}
           />
         </Field>

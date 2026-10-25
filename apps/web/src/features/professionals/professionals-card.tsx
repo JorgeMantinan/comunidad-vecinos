@@ -50,7 +50,7 @@ export function ProfessionalsCard({
 
       {professionals.isLoading ? <Spinner /> : null}
       {!professionals.isLoading && (professionals.data?.length ?? 0) === 0 ? (
-        <p className="text-sm text-neutral-600">Sin profesionales recomendados.</p>
+        <p className="text-sm text-muted">Sin profesionales recomendados.</p>
       ) : null}
 
       <ul className="divide-y divide-accent-soft">
@@ -60,20 +60,20 @@ export function ProfessionalsCard({
             className="flex items-start justify-between gap-3 py-3 text-sm"
           >
             <div>
-              <p className="font-medium text-neutral-800">
+              <p className="font-medium text-body">
                 {professional.name}
                 <span className="ml-2 rounded-full bg-accent-soft px-2 py-0.5 text-xs text-primary">
                   {professional.trade}
                 </span>
               </p>
-              <p className="text-neutral-600">
+              <p className="text-muted">
                 {professional.phone ?? professional.email ?? ''}
               </p>
               {professional.notes ? (
-                <p className="text-xs text-neutral-500">{professional.notes}</p>
+                <p className="text-xs text-subtle">{professional.notes}</p>
               ) : null}
               {professional.recommendedByName ? (
-                <p className="mt-1 text-xs text-neutral-500">
+                <p className="mt-1 text-xs text-subtle">
                   Recomendado por {professional.recommendedByName}
                 </p>
               ) : null}
@@ -91,7 +91,7 @@ export function ProfessionalsCard({
         ))}
       </ul>
 
-      <p className="mt-2 text-xs text-neutral-500">
+      <p className="mt-2 text-xs text-subtle">
         Recomendación vecinal: sin publicidad patrocinada.
       </p>
 

@@ -98,7 +98,7 @@ export function useUploadIncidentPhoto(communityId: string) {
   });
 }
 
-/** Pide la URL firmada de una foto y la abre en pesta�a nueva. */
+/** Pide la URL firmada de una foto y la abre en pestaña nueva. */
 export function useDownloadIncidentPhoto(communityId: string) {
   return useMutation({
     mutationFn: async (input: { incidentId: string; photoId: string }) => {

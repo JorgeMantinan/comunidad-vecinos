@@ -15,7 +15,7 @@ export function InvitePage() {
 
         {accept.data ? (
           <div>
-            <p className="mb-4 text-neutral-700">
+            <p className="mb-4 text-body">
               Ya formas parte de{' '}
               <strong className="text-primary">{accept.data.communityName}</strong>.
             </p>
@@ -25,7 +25,7 @@ export function InvitePage() {
           </div>
         ) : (
           <div>
-            <p className="mb-4 text-neutral-700">
+            <p className="mb-4 text-body">
               Acepta la invitación para unirte a la comunidad. Si no esperabas esta
               invitación, puedes ignorarla.
             </p>

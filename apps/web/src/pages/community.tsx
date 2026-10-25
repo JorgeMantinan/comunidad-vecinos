@@ -100,7 +100,7 @@ export function CommunityPage() {
             <h1 className="text-2xl font-bold text-primary sm:text-3xl">
               {community.data.name}
             </h1>
-            <p className="text-neutral-600">
+            <p className="text-muted">
               {community.data.address ?? 'Sin dirección registrada'}
             </p>
           </div>
@@ -116,16 +116,14 @@ export function CommunityPage() {
           <Link
             key={tile.slug}
             to={`/communities/${communityId}/${tile.slug}`}
-            className="flex items-start gap-4 rounded-2xl border border-accent bg-white p-6 shadow-sm transition hover:border-primary hover:shadow-md"
+            className="flex items-start gap-4 rounded-2xl border border-accent bg-card p-6 shadow-sm transition hover:border-primary hover:shadow-md"
           >
             <span className="text-4xl" aria-hidden="true">
               {tile.icon}
             </span>
             <span>
               <span className="block text-xl font-bold text-primary">{tile.title}</span>
-              <span className="mt-1 block text-sm text-neutral-600">
-                {tile.subtitle}
-              </span>
+              <span className="mt-1 block text-sm text-muted">{tile.subtitle}</span>
             </span>
           </Link>
         ))}

@@ -59,12 +59,12 @@ export function StatsCard({ communityId }: { communityId: string }) {
           <dl className="grid grid-cols-2 gap-3 md:grid-cols-4">
             {entries(stats.data).map((entry) => (
               <div key={entry.label} className="rounded-lg bg-accent-soft/40 p-3">
-                <dt className="text-xs text-neutral-500">{entry.label}</dt>
+                <dt className="text-xs text-subtle">{entry.label}</dt>
                 <dd className="text-lg font-semibold text-primary">{entry.value}</dd>
               </div>
             ))}
           </dl>
-          <p className="mt-3 text-xs text-neutral-500">
+          <p className="mt-3 text-xs text-subtle">
             Cálculos locales sobre la base de datos de la comunidad, sin servicios
             externos (ADR 006: sin IA).
           </p>

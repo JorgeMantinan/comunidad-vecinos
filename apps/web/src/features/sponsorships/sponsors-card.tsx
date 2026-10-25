@@ -45,7 +45,7 @@ export function SponsorsCard({
         {sponsors.data.map((sponsor) => (
           <li key={sponsor.id} className="rounded-lg border border-accent p-3">
             <div className="flex items-center justify-between gap-2">
-              <p className="font-medium text-neutral-800">{sponsor.businessName}</p>
+              <p className="font-medium text-body">{sponsor.businessName}</p>
               <span className="rounded-full bg-accent-soft px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-primary">
                 Publicidad
               </span>

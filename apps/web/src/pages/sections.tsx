@@ -59,7 +59,7 @@ function SectionPage({
       </Link>
       <header>
         <h1 className="text-2xl font-bold text-primary sm:text-3xl">{title}</h1>
-        <p className="text-neutral-600">{community.data.name}</p>
+        <p className="text-muted">{community.data.name}</p>
       </header>
       {children(community.data, id)}
     </div>
@@ -116,7 +116,7 @@ export function EconomiaSection() {
     <SectionPage title="💶 El dinero de la comunidad">
       {(community, id) =>
         community.role === 'resident' ? (
-          <p className="text-neutral-600">
+          <p className="text-muted">
             Tu rol no permite consultar la economía de la comunidad.
           </p>
         ) : (
@@ -139,7 +139,7 @@ export function DocumentosSection() {
     <SectionPage title="📄 Documentos">
       {(community, id) =>
         community.role === 'resident' ? (
-          <p className="text-neutral-600">
+          <p className="text-muted">
             Tu rol no permite consultar la documentación de la comunidad.
           </p>
         ) : (

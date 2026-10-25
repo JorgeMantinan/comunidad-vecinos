@@ -41,7 +41,7 @@ export function DashboardPage() {
               <ErrorAlert message={communities.error.message} />
             ) : null}
             {communities.data && communities.data.length === 0 ? (
-              <p className="text-sm text-neutral-600">
+              <p className="text-sm text-muted">
                 Todavía no perteneces a ninguna comunidad. Crea una nueva o espera a que
                 te inviten.
               </p>
@@ -55,7 +55,7 @@ export function DashboardPage() {
                   >
                     <div>
                       <p className="font-medium text-primary">{community.name}</p>
-                      <p className="text-sm text-neutral-600">
+                      <p className="text-sm text-muted">
                         {community.address ?? 'Sin dirección registrada'}
                       </p>
                     </div>
@@ -105,7 +105,7 @@ function CommunityOverview() {
               id="overview-community"
               value={activeId ?? ''}
               onChange={(event) => setSelectedId(event.target.value)}
-              className="w-full max-w-sm rounded-lg border border-accent bg-white px-3 py-2 text-sm"
+              className="w-full max-w-sm rounded-lg border border-accent bg-card px-3 py-2 text-sm"
             >
               {list.map((community) => (
                 <option key={community.id} value={community.id}>
@@ -125,15 +125,15 @@ function CommunityOverview() {
             <ul className="space-y-2 text-sm">
               {announcements.data?.slice(0, 3).map((announcement) => (
                 <li key={announcement.id}>
-                  <p className="font-medium text-neutral-800">{announcement.title}</p>
-                  <p className="text-xs text-neutral-500">
+                  <p className="font-medium text-body">{announcement.title}</p>
+                  <p className="text-xs text-subtle">
                     {new Date(announcement.publishedAt).toLocaleDateString('es-ES')}
                   </p>
                 </li>
               ))}
             </ul>
             {announcements.data?.length === 0 ? (
-              <p className="text-sm text-neutral-600">Sin avisos.</p>
+              <p className="text-sm text-muted">Sin avisos.</p>
             ) : null}
           </section>
 
@@ -151,7 +151,7 @@ function CommunityOverview() {
                   >
                     {meeting.title}
                   </Link>
-                  <p className="text-xs text-neutral-500">
+                  <p className="text-xs text-subtle">
                     {new Date(meeting.scheduledFor).toLocaleString('es-ES', {
                       dateStyle: 'medium',
                       timeStyle: 'short',
@@ -161,7 +161,7 @@ function CommunityOverview() {
               ))}
             </ul>
             {meetings.data?.length === 0 ? (
-              <p className="text-sm text-neutral-600">Sin reuniones.</p>
+              <p className="text-sm text-muted">Sin reuniones.</p>
             ) : null}
           </section>
 
@@ -174,7 +174,7 @@ function CommunityOverview() {
               <ul className="space-y-2 text-sm">
                 {expenses.data?.map((expense) => (
                   <li key={expense.id} className="flex justify-between gap-2">
-                    <span className="text-neutral-700">{expense.concept}</span>
+                    <span className="text-body">{expense.concept}</span>
                     <span className="font-medium text-primary">
                       {formatEuro(expense.amount)}
                     </span>
@@ -182,7 +182,7 @@ function CommunityOverview() {
                 ))}
               </ul>
               {expenses.data?.length === 0 ? (
-                <p className="text-sm text-neutral-600">Sin gastos.</p>
+                <p className="text-sm text-muted">Sin gastos.</p>
               ) : null}
             </section>
           ) : null}
@@ -257,17 +257,15 @@ function PendingInvitations() {
             <li key={invitation.id} className="py-3">
               <div className="flex flex-wrap items-center justify-between gap-2">
                 <div>
-                  <p className="font-medium text-neutral-800">
-                    {invitation.communityName}
-                  </p>
-                  <p className="text-sm text-neutral-600">
+                  <p className="font-medium text-body">{invitation.communityName}</p>
+                  <p className="text-sm text-muted">
                     Invitado por {invitation.invitedByName} como{' '}
                     <RoleBadge role={invitation.role} />
                   </p>
                 </div>
                 <RoleBadge role={invitation.role} />
               </div>
-              <p className="mt-1 text-sm text-neutral-500">
+              <p className="mt-1 text-sm text-subtle">
                 Para unirte, abre el enlace de invitación que te compartió{' '}
                 {invitation.invitedByName} (caduca el{' '}
                 {new Date(invitation.expiresAt).toLocaleDateString('es-ES')}).

@@ -62,7 +62,7 @@ export function ContractsCard({
 
       {contracts.isLoading ? <Spinner /> : null}
       {!contracts.isLoading && rows.length === 0 ? (
-        <p className="text-sm text-neutral-600">
+        <p className="text-sm text-muted">
           No hay contratos de mantenimiento registrados.
         </p>
       ) : null}
@@ -72,11 +72,11 @@ export function ContractsCard({
           <li key={contract.id} className="py-3 text-sm">
             <div className="flex flex-wrap items-start justify-between gap-2">
               <div>
-                <p className="font-medium text-neutral-800">{contract.provider}</p>
-                <p className="text-neutral-600">
+                <p className="font-medium text-body">{contract.provider}</p>
+                <p className="text-muted">
                   {contract.service} · {formatEuro(contract.amount)}/mes
                 </p>
-                <p className="text-xs text-neutral-500">
+                <p className="text-xs text-subtle">
                   {new Date(contract.startOn).toLocaleDateString('es-ES')} →{' '}
                   {new Date(contract.renewalOn).toLocaleDateString('es-ES')}
                   {contract.notes ? ` · ${contract.notes}` : ''}
@@ -86,8 +86,8 @@ export function ContractsCard({
                 <span
                   className={
                     contract.status === 'active'
-                      ? 'rounded-full bg-green-100 px-2 py-0.5 text-xs text-green-800'
-                      : 'rounded-full bg-neutral-200 px-2 py-0.5 text-xs text-neutral-600'
+                      ? 'rounded-full bg-success px-2 py-0.5 text-xs text-on-success'
+                      : 'rounded-full bg-chip px-2 py-0.5 text-xs text-muted'
                   }
                 >
                   {statusLabels[contract.status]}

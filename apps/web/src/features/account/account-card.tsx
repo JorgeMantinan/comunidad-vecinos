@@ -44,7 +44,7 @@ export function AccountCard() {
 
   return (
     <Card title="Tu cuenta y tus datos">
-      <p className="text-sm text-neutral-600">
+      <p className="text-sm text-muted">
         Puedes descargar todo lo que guardamos sobre ti: tu perfil, tus comunidades, lo
         que has publicado y los documentos que has subido.
       </p>
@@ -67,7 +67,7 @@ export function AccountCard() {
       <hr className="my-5 border-accent-soft" />
 
       <p className="text-sm font-medium text-primary">Darme de baja</p>
-      <p className="mt-1 text-sm text-neutral-600">
+      <p className="mt-1 text-sm text-muted">
         Se elimina tu cuenta y las comunidades en las que eres el único miembro. Los
         registros económicos y las actas de las comunidades con más vecinos se conservan
         (obligación legal) y quedan sin tu nombre.{' '}

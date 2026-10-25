@@ -67,7 +67,7 @@ export function InvitationsCard({
           <Field label="Rol inicial" htmlFor="invite-role">
             <select
               id="invite-role"
-              className="w-full rounded-lg border border-accent bg-white px-3 py-2 text-sm"
+              className="w-full rounded-lg border border-accent bg-card px-3 py-2 text-sm"
               {...form.register('role')}
             >
               <option value="member">Propietario</option>
@@ -91,11 +91,11 @@ export function InvitationsCard({
           <input
             readOnly
             value={lastLink}
-            className="w-full rounded border border-accent bg-white px-2 py-1 text-xs"
+            className="w-full rounded border border-accent bg-card px-2 py-1 text-xs"
             onFocus={(event) => event.currentTarget.select()}
             aria-label="Enlace de invitación"
           />
-          <p className="mt-1 text-neutral-600">
+          <p className="mt-1 text-muted">
             Compártelo con el invitado. Por seguridad solo se guarda su hash.
           </p>
         </div>
@@ -108,15 +108,13 @@ export function InvitationsCard({
             className="flex flex-wrap items-center justify-between gap-2 py-2 text-sm"
           >
             <div>
-              <p className="font-medium text-neutral-800">{invitation.email}</p>
-              <p className="text-neutral-500">
+              <p className="font-medium text-body">{invitation.email}</p>
+              <p className="text-subtle">
                 Caduca el {new Date(invitation.expiresAt).toLocaleDateString('es-ES')}
               </p>
             </div>
             <div className="flex items-center gap-3">
-              <span className="text-xs uppercase text-neutral-500">
-                {invitation.status}
-              </span>
+              <span className="text-xs uppercase text-subtle">{invitation.status}</span>
               {invitation.status === 'pending' ? (
                 <Button
                   variant="danger"

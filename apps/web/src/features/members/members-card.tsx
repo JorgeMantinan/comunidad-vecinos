@@ -21,7 +21,7 @@ export function MembersCard({ communityId }: { communityId: string }) {
       <div className="overflow-x-auto">
         <table className="w-full min-w-[540px] text-sm">
           <thead>
-            <tr className="border-b border-accent-soft text-left text-neutral-500">
+            <tr className="border-b border-accent-soft text-left text-subtle">
               <th className="py-2">Nombre</th>
               <th className="py-2">Email</th>
               <th className="py-2">Rol</th>
@@ -64,14 +64,14 @@ function MemberRow({
 }) {
   return (
     <tr className="border-b border-accent-soft/60">
-      <td className="py-2 font-medium text-neutral-800">{member.name}</td>
-      <td className="py-2 text-neutral-600">{member.email}</td>
+      <td className="py-2 font-medium text-body">{member.name}</td>
+      <td className="py-2 text-muted">{member.email}</td>
       <td className="py-2">
         {canManage ? (
           <select
             value={member.role}
             onChange={(event) => onChangeRole(event.target.value)}
-            className="rounded-lg border border-accent bg-white px-2 py-1 text-sm"
+            className="rounded-lg border border-accent bg-card px-2 py-1 text-sm"
             aria-label={`Rol de ${member.name}`}
           >
             <option value="owner">Presidente</option>
