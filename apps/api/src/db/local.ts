@@ -16,7 +16,9 @@ export interface LocalDatabase {
  * socket y consumido con el mismo driver `postgres-js` de producción.
  * Requiere los paquetes de desarrollo; no existe en producción.
  */
-export async function createLocalDatabase(dataDir = '.pglite'): Promise<LocalDatabase> {
+export async function createLocalDatabase(
+  dataDir = process.env.LOCAL_DB_DIR ?? '.pglite',
+): Promise<LocalDatabase> {
   const pgliteModule = await import('@electric-sql/pglite').catch(() => null);
   const socketModule = await import('@electric-sql/pglite-socket').catch(() => null);
   if (!pgliteModule || !socketModule) {

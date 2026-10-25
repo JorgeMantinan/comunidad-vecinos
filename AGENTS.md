@@ -47,7 +47,7 @@ añade un nuevo ADR).
 2.  Implementa con tests (incluidos tests negativos de permisos cuando
     toque autorización).
 3.  Ejecuta antes de entregar: `pnpm lint`, `pnpm typecheck`,
-    `pnpm test`.
+    `pnpm test` y, si toca interfaz, `pnpm --filter @comunidad/web e2e`.
 4.  Abre un pull request descriptivo. CI debe pasar. Revisión humana
     obligatoria antes de fusionar.
 5.  Commits en inglés o español consistente, formato
