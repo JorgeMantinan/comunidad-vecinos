@@ -1,5 +1,5 @@
 import { and, asc, eq, inArray } from 'drizzle-orm';
-import type { TaskStatus } from '@comunidad/shared';
+import type { TaskRecurrence, TaskStatus } from '@comunidad/shared';
 import type { Database } from '../../db/client';
 import { agreements, tasks, user } from '../../db/schema';
 import { newId } from '../../lib/ids';
@@ -15,6 +15,7 @@ export interface TaskRow {
   assigneeName: string | null;
   agreementId: string | null;
   agreementTitle: string | null;
+  recurrence: TaskRecurrence | null;
   createdAt: Date;
 }
 
@@ -29,6 +30,7 @@ const columns = {
   assigneeName: user.name,
   agreementId: tasks.agreementId,
   agreementTitle: agreements.title,
+  recurrence: tasks.recurrence,
   createdAt: tasks.createdAt,
 } as const;
 
@@ -102,6 +104,7 @@ export async function createTask(
     dueOn: string | null;
     assigneeId: string | null;
     agreementId: string | null;
+    recurrence: TaskRecurrence | null;
     createdById: string;
   },
 ): Promise<TaskRow> {
@@ -128,6 +131,7 @@ export async function updateTask(
     dueOn: string | null;
     assigneeId: string | null;
     agreementId: string | null;
+    recurrence: TaskRecurrence | null;
     status: TaskStatus;
   }>,
 ): Promise<void> {

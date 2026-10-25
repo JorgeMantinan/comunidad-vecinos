@@ -15,6 +15,7 @@ import {
   professionalSchema,
   suggestionSchema,
   taskSchema,
+  documentTemplateSchema,
   unitSchema,
 } from '@comunidad/shared';
 import { z } from 'zod';
@@ -35,6 +36,7 @@ import { getPollDetail } from '../polls/service';
 import { listProfessionals } from '../professionals/repository';
 import { listSuggestions } from '../suggestions/repository';
 import { listTasks } from '../tasks/repository';
+import { listTemplates } from '../templates/repository';
 import { listUnits } from '../units/repository';
 import type { Database } from '../../db/client';
 import type { Auth } from '../../lib/auth';
@@ -87,6 +89,7 @@ export function exportRoutes(db: Database, auth: Auth): Hono<AppEnv> {
         professionalRows,
         documentRows,
         photoRows,
+        templateRows,
       ] = await Promise.all([
         listMembers(db, id),
         listUnits(db, id),
@@ -104,6 +107,7 @@ export function exportRoutes(db: Database, auth: Auth): Hono<AppEnv> {
         listProfessionals(db, id),
         listDocuments(db, id),
         listPhotosByCommunity(db, id),
+        listTemplates(db, id),
       ]);
 
       const photosByIncident = new Map<string, typeof photoRows>();
@@ -197,6 +201,12 @@ export function exportRoutes(db: Database, auth: Auth): Hono<AppEnv> {
         ),
         documents: z.array(documentSchema).parse(
           documentRows.map((row) => ({
+            ...row,
+            createdAt: toIso(row.createdAt),
+          })),
+        ),
+        templates: z.array(documentTemplateSchema).parse(
+          templateRows.map((row) => ({
             ...row,
             createdAt: toIso(row.createdAt),
           })),

@@ -4,6 +4,10 @@ import { communityIdSchema } from './communities';
 export const taskStatusSchema = z.enum(['todo', 'doing', 'done']);
 export type TaskStatus = z.infer<typeof taskStatusSchema>;
 
+/** Procesos repetitivos: la siguiente ocurrencia nace al completar. */
+export const taskRecurrenceSchema = z.enum(['monthly', 'quarterly', 'yearly']);
+export type TaskRecurrence = z.infer<typeof taskRecurrenceSchema>;
+
 export const createTaskInputSchema = z.object({
   title: z.string().trim().min(3).max(150),
   description: z.string().trim().max(2000).optional(),
@@ -11,6 +15,7 @@ export const createTaskInputSchema = z.object({
   assigneeId: z.string().min(1).nullish(),
   /** Acuerdo del que deriva la tarea (seguimiento). */
   agreementId: z.string().min(1).nullish(),
+  recurrence: taskRecurrenceSchema.nullish(),
 });
 export type CreateTaskInput = z.infer<typeof createTaskInputSchema>;
 
@@ -31,6 +36,7 @@ export const taskSchema = z.object({
   agreementId: z.string().nullable(),
   /** Título del acuerdo del que deriva (si procede). */
   agreementTitle: z.string().nullable(),
+  recurrence: taskRecurrenceSchema.nullable(),
   createdAt: z.iso.datetime(),
 });
 export type TaskView = z.infer<typeof taskSchema>;

@@ -13,6 +13,7 @@ import type {
   IncidentStatus,
   PollStatus,
   SuggestionStatus,
+  TaskRecurrence,
   TaskStatus,
 } from '@comunidad/shared';
 import { user } from './auth';
@@ -67,6 +68,11 @@ export const tasks = pgTable(
     agreementId: text('agreement_id').references(() => agreements.id, {
       onDelete: 'set null',
     }),
+    /**
+     * Proceso repetitivo: al marcar la tarea como hecha nace la
+     * siguiente ocurrencia (sin cron: determinista y auditable).
+     */
+    recurrence: text('recurrence').$type<TaskRecurrence>(),
     createdById: text('created_by_id').references(() => user.id, {
       onDelete: 'set null',
     }),
@@ -77,6 +83,10 @@ export const tasks = pgTable(
     index('tasks_community_due_idx').on(t.communityId, t.dueOn),
     index('tasks_agreement_idx').on(t.agreementId),
     check('tasks_status_ck', sql`status in ('todo', 'doing', 'done')`),
+    check(
+      'tasks_recurrence_ck',
+      sql`recurrence is null or recurrence in ('monthly', 'quarterly', 'yearly')`,
+    ),
   ],
 );
 

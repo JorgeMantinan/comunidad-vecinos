@@ -90,6 +90,17 @@ Roles (`community_memberships.role`):
    existen URLs públicas permanentes.
 -  `incident_photos` — fotografías de incidencias: misma política;
    subida limitada a 3 MB y tipos MIME de imagen.
+-  `document_templates` — plantillas de documentos (modelos de texto);
+   su **generación** crea un `.txt` en el almacén privado con el mismo
+   circuito de autorización y URL firmada.
+
+## Fase 4 (implementada)
+
+-  `tasks.recurrence` — procesos repetitivos: al completar una tarea
+   recurrente (`monthly`/`quarterly`/`yearly`) nace la siguiente
+   ocurrencia con el vencimiento desplazado (recortado al último día
+   válido del mes). Sin cron: transición determinista y auditable
+   (`task.recurred`).
 
 ## Mapa objetivo (fases posteriores)
 

@@ -19,4 +19,5 @@ export * from './reports';
 export * from './roles';
 export * from './suggestions';
 export * from './tasks';
+export * from './templates';
 export * from './units';

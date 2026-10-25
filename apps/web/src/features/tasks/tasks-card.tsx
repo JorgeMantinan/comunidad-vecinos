@@ -1,6 +1,7 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
-import type { CommunityRole, TaskStatus } from '@comunidad/shared';
+import { z } from 'zod';
+import type { CommunityRole, TaskRecurrence, TaskStatus } from '@comunidad/shared';
 import { createTaskInputSchema } from '@comunidad/shared';
 import { Button, Card, ErrorAlert, Field, Input, Spinner } from '../../components/ui';
 import { useMembers } from '../../lib/api';
@@ -18,6 +19,22 @@ const statusBadge: Record<TaskStatus, string> = {
   done: 'bg-green-100 text-green-800',
 };
 
+const recurrenceLabels: Record<TaskRecurrence, string> = {
+  monthly: 'Mensual',
+  quarterly: 'Trimestral',
+  yearly: 'Anual',
+};
+
+/** Formulario con recurrencia opcional (cadena vacía = no recurrente). */
+const formSchema = z.object({
+  title: createTaskInputSchema.shape.title,
+  description: createTaskInputSchema.shape.description,
+  dueOn: createTaskInputSchema.shape.dueOn,
+  assigneeId: createTaskInputSchema.shape.assigneeId,
+  recurrence: z.enum(['', 'monthly', 'quarterly', 'yearly']).optional(),
+});
+type FormValues = z.infer<typeof formSchema>;
+
 export function TasksCard({
   communityId,
   role,
@@ -32,9 +49,15 @@ export function TasksCard({
   const remove = useDeleteTask(communityId);
   const manage = role === 'owner' || role === 'admin';
 
-  const form = useForm({
-    resolver: zodResolver(createTaskInputSchema),
-    defaultValues: { title: '', description: '', dueOn: '', assigneeId: '' },
+  const form = useForm<FormValues>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      title: '',
+      description: '',
+      dueOn: '',
+      assigneeId: '',
+      recurrence: '',
+    },
   });
 
   const onSubmit = form.handleSubmit((values) => {
@@ -44,6 +67,7 @@ export function TasksCard({
         description: values.description || undefined,
         dueOn: values.dueOn || null,
         assigneeId: values.assigneeId || null,
+        recurrence: values.recurrence || null,
       },
       { onSuccess: () => form.reset() },
     );
@@ -70,6 +94,11 @@ export function TasksCard({
                 {task.agreementTitle ? (
                   <span className="ml-2 rounded-full bg-accent px-2 py-0.5 align-middle text-xs text-white">
                     Derivada de acuerdo
+                  </span>
+                ) : null}
+                {task.recurrence ? (
+                  <span className="ml-2 rounded-full bg-accent-soft px-2 py-0.5 align-middle text-xs text-primary">
+                    🔁 {recurrenceLabels[task.recurrence]}
                   </span>
                 ) : null}
                 {task.description ? (
@@ -149,6 +178,24 @@ export function TasksCard({
                 error={form.formState.errors.dueOn?.message}
               >
                 <Input id="task-due" type="date" {...form.register('dueOn')} />
+              </Field>
+            </div>
+            <div className="w-44">
+              <Field
+                label="Repetir"
+                htmlFor="task-recurrence"
+                error={form.formState.errors.recurrence?.message}
+              >
+                <select
+                  id="task-recurrence"
+                  className="w-full rounded-lg border border-accent bg-white px-3 py-2 text-sm"
+                  {...form.register('recurrence')}
+                >
+                  <option value="">No se repite</option>
+                  <option value="monthly">Mensual</option>
+                  <option value="quarterly">Trimestral</option>
+                  <option value="yearly">Anual</option>
+                </select>
               </Field>
             </div>
             <div className="min-w-52 flex-1">
