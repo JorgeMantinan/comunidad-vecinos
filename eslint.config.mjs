@@ -38,6 +38,7 @@ export default tseslint.config(
       '**/src/server.ts',
       '**/src/db/migrate.ts',
       '**/src/db/seed.ts',
+      '**/src/db/seed-demo.ts',
       '**/src/db/backup.ts',
       '**/src/db/restore.ts',
       '**/src/db/purge.ts',
