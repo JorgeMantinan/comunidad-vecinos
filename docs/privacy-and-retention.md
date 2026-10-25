@@ -71,6 +71,22 @@ subencargados y transferencias internacionales. Priorizar proveedores
 con datos en la UE (revisar la región del almacén de Blob: `iad1`,
 EE. UU.).
 
+## Documentación legal (plantillas pendientes de revisión)
+
+Los tres documentos que estaban marcados como «pendiente» existen ya
+como plantillas listas para que el asesor las revise y complete. Ninguno
+está publicado todavía:
+
+-  **Política de privacidad** para personas usuarias:
+   [`docs/legal/politica-de-privacidad.md`](legal/politica-de-privacidad.md)
+-  **Registro de actividades de tratamiento** (art. 30 RGPD):
+   [`docs/legal/registro-de-tratamientos.md`](legal/registro-de-tratamientos.md)
+-  **Procedimiento operativo ARSUL** (derechos de las personas
+   interesadas): [`docs/legal/arsul.md`](legal/arsul.md)
+
+Mientras no se publiquen, este documento sigue siendo la referencia
+técnica interna.
+
 ## Pendiente
 
 -  **Correo (Resend)**: el adaptador está implementado
@@ -80,6 +96,5 @@ EE. UU.).
    y el enlace sigue disponible en la interfaz. En modo test de Resend
    solo se entrega a la dirección de la cuenta; al publicar un aviso se
    notifica a todos los miembros excepto al autor.
--  Documento de privacidad para usuarios finales.
--  Registro de tratamiento de actividades.
--  Procedimiento operativo de atención de solicitudes ARSUL.
+-  **Validación humana** de los tres documentos de `docs/legal/` antes
+   de publicarlos en la aplicación.

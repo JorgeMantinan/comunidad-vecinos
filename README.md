@@ -24,6 +24,10 @@ documentación y profesionales desde una única plataforma.
 -  Despliegue en Vercel: [docs/deploy-vercel.md](docs/deploy-vercel.md)
 -  Respuesta a incidentes: [docs/incident-response.md](docs/incident-response.md)
 -  Decisiones (ADRs): [docs/decisions/](docs/decisions/)
+-  Documentación legal (plantillas para revisión del asesor):
+   [docs/legal/](docs/legal/)
+-  Datos de demostración para revisar los paneles:
+   [docs/demo-data.md](docs/demo-data.md)
 
 ## Stack
 
