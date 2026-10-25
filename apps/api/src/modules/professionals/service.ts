@@ -26,7 +26,6 @@ export async function addProfessional(
     phone: input.phone ?? null,
     email: input.email || null,
     notes: input.notes ?? null,
-    recommendedById: actor.id,
   });
 
   await recordAuditEvent(db, {
@@ -38,7 +37,7 @@ export async function addProfessional(
     metadata: { name: professional.name, trade: professional.trade },
   });
 
-  return { ...professional, recommendedByName: actor.name };
+  return professional;
 }
 
 export async function editProfessional(

@@ -2215,7 +2215,6 @@ async function seedCommunity(
       phone: professional.phone ?? null,
       email: professional.email ?? null,
       notes: professional.notes ?? null,
-      recommendedById: userId('ana'),
     });
   }
 

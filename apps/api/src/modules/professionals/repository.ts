@@ -1,6 +1,6 @@
 import { and, asc, eq } from 'drizzle-orm';
 import type { Database } from '../../db/client';
-import { professionals, user } from '../../db/schema';
+import { professionals } from '../../db/schema';
 import { newId } from '../../lib/ids';
 
 export interface ProfessionalRow {
@@ -11,7 +11,6 @@ export interface ProfessionalRow {
   phone: string | null;
   email: string | null;
   notes: string | null;
-  recommendedByName: string | null;
   createdAt: Date;
 }
 
@@ -23,7 +22,6 @@ const columns = {
   phone: professionals.phone,
   email: professionals.email,
   notes: professionals.notes,
-  recommendedByName: user.name,
   createdAt: professionals.createdAt,
 } as const;
 
@@ -35,7 +33,6 @@ export async function listProfessionals(
   return db
     .select(columns)
     .from(professionals)
-    .leftJoin(user, eq(professionals.recommendedById, user.id))
     .where(eq(professionals.communityId, communityId))
     .orderBy(asc(professionals.trade), asc(professionals.name));
 }
@@ -48,7 +45,6 @@ export async function findProfessionalById(
   const [row] = await db
     .select(columns)
     .from(professionals)
-    .leftJoin(user, eq(professionals.recommendedById, user.id))
     .where(
       and(
         eq(professionals.id, professionalId),
@@ -68,7 +64,6 @@ export async function createProfessional(
     phone: string | null;
     email: string | null;
     notes: string | null;
-    recommendedById: string;
   },
 ): Promise<ProfessionalRow> {
   const [row] = await db
@@ -86,7 +81,6 @@ export async function createProfessional(
     phone: row.phone,
     email: row.email,
     notes: row.notes,
-    recommendedByName: null,
     createdAt: row.createdAt,
   };
 }

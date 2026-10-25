@@ -26,7 +26,6 @@ export const professionalSchema = z.object({
   phone: z.string().nullable(),
   email: z.string().nullable(),
   notes: z.string().nullable(),
-  recommendedByName: z.string().nullable(),
   createdAt: z.iso.datetime(),
 });
 export type ProfessionalView = z.infer<typeof professionalSchema>;
