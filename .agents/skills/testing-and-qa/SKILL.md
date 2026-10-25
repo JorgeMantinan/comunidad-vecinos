@@ -18,7 +18,10 @@ funciona y que no rompe lo existente.
 -  **E2E (Playwright):** flujos críticos con navegador real. Tests en
    `apps/web/e2e/` con servidores propios y base aislada
    (`.pglite-e2e`): `pnpm --filter @comunidad/web e2e`. La CI ejecuta
-   el job `e2e` en cada PR.
+   el job `e2e` en cada PR. El interruptor `LOCAL_DB_DIR` que fija
+   `playwright.config.ts` **manda sobre `DATABASE_URL`**: aunque
+   exista un `.env` con la base real, los E2E corren siempre sobre
+   PGlite local y jamás tocan producción.
 
 ## Mínimo exigible por cambio
 

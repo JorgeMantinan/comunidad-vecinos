@@ -19,11 +19,14 @@ const isMainModule = () =>
 if (isMainModule()) {
   const { loadConfig } = await import('../config');
   const { createDatabase } = await import('./client');
-  const { createLocalDatabase } = await import('./local');
+  const { createLocalDatabase, shouldUseLocalDatabase } = await import('./local');
 
   const config = loadConfig();
-  const connection = config.databaseUrl
-    ? { db: createDatabase(config.databaseUrl), close: async () => {} }
+  const remoteUrl = shouldUseLocalDatabase(config.databaseUrl)
+    ? undefined
+    : config.databaseUrl;
+  const connection = remoteUrl
+    ? { db: createDatabase(remoteUrl), close: async () => {} }
     : await createLocalDatabase();
 
   try {

@@ -12,6 +12,16 @@ export interface LocalDatabase {
 }
 
 /**
+ * Decide si el proceso debe usar la base local (PGlite) en lugar de la
+ * remota: `LOCAL_DB_DIR` es un interruptor explícito de aislamiento que
+ * manda sobre `DATABASE_URL` (así los E2E jamás tocan producción, aun
+ * cuando exista un `.env` con la URL real).
+ */
+export function shouldUseLocalDatabase(databaseUrl: string | undefined): boolean {
+  return process.env.LOCAL_DB_DIR !== undefined || !databaseUrl;
+}
+
+/**
  * Base de datos local sin instalar PostgreSQL: PGlite (WASM) expuesto por
  * socket y consumido con el mismo driver `postgres-js` de producción.
  * Requiere los paquetes de desarrollo; no existe en producción.
