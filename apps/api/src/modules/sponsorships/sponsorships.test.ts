@@ -163,4 +163,68 @@ describe('Patrocinios (publicidad de plataforma)', () => {
     });
     expect(await after.json()).toEqual([]);
   });
+
+  it('llega por zona a fincas que no están asignadas', async () => {
+    const createWithAddress = async (
+      name: string,
+      address: string,
+    ): Promise<string> => {
+      const res = await ctx.request('/api/communities', {
+        method: 'POST',
+        cookie: owner.cookie,
+        body: { name, address },
+      });
+      expect(res.status).toBe(201);
+      return ((await res.json()) as { id: string }).id;
+    };
+
+    const valenciaId = await createWithAddress(
+      'Finca de Valencia',
+      'Avenida de las Acacias 27, 46010 Valencia',
+    );
+    const sevillaId = await createWithAddress(
+      'Finca de Sevilla',
+      'Camino del Pinar 4, 41013 Sevilla',
+    );
+
+    const created = await ctx.request('/api/platform/sponsorships', {
+      method: 'POST',
+      cookie: platformAdmin.cookie,
+      body: {
+        businessName: 'Clínica Dental Centro',
+        website: 'https://dental.example.com',
+        zone: 'Valencia',
+        // Asignada solo a la comunidad original (sin dirección).
+        communityIds: [communityId],
+      },
+    });
+    expect(created.status).toBe(201);
+    const sponsorship = (await created.json()) as Sponsorship;
+    await ctx.request(`/api/platform/sponsorships/${sponsorship.id}`, {
+      method: 'PATCH',
+      cookie: platformAdmin.cookie,
+      body: { status: 'active' },
+    });
+
+    // Por zona: se muestra en la finca de Valencia sin estar asignada.
+    const enValencia = await ctx.request(
+      `/api/communities/${valenciaId}/sponsorships`,
+      { cookie: owner.cookie },
+    );
+    const valenciaAds = (await enValencia.json()) as Array<{ businessName: string }>;
+    expect(valenciaAds.map((ad) => ad.businessName)).toEqual(['Clínica Dental Centro']);
+
+    // Fuera de la zona no aparece (y sigue identificándose como publicidad).
+    const enSevilla = await ctx.request(`/api/communities/${sevillaId}/sponsorships`, {
+      cookie: owner.cookie,
+    });
+    expect(await enSevilla.json()).toEqual([]);
+
+    // La asignada a mano sigue viéndose en su comunidad.
+    const asignada = await ctx.request(`/api/communities/${communityId}/sponsorships`, {
+      cookie: member.cookie,
+    });
+    const asignadaAds = (await asignada.json()) as Array<{ businessName: string }>;
+    expect(asignadaAds.map((ad) => ad.businessName)).toContain('Clínica Dental Centro');
+  });
 });
