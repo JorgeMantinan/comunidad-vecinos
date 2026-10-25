@@ -15,6 +15,7 @@ import { DashboardPage } from './pages/dashboard';
 import { InvitePage } from './pages/invite';
 import { LoginPage } from './pages/login';
 import { MeetingPage } from './pages/meeting';
+import { PlatformPage } from './pages/platform';
 import { RegisterPage } from './pages/register';
 
 const queryClient = new QueryClient({
@@ -57,6 +58,12 @@ function Header() {
         </Link>
         {data ? (
           <div className="flex items-center gap-3">
+            <Link to="/" className="text-sm text-primary hover:underline">
+              Inicio
+            </Link>
+            <Link to="/platform" className="text-sm text-primary hover:underline">
+              Publicidad
+            </Link>
             <span className="text-sm text-neutral-600">{data.user.email}</span>
             <Button
               variant="ghost"
@@ -105,6 +112,14 @@ export function App() {
               element={
                 <RequireAuth>
                   <MeetingPage />
+                </RequireAuth>
+              }
+            />
+            <Route
+              path="/platform"
+              element={
+                <RequireAuth>
+                  <PlatformPage />
                 </RequireAuth>
               }
             />

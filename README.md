@@ -4,14 +4,16 @@ SaaS multi-comunidad para que vecinos, presidentes y administradores de
 fincas gestionen información, economía, reuniones, incidencias,
 documentación y profesionales desde una única plataforma.
 
-> Estado: **Fase 4 — administración de fincas, COMPLETA**: panel
-> agregado por comunidad (owner/admin), informe económico por periodo
-> con CSV, seguimiento de acuerdos con tareas derivadas, plantillas de
-> documentos y procesos repetitivos (tareas recurrentes).
+> Estado: **Fase 5 — monetización sin IA, COMPLETA**: patrocinios
+> claramente identificados como publicidad (gestión de plataforma,
+> sin acceso a datos de vecinos) y estadísticas de uso con SQL
+> agregado. Se mantienen de fases anteriores el panel de
+> administración, informes con CSV, plantillas y procesos repetitivos.
 >
 > **Decisión de producto (ADR 006): la plataforma no incorpora
 > funciones de IA** — sin chatbots, resúmenes automáticos ni llamadas
 > a proveedores de modelos; el coste de uso no recae en los vecinos.
+> Pendiente: Fase 6 (producción: RGPD, copias, revisión de seguridad).
 
 ## Enlaces
 

@@ -102,6 +102,20 @@ Roles (`community_memberships.role`):
    válido del mes). Sin cron: transición determinista y auditable
    (`task.recurred`).
 
+## Fase 5 (implementada — sin IA, ver ADR 006)
+
+-  `sponsorships` + `sponsorship_communities` — **patrocinios**
+   (publicidad) gestionados por la plataforma (`PLATFORM_ADMIN_EMAILS`)
+   y asignados a comunidades. Reglas:
+   -  La interfaz los muestra siempre identificados como «Publicidad».
+   -  La vista pública solo expone nombre y web: jamás importes,
+      contacto ni datos de vecinos (el patrocinador no es usuario).
+   -  Nunca se mezclan con las recomendaciones vecinales de
+      `professionals`.
+-  **Estadísticas de uso**: consultas SQL agregadas sobre la propia
+   base de datos (contadores, sumas y actividad de 30 días). Sin IA,
+   sin proveedores externos y sin coste por consulta.
+
 ## Mapa objetivo (fases posteriores)
 
 | Área           | Entidades                                                            |

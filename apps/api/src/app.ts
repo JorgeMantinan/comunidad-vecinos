@@ -29,6 +29,11 @@ import { reportRoutes } from './modules/reports/routes';
 import { suggestionRoutes } from './modules/suggestions/routes';
 import { taskRoutes } from './modules/tasks/routes';
 import { templateRoutes } from './modules/templates/routes';
+import {
+  platformSponsorshipRoutes,
+  communitySponsorshipRoutes,
+} from './modules/sponsorships/routes';
+import { statsRoutes } from './modules/stats/routes';
 import { unitRoutes } from './modules/units/routes';
 
 export interface AppDependencies {
@@ -85,11 +90,14 @@ export function createApp({
   app.route('/api/communities', professionalRoutes(db, auth));
   app.route('/api/communities', documentRoutes(db, auth, storage));
   app.route('/api/communities', templateRoutes(db, auth, storage));
+  app.route('/api/communities', communitySponsorshipRoutes(db, auth));
+  app.route('/api/communities', statsRoutes(db, auth));
   app.route('/api/communities', reportRoutes(db, auth));
   app.route('/api/communities', exportRoutes(db, auth));
   app.route('/api/communities', auditRoutes(db, auth));
   app.route('/api', invitationRoutes(db, auth, email, config.corsOrigins[0] ?? ''));
   app.route('/api/admin', adminRoutes(db, auth));
+  app.route('/api/platform', platformSponsorshipRoutes(db, auth));
 
   return app;
 }
