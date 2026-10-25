@@ -58,7 +58,7 @@ function SectionPage({
         <Button variant="secondary">← Volver al menú</Button>
       </Link>
       <header>
-        <h1 className="text-3xl font-bold text-primary">{title}</h1>
+        <h1 className="text-2xl font-bold text-primary sm:text-3xl">{title}</h1>
         <p className="text-neutral-600">{community.data.name}</p>
       </header>
       {children(community.data, id)}

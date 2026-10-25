@@ -86,65 +86,67 @@ export function ExpensesCard({
               <strong className="text-primary">{formatEuro(String(totalPaid))}</strong>
             </span>
           </div>
-          <table className="w-full text-sm">
-            <thead>
-              <tr className="border-b border-accent-soft text-left text-neutral-500">
-                <th className="py-2">Concepto</th>
-                <th className="py-2">Fecha</th>
-                <th className="py-2">Categoría</th>
-                <th className="py-2 text-right">Importe</th>
-                <th className="py-2">Estado</th>
-                <th className="py-2" />
-              </tr>
-            </thead>
-            <tbody>
-              {rows.map((expense) => (
-                <tr key={expense.id} className="border-b border-accent-soft/60">
-                  <td className="py-2 font-medium text-neutral-800">
-                    {expense.concept}
-                  </td>
-                  <td className="py-2 text-neutral-600">
-                    {new Date(expense.incurredOn).toLocaleDateString('es-ES')}
-                  </td>
-                  <td className="py-2 text-neutral-600">
-                    {categoryLabels[expense.category]}
-                  </td>
-                  <td className="py-2 text-right">{formatEuro(expense.amount)}</td>
-                  <td className="py-2">
-                    <span
-                      className={
-                        expense.status === 'paid'
-                          ? 'rounded-full bg-green-100 px-2 py-0.5 text-xs text-green-800'
-                          : 'rounded-full bg-accent-soft px-2 py-0.5 text-xs text-primary'
-                      }
-                    >
-                      {statusLabels[expense.status]}
-                    </span>
-                  </td>
-                  <td className="py-2 text-right">
-                    {manage && expense.status === 'registered' ? (
-                      <Button
-                        onClick={() => pay.mutate(expense.id)}
-                        disabled={pay.isPending}
-                        className="mr-2"
-                      >
-                        Marcar pagado
-                      </Button>
-                    ) : null}
-                    {manage ? (
-                      <Button
-                        variant="danger"
-                        onClick={() => remove.mutate(expense.id)}
-                        disabled={remove.isPending}
-                      >
-                        Borrar
-                      </Button>
-                    ) : null}
-                  </td>
+          <div className="overflow-x-auto">
+            <table className="w-full min-w-[620px] text-sm">
+              <thead>
+                <tr className="border-b border-accent-soft text-left text-neutral-500">
+                  <th className="py-2">Concepto</th>
+                  <th className="py-2">Fecha</th>
+                  <th className="py-2">Categoría</th>
+                  <th className="py-2 text-right">Importe</th>
+                  <th className="py-2">Estado</th>
+                  <th className="py-2" />
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {rows.map((expense) => (
+                  <tr key={expense.id} className="border-b border-accent-soft/60">
+                    <td className="py-2 font-medium text-neutral-800">
+                      {expense.concept}
+                    </td>
+                    <td className="py-2 text-neutral-600">
+                      {new Date(expense.incurredOn).toLocaleDateString('es-ES')}
+                    </td>
+                    <td className="py-2 text-neutral-600">
+                      {categoryLabels[expense.category]}
+                    </td>
+                    <td className="py-2 text-right">{formatEuro(expense.amount)}</td>
+                    <td className="py-2">
+                      <span
+                        className={
+                          expense.status === 'paid'
+                            ? 'rounded-full bg-green-100 px-2 py-0.5 text-xs text-green-800'
+                            : 'rounded-full bg-accent-soft px-2 py-0.5 text-xs text-primary'
+                        }
+                      >
+                        {statusLabels[expense.status]}
+                      </span>
+                    </td>
+                    <td className="py-2 text-right">
+                      {manage && expense.status === 'registered' ? (
+                        <Button
+                          onClick={() => pay.mutate(expense.id)}
+                          disabled={pay.isPending}
+                          className="mr-2"
+                        >
+                          Marcar pagado
+                        </Button>
+                      ) : null}
+                      {manage ? (
+                        <Button
+                          variant="danger"
+                          onClick={() => remove.mutate(expense.id)}
+                          disabled={remove.isPending}
+                        >
+                          Borrar
+                        </Button>
+                      ) : null}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </>
       ) : (
         !expenses.isLoading && (

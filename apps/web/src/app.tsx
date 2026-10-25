@@ -79,17 +79,19 @@ function Header() {
 
   return (
     <header className="border-b border-accent-soft bg-white">
-      <div className="mx-auto flex max-w-5xl items-center justify-between px-4 py-3">
-        <Link to="/" className="text-xl font-bold text-primary">
+      <div className="mx-auto flex max-w-5xl flex-wrap items-center justify-between gap-x-4 gap-y-2 px-4 py-3">
+        <Link to="/" className="text-lg font-bold text-primary sm:text-xl">
           Mantivecinos
         </Link>
         {data ? (
-          <div className="flex items-center gap-3">
-            <Link to="/" className="text-sm text-primary hover:underline">
+          <div className="flex flex-wrap items-center gap-x-4 gap-y-1">
+            <Link to="/" className="text-sm font-medium text-primary hover:underline">
               Inicio
             </Link>
             <PlatformLink />
-            <span className="text-sm text-neutral-600">{data.user.email}</span>
+            <span className="hidden max-w-[40vw] truncate text-sm text-neutral-600 sm:inline">
+              {data.user.email}
+            </span>
             <Button
               variant="ghost"
               onClick={() => {
@@ -98,7 +100,8 @@ function Header() {
                 });
               }}
             >
-              Cerrar sesión
+              <span className="sm:hidden">Salir</span>
+              <span className="hidden sm:inline">Cerrar sesión</span>
             </Button>
           </div>
         ) : null}
