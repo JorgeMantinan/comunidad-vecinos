@@ -28,50 +28,50 @@ export function DashboardPage() {
   const communities = useCommunities();
 
   return (
-    <div className="grid gap-6 md:grid-cols-3">
-      <div className="md:col-span-2">
-        <Card title="Mis comunidades">
-          {communities.isLoading ? <Spinner /> : null}
-          {communities.error ? (
-            <ErrorAlert message={communities.error.message} />
-          ) : null}
-          {communities.data && communities.data.length === 0 ? (
-            <p className="text-sm text-neutral-600">
-              Todavía no perteneces a ninguna comunidad. Crea una nueva o espera a que
-              te inviten.
-            </p>
-          ) : null}
-          <ul className="divide-y divide-accent-soft">
-            {communities.data?.map((community) => (
-              <li key={community.id}>
-                <Link
-                  to={`/communities/${community.id}`}
-                  className="flex items-center justify-between py-3 hover:bg-accent-soft/40"
-                >
-                  <div>
-                    <p className="font-medium text-primary">{community.name}</p>
-                    <p className="text-sm text-neutral-600">
-                      {community.address ?? 'Sin dirección registrada'}
-                    </p>
-                  </div>
-                  <RoleBadge role={community.role} />
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </Card>
+    <div className="space-y-6">
+      {/* Lanzador principal para quien administra: una fila por comunidad. */}
+      <AdminOverviewCard />
 
-        <PendingInvitations />
-      </div>
+      <div className="grid gap-6 md:grid-cols-3">
+        <div className="md:col-span-2">
+          <Card title="Mis comunidades">
+            {communities.isLoading ? <Spinner /> : null}
+            {communities.error ? (
+              <ErrorAlert message={communities.error.message} />
+            ) : null}
+            {communities.data && communities.data.length === 0 ? (
+              <p className="text-sm text-neutral-600">
+                Todavía no perteneces a ninguna comunidad. Crea una nueva o espera a que
+                te inviten.
+              </p>
+            ) : null}
+            <ul className="divide-y divide-accent-soft">
+              {communities.data?.map((community) => (
+                <li key={community.id}>
+                  <Link
+                    to={`/communities/${community.id}`}
+                    className="flex items-center justify-between py-3 hover:bg-accent-soft/40"
+                  >
+                    <div>
+                      <p className="font-medium text-primary">{community.name}</p>
+                      <p className="text-sm text-neutral-600">
+                        {community.address ?? 'Sin dirección registrada'}
+                      </p>
+                    </div>
+                    <RoleBadge role={community.role} />
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </Card>
 
-      <CreateCommunityCard />
-
-      <div className="md:col-span-3">
-        <AdminOverviewCard />
-        <div className="mt-6">
-          <CommunityOverview />
+          <PendingInvitations />
         </div>
+
+        <CreateCommunityCard />
       </div>
+
+      <CommunityOverview />
     </div>
   );
 }

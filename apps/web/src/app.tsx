@@ -18,6 +18,19 @@ import { LoginPage } from './pages/login';
 import { MeetingPage } from './pages/meeting';
 import { PlatformPage } from './pages/platform';
 import { RegisterPage } from './pages/register';
+import {
+  AvisosSection,
+  DocumentosSection,
+  EconomiaSection,
+  EstadisticasSection,
+  IncidenciasSection,
+  MantenimientoSection,
+  ParticipacionSection,
+  ProfesionalesSection,
+  ReunionesSection,
+  TareasSection,
+  VecinosSection,
+} from './pages/sections';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -116,6 +129,94 @@ export function App() {
               element={
                 <RequireAuth>
                   <CommunityPage />
+                </RequireAuth>
+              }
+            />
+            <Route
+              path="/communities/:id/avisos"
+              element={
+                <RequireAuth>
+                  <AvisosSection />
+                </RequireAuth>
+              }
+            />
+            <Route
+              path="/communities/:id/reuniones"
+              element={
+                <RequireAuth>
+                  <ReunionesSection />
+                </RequireAuth>
+              }
+            />
+            <Route
+              path="/communities/:id/incidencias"
+              element={
+                <RequireAuth>
+                  <IncidenciasSection />
+                </RequireAuth>
+              }
+            />
+            <Route
+              path="/communities/:id/mantenimiento"
+              element={
+                <RequireAuth>
+                  <MantenimientoSection />
+                </RequireAuth>
+              }
+            />
+            <Route
+              path="/communities/:id/tareas"
+              element={
+                <RequireAuth>
+                  <TareasSection />
+                </RequireAuth>
+              }
+            />
+            <Route
+              path="/communities/:id/economia"
+              element={
+                <RequireAuth>
+                  <EconomiaSection />
+                </RequireAuth>
+              }
+            />
+            <Route
+              path="/communities/:id/documentos"
+              element={
+                <RequireAuth>
+                  <DocumentosSection />
+                </RequireAuth>
+              }
+            />
+            <Route
+              path="/communities/:id/vecinos"
+              element={
+                <RequireAuth>
+                  <VecinosSection />
+                </RequireAuth>
+              }
+            />
+            <Route
+              path="/communities/:id/participacion"
+              element={
+                <RequireAuth>
+                  <ParticipacionSection />
+                </RequireAuth>
+              }
+            />
+            <Route
+              path="/communities/:id/profesionales"
+              element={
+                <RequireAuth>
+                  <ProfesionalesSection />
+                </RequireAuth>
+              }
+            />
+            <Route
+              path="/communities/:id/estadisticas"
+              element={
+                <RequireAuth>
+                  <EstadisticasSection />
                 </RequireAuth>
               }
             />
