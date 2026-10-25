@@ -9,6 +9,7 @@ import type { Database } from '../db/client';
 import * as schema from '../db/schema';
 import { MIGRATIONS_FOLDER } from '../db/migrate';
 import { createAuth } from '../lib/auth';
+import { InMemoryStorage } from '../lib/storage';
 
 export interface TestUser {
   id: string;
@@ -26,6 +27,7 @@ export interface RequestOptions {
 export interface TestContext {
   app: ReturnType<typeof createApp>;
   db: Database;
+  storage: InMemoryStorage;
   request: (path: string, options?: RequestOptions) => Promise<Response>;
   signUp: (input: {
     name: string;
@@ -35,23 +37,20 @@ export interface TestContext {
   close: () => Promise<void>;
 }
 
-// Puertos distintos por contexto para poder paralelizar archivos de test.
-let nextPort = 56_000 + Math.floor(Math.random() * 5_000);
-
-/**
- * Contexto de prueba: PostgreSQL real (PGlite en memoria) trasladado por
+/** Contexto de prueba: PostgreSQL real (PGlite en memoria) trasladado por
  * socket y consumido con el mismo driver `postgres-js` de producción.
- * Las migraciones se aplican desde cero en cada contexto.
+ * Se usa puerto efímero (0) para evitar colisiones entre archivos de
+ * test que corren en paralelo. Las migraciones se aplican desde cero
+ * en cada contexto.
  */
 export async function createTestContext(): Promise<TestContext> {
   const pglite = new PGlite();
   await pglite.waitReady;
 
-  const port = (nextPort += 1);
   const server = new PGLiteSocketServer({
     db: pglite,
     host: '127.0.0.1',
-    port,
+    port: 0,
   });
   await server.start();
 
@@ -72,7 +71,8 @@ export async function createTestContext(): Promise<TestContext> {
     secret: config.authSecret,
     trustedOrigins: config.corsOrigins,
   });
-  const app = createApp({ db, auth, config });
+  const storage = new InMemoryStorage();
+  const app = createApp({ db, auth, config, storage });
 
   const request = async (
     path: string,
@@ -119,6 +119,7 @@ export async function createTestContext(): Promise<TestContext> {
   return {
     app,
     db,
+    storage,
     request,
     signUp,
     close: async () => {

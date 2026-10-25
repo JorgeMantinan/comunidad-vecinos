@@ -75,3 +75,50 @@ export function useDeleteIncident(communityId: string) {
     onSuccess: invalidate,
   });
 }
+
+export function useUploadIncidentPhoto(communityId: string) {
+  const invalidate = useInvalidateIncidents(communityId);
+  return useMutation({
+    mutationFn: async (input: {
+      incidentId: string;
+      contentType: string;
+      contentBase64: string;
+    }) =>
+      apiFetch<unknown>(
+        `/api/communities/${communityId}/incidents/${input.incidentId}/photos`,
+        {
+          method: 'POST',
+          body: JSON.stringify({
+            contentType: input.contentType,
+            contentBase64: input.contentBase64,
+          }),
+        },
+      ),
+    onSuccess: invalidate,
+  });
+}
+
+/** Pide la URL firmada de una foto y la abre en pesta�a nueva. */
+export function useDownloadIncidentPhoto(communityId: string) {
+  return useMutation({
+    mutationFn: async (input: { incidentId: string; photoId: string }) => {
+      const { url } = await apiFetch<{ url: string }>(
+        `/api/communities/${communityId}/incidents/${input.incidentId}/photos/${input.photoId}/download`,
+      );
+      window.open(url, '_blank', 'noopener');
+      return url;
+    },
+  });
+}
+
+export function useDeleteIncidentPhoto(communityId: string) {
+  const invalidate = useInvalidateIncidents(communityId);
+  return useMutation({
+    mutationFn: async (input: { incidentId: string; photoId: string }) =>
+      apiFetch<unknown>(
+        `/api/communities/${communityId}/incidents/${input.incidentId}/photos/${input.photoId}`,
+        { method: 'DELETE' },
+      ),
+    onSuccess: invalidate,
+  });
+}

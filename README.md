@@ -4,11 +4,12 @@ SaaS multi-comunidad para que vecinos, presidentes y administradores de
 fincas gestionen información, economía, reuniones, incidencias,
 documentación y profesionales desde una única plataforma.
 
-> Estado: **Fase 3 — mantenimiento y participación**: incidencias,
-> tareas, sugerencias, encuestas, inventario, contratos de
-> mantenimiento y profesionales recomendados.
-> Pendientes: documentación con almacenamiento de objetos, fotos de
-> incidencias, notificaciones por correo y patrocinios (Fase 5).
+> Estado: **Fase 3 — mantenimiento y participación** con archivos
+> privados: incidencias (con fotos), tareas, sugerencias, encuestas,
+> inventario, contratos y profesionales; documentación privada en
+> Vercel Blob con descargas por URL firmada.
+> Pendientes: notificaciones por correo (requiere API key) y
+> patrocinios (Fase 5).
 
 ## Enlaces
 

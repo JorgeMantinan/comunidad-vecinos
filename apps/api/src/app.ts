@@ -5,6 +5,7 @@ import type { AppConfig } from './config';
 import type { Database } from './db/client';
 import type { Auth } from './lib/auth';
 import type { AppEnv } from './lib/context';
+import type { StoragePort } from './lib/storage';
 import { errorHandler, notFoundHandler } from './middleware/error-handler';
 import { announcementRoutes } from './modules/announcements/routes';
 import { assetRoutes } from './modules/assets/routes';
@@ -12,6 +13,7 @@ import { assessmentRoutes } from './modules/assessments/routes';
 import { auditRoutes } from './modules/audit/routes';
 import { communityRoutes } from './modules/communities/routes';
 import { contractRoutes } from './modules/contracts/routes';
+import { documentRoutes } from './modules/documents/routes';
 import { expenseRoutes } from './modules/expenses/routes';
 import { exportRoutes } from './modules/export/routes';
 import { healthRoutes } from './modules/health/routes';
@@ -29,13 +31,19 @@ export interface AppDependencies {
   db: Database;
   auth: Auth;
   config: AppConfig;
+  storage: StoragePort;
 }
 
 /**
  * Factoría de la aplicación Hono. La usan el servidor local, los tests
  * y el adaptador de Vercel, para que exista una única configuración.
  */
-export function createApp({ db, auth, config }: AppDependencies): Hono<AppEnv> {
+export function createApp({
+  db,
+  auth,
+  config,
+  storage,
+}: AppDependencies): Hono<AppEnv> {
   const app = new Hono<AppEnv>();
 
   if (config.nodeEnv !== 'test') {
@@ -62,13 +70,14 @@ export function createApp({ db, auth, config }: AppDependencies): Hono<AppEnv> {
   app.route('/api/communities', invoiceRoutes(db, auth));
   app.route('/api/communities', unitRoutes(db, auth));
   app.route('/api/communities', assessmentRoutes(db, auth));
-  app.route('/api/communities', incidentRoutes(db, auth));
+  app.route('/api/communities', incidentRoutes(db, auth, storage));
   app.route('/api/communities', taskRoutes(db, auth));
   app.route('/api/communities', suggestionRoutes(db, auth));
   app.route('/api/communities', pollRoutes(db, auth));
   app.route('/api/communities', assetRoutes(db, auth));
   app.route('/api/communities', contractRoutes(db, auth));
   app.route('/api/communities', professionalRoutes(db, auth));
+  app.route('/api/communities', documentRoutes(db, auth, storage));
   app.route('/api/communities', exportRoutes(db, auth));
   app.route('/api/communities', auditRoutes(db, auth));
   app.route('/api', invitationRoutes(db, auth));

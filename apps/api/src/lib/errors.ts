@@ -24,5 +24,8 @@ export const notFound = (message = 'Recurso no encontrado') =>
 
 export const conflict = (message: string) => new AppError(409, 'conflict', message);
 
+export const serviceUnavailable = (message = 'Servicio no disponible temporalmente') =>
+  new AppError(503, 'service_unavailable', message);
+
 export const validationError = (message: string) =>
   new AppError(400, 'validation_error', message);

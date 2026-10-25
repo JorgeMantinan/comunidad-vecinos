@@ -3,6 +3,7 @@ import { createApp } from './app';
 import { loadConfig } from './config';
 import { createDatabase } from './db/client';
 import { createAuth } from './lib/auth';
+import { createBlobStorage } from './lib/storage';
 
 /**
  * Entrada serverless de Vercel. `tsup` la empaqueta como ESM en
@@ -24,7 +25,7 @@ const auth = createAuth(db, {
   trustedOrigins: config.corsOrigins,
   nodeEnv: config.nodeEnv,
 });
-const app = createApp({ db, auth, config });
+const app = createApp({ db, auth, config, storage: createBlobStorage() });
 
 /**
  * El runtime de Node de Vercel detecta los manejadores web por el

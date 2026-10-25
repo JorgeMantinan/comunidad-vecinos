@@ -13,6 +13,7 @@ export const errorCodeSchema = z.enum([
   'not_found',
   'validation_error',
   'conflict',
+  'service_unavailable',
   'internal_error',
 ]);
 export type ErrorCode = z.infer<typeof errorCodeSchema>;

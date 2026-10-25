@@ -18,6 +18,7 @@ import { AnnouncementsCard } from '../features/announcements/announcements-card'
 import { AssetsCard } from '../features/assets/assets-card';
 import { AssessmentsCard } from '../features/assessments/assessments-card';
 import { ContractsCard } from '../features/contracts/contracts-card';
+import { DocumentsCard } from '../features/documents/documents-card';
 import { useExportCommunity } from '../features/export/api';
 import { ExpensesCard } from '../features/expenses/expenses-card';
 import { IncidentsCard } from '../features/incidents/incidents-card';
@@ -97,6 +98,7 @@ export function CommunityPage() {
           <ExpensesCard communityId={community.data.id} role={community.data.role} />
           <InvoicesCard communityId={community.data.id} role={community.data.role} />
           <AssessmentsCard communityId={community.data.id} role={community.data.role} />
+          <DocumentsCard communityId={community.data.id} role={community.data.role} />
         </>
       ) : null}
       <SuggestionsCard communityId={community.data.id} role={community.data.role} />

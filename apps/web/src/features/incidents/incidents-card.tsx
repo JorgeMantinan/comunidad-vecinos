@@ -1,13 +1,17 @@
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useRef } from 'react';
 import { useForm } from 'react-hook-form';
 import type { CommunityRole, IncidentStatus } from '@comunidad/shared';
-import { createIncidentInputSchema } from '@comunidad/shared';
+import { createIncidentInputSchema, MAX_FILE_BYTES } from '@comunidad/shared';
 import { Button, Card, ErrorAlert, Field, Input, Spinner } from '../../components/ui';
+import { fileToBase64 } from '../../lib/file';
 import {
   useDeleteIncident,
+  useDownloadIncidentPhoto,
   useIncidents,
   useReportIncident,
   useUpdateIncident,
+  useUploadIncidentPhoto,
 } from './api';
 
 const statusLabels: Record<IncidentStatus, string> = {
@@ -33,7 +37,10 @@ export function IncidentsCard({
   const report = useReportIncident(communityId);
   const update = useUpdateIncident(communityId);
   const remove = useDeleteIncident(communityId);
+  const uploadPhoto = useUploadIncidentPhoto(communityId);
+  const downloadPhoto = useDownloadIncidentPhoto(communityId);
   const manage = role === 'owner' || role === 'admin';
+  const photoInputRefs = useRef<Record<string, HTMLInputElement | null>>({});
 
   const form = useForm({
     resolver: zodResolver(createIncidentInputSchema),
@@ -50,6 +57,10 @@ export function IncidentsCard({
       {report.error ? <ErrorAlert message={report.error.message} /> : null}
       {update.error ? <ErrorAlert message={update.error.message} /> : null}
       {remove.error ? <ErrorAlert message={remove.error.message} /> : null}
+      {uploadPhoto.error ? <ErrorAlert message={uploadPhoto.error.message} /> : null}
+      {downloadPhoto.error ? (
+        <ErrorAlert message={downloadPhoto.error.message} />
+      ) : null}
 
       {incidents.isLoading ? <Spinner /> : null}
       {!incidents.isLoading && (incidents.data?.length ?? 0) === 0 ? (
@@ -111,6 +122,47 @@ export function IncidentsCard({
                   </Button>
                 ) : null}
               </div>
+            </div>
+            <div className="mt-2 flex flex-wrap items-center gap-2">
+              {incident.photos.map((photo) => (
+                <button
+                  key={photo.id}
+                  type="button"
+                  onClick={() =>
+                    downloadPhoto.mutate({
+                      incidentId: incident.id,
+                      photoId: photo.id,
+                    })
+                  }
+                  className="rounded bg-accent-soft px-2 py-1 text-xs text-primary hover:bg-accent"
+                  title="Abrir fotografía con enlace temporal"
+                >
+                  📷 {new Date(photo.createdAt).toLocaleDateString('es-ES')}
+                </button>
+              ))}
+              <label className="cursor-pointer rounded border border-dashed border-accent px-2 py-1 text-xs text-neutral-500 hover:bg-accent-soft/50">
+                + adjuntar foto
+                <input
+                  ref={(element) => {
+                    photoInputRefs.current[incident.id] = element;
+                  }}
+                  type="file"
+                  accept="image/jpeg,image/png,image/webp"
+                  className="hidden"
+                  onChange={async (event) => {
+                    const file = event.target.files?.[0];
+                    event.target.value = '';
+                    if (!file || file.size > MAX_FILE_BYTES) {
+                      return;
+                    }
+                    uploadPhoto.mutate({
+                      incidentId: incident.id,
+                      contentType: file.type,
+                      contentBase64: await fileToBase64(file),
+                    });
+                  }}
+                />
+              </label>
             </div>
           </li>
         ))}

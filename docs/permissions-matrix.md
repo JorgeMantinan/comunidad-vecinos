@@ -39,6 +39,10 @@ hacer en esta comunidad". Se implementan por separado.
 | Crear y cerrar encuestas              | ❌             | ✅    | ✅    | ❌     | ❌       |
 | Ver inventario, contratos y profesionales | ❌          | ✅    | ✅    | ✅     | ✅       |
 | Gestionar inventario, contratos y profesionales | ❌      | ✅    | ✅    | ❌     | ❌       |
+| Ver documentación privada             | ❌             | ✅    | ✅    | ✅     | ❌       |
+| Subir y eliminar documentos           | ❌             | ✅    | ✅    | ❌     | ❌       |
+| Adjuntar fotos a incidencias          | ❌             | ✅    | ✅    | ✅     | ✅       |
+| Eliminar fotos (propias; admin, todas)| ❌             | ✅    | ✅    | ✅     | ✅       |
 | Editar datos de la comunidad          | ❌             | ✅    | ✅    | ❌     | ❌       |
 | Invitar miembros                     | ❌             | ✅    | ✅    | ❌     | ❌       |
 | Revocar invitaciones                  | ❌             | ✅    | ✅    | ❌     | ❌       |
@@ -74,6 +78,11 @@ hacer en esta comunidad". Se implementan por separado.
 7.  Los profesionales listados son **recomendación vecinal**; cualquier
     publicidad patrocinada de la Fase 5 deberá identificarse como tal y
     separarse de estas fichas (nunca accede a datos de vecinos).
+8.  Los archivos (documentos y fotos) viven en un almacén **privado**;
+    cada descarga exige autorización de la comunidad y entrega una URL
+    firmada de 10 minutos. Cualquier miembro puede adjuntar fotos a
+    incidencias y borrar las suyas; `owner`/`admin` pueden borrar
+    cualquier foto.
 
 ## Evolución
 
