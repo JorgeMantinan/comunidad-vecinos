@@ -4,10 +4,11 @@ SaaS multi-comunidad para que vecinos, presidentes y administradores de
 fincas gestionen información, economía, reuniones, incidencias,
 documentación y profesionales desde una única plataforma.
 
-> Estado: **Fase 3 — mantenimiento y participación** (núcleo):
-> incidencias, tareas, sugerencias y encuestas no vinculantes.
-> Pendientes: documentación con almacenamiento de objetos, inventario,
-> contratos, notificaciones por correo y profesionales.
+> Estado: **Fase 3 — mantenimiento y participación**: incidencias,
+> tareas, sugerencias, encuestas, inventario, contratos de
+> mantenimiento y profesionales recomendados.
+> Pendientes: documentación con almacenamiento de objetos, fotos de
+> incidencias, notificaciones por correo y patrocinios (Fase 5).
 
 ## Enlaces
 

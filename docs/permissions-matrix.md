@@ -37,6 +37,8 @@ hacer en esta comunidad". Se implementan por separado.
 | Revisar sugerencias (cambiar estado)  | ❌             | ✅    | ✅    | ❌     | ❌       |
 | Ver encuestas y votar                 | ❌             | ✅    | ✅    | ✅     | ✅       |
 | Crear y cerrar encuestas              | ❌             | ✅    | ✅    | ❌     | ❌       |
+| Ver inventario, contratos y profesionales | ❌          | ✅    | ✅    | ✅     | ✅       |
+| Gestionar inventario, contratos y profesionales | ❌      | ✅    | ✅    | ❌     | ❌       |
 | Editar datos de la comunidad          | ❌             | ✅    | ✅    | ❌     | ❌       |
 | Invitar miembros                     | ❌             | ✅    | ✅    | ❌     | ❌       |
 | Revocar invitaciones                  | ❌             | ✅    | ✅    | ❌     | ❌       |
@@ -69,6 +71,9 @@ hacer en esta comunidad". Se implementan por separado.
     incidencias, proponer sugerencias y votar encuestas; la revisión de
     estados y la gestión de tareas son exclusivas de `owner`/`admin`.
     El autor de una sugerencia puede eliminar la suya.
+7.  Los profesionales listados son **recomendación vecinal**; cualquier
+    publicidad patrocinada de la Fase 5 deberá identificarse como tal y
+    separarse de estas fichas (nunca accede a datos de vecinos).
 
 ## Evolución
 
