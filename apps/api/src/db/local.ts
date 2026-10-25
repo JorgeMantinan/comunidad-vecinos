@@ -40,7 +40,6 @@ export async function createLocalDatabase(
 
   const pglite = new pgliteModule.PGlite(dataDir);
   await pglite.waitReady;
-
   const server = new socketModule.PGLiteSocketServer({
     db: pglite,
     host: LOCAL_HOST,
@@ -58,6 +57,9 @@ export async function createLocalDatabase(
     close: async () => {
       await client.end({ timeout: 1 });
       await server.stop();
+      // PGlite (WASM) mantiene el bucle de eventos vivo: sin cerrarlo el
+      // proceso nunca termina y Playwright esperaría la URL en vano.
+      await pglite.close().catch(() => undefined);
     },
   };
 }

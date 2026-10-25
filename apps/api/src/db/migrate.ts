@@ -29,10 +29,24 @@ if (isMainModule()) {
     ? { db: createDatabase(remoteUrl), close: async () => {} }
     : await createLocalDatabase();
 
-  try {
-    await runMigrations(connection.db);
-    console.info('Migraciones aplicadas correctamente.');
-  } finally {
-    await connection.close();
-  }
+  const run = async (): Promise<void> => {
+    try {
+      await runMigrations(connection.db);
+      console.info('Migraciones aplicadas correctamente.');
+    } finally {
+      // Nunca se queda colgado: cierra con un tope por si el driver
+      // tarda (los E2E dependen de que este proceso termine).
+      await Promise.race([
+        connection.close(),
+        new Promise((resolve) => setTimeout(resolve, 5_000)),
+      ]);
+    }
+  };
+
+  run()
+    .then(() => process.exit(0))
+    .catch((error: unknown) => {
+      console.error(error);
+      process.exit(1);
+    });
 }
