@@ -34,6 +34,9 @@ proyectos de Vercel (web y API) desde este monorepo.
        --access private`).
     -  `RESEND_API_KEY` + `EMAIL_FROM` (opcional): activa el correo de
        invitaciones; sin ellas el envío se omite con aviso.
+    -  `PLATFORM_ADMIN_EMAILS` (opcional): emails (separados por coma)
+       que gestionan la publicidad en `/platform`; sin definir, nadie
+       puede gestionar patrocinios.
 5.  Desplegar. La API quedará en `mantivecinos-api.vercel.app`.
 
 ## 3. Proyecto del frontend

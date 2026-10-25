@@ -49,6 +49,9 @@ hacer en esta comunidad". Se implementan por separado.
 | Crear tareas derivadas de acuerdos    | ❌             | ✅    | ✅    | ❌     | ❌       |
 | Ver y usar plantillas                 | ❌             | ✅    | ✅    | ❌     | ❌       |
 | Generar documentos desde plantillas   | ❌             | ✅    | ✅    | ❌     | ❌       |
+| Ver estadísticas de uso               | ❌             | ✅    | ✅    | ✅     | ✅       |
+| Gestionar patrocinios (publicidad)    | ✅             | ❌    | ❌    | ❌     | ❌       |
+| Ver publicidad de la comunidad        | ❌             | ✅    | ✅    | ✅     | ✅       |
 | Editar datos de la comunidad          | ❌             | ✅    | ✅    | ❌     | ❌       |
 | Invitar miembros                     | ❌             | ✅    | ✅    | ❌     | ❌       |
 | Revocar invitaciones                  | ❌             | ✅    | ✅    | ❌     | ❌       |
@@ -92,6 +95,11 @@ hacer en esta comunidad". Se implementan por separado.
 9.  El panel de administración solo agrega comunidades donde el usuario
     es `owner`/`admin` (las de mero miembro no aparecen nunca) y el CSV
     del informe queda restringido a `owner`/`admin`.
+10. La gestión de patrocinios pertenece a la **administración de
+    plataforma** (emails en `PLATFORM_ADMIN_EMAILS`), nunca a roles de
+    comunidad. La publicidad mostrada se identifica siempre como tal y
+    solo expone nombre y web: los anunciantes no son usuarios y no
+    reciben ningún dato de los vecinos ni de quién solicita servicios.
 
 ## Evolución
 

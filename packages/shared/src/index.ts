@@ -18,6 +18,8 @@ export * from './professionals';
 export * from './reports';
 export * from './roles';
 export * from './suggestions';
+export * from './sponsorships';
+export * from './stats';
 export * from './tasks';
 export * from './templates';
 export * from './units';

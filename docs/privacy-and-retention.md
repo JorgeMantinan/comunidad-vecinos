@@ -49,6 +49,13 @@ legal (ej. registros económicos), no solo borrado físico.
 | **Vercel Blob** (tienda `mantivecinos`, región `iad1`) | Documentación privada y fotos de incidencias (`access: 'private'`) | Binarios nunca en la BD; descarga solo con URL firmada de 10 min; token en variables de entorno de Vercel |
 | **Neon** (región `eu-west-2`, Reino Unido) | PostgreSQL | Migraciones exclusivamente desde el repositorio |
 | **Vercel Functions** | API y frontend | Cookies de sesión `SameSite=None; Secure` en producción |
+| **Resend** | Correo transaccional (invitaciones) | Clave en variables de entorno; en modo test solo admite el correo de la cuenta; sin dominio verificado no se envía a terceros |
+
+**Publicidad (patrocinios):** los anunciantes no son usuarios de la
+plataforma: no reciben credenciales ni acceden a datos de vecinos, a
+quién solicita servicios o a métricas individuales. La interfaz muestra
+su espacio siempre etiquetado como «Publicidad», separado de las
+recomendaciones vecinales.
 
 Antes de producción: registrar proveedores, ubicación de los datos,
 subencargados y transferencias internacionales. Priorizar proveedores

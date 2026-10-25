@@ -27,6 +27,8 @@ import { MeetingsCard } from '../features/meetings/meetings-card';
 import { PollsCard } from '../features/polls/polls-card';
 import { EconomyReportCard } from '../features/reports/reports-card';
 import { ProfessionalsCard } from '../features/professionals/professionals-card';
+import { SponsorsCard } from '../features/sponsorships/sponsors-card';
+import { StatsCard } from '../features/stats/stats-card';
 import { SuggestionsCard } from '../features/suggestions/suggestions-card';
 import { TasksCard } from '../features/tasks/tasks-card';
 import { TemplatesCard } from '../features/templates/templates-card';
@@ -111,6 +113,8 @@ export function CommunityPage() {
       <SuggestionsCard communityId={community.data.id} role={community.data.role} />
       <PollsCard communityId={community.data.id} role={community.data.role} />
       <ProfessionalsCard communityId={community.data.id} role={community.data.role} />
+      <SponsorsCard communityId={community.data.id} role={community.data.role} />
+      <StatsCard communityId={community.data.id} />
 
       <MembersCard communityId={community.data.id} />
       <InvitationsCard communityId={community.data.id} role={community.data.role} />

@@ -6,3 +6,4 @@ export * from './finance';
 export * from './maintenance';
 export * from './management';
 export * from './participation';
+export * from './sponsorships';
