@@ -11,7 +11,6 @@ interface Professional {
   name: string;
   trade: string;
   phone: string | null;
-  recommendedByName: string | null;
 }
 
 describe('Módulo de profesionales recomendados', () => {
@@ -81,7 +80,9 @@ describe('Módulo de profesionales recomendados', () => {
     });
     expect(res.status).toBe(201);
     const professional = (await res.json()) as Professional;
-    expect(professional.recommendedByName).toBe('Elena Presidenta');
+    // La ficha ya no publica quién la creó: la recomendación la firma la
+    // junta, no una persona (decisión de producto 25/10/2026).
+    expect(professional).not.toHaveProperty('recommendedByName');
     professionalId = professional.id;
   });
 

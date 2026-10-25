@@ -97,7 +97,12 @@ sesión, nunca desde el cuerpo de la petición).
     El autor de una sugerencia puede eliminar la suya.
 7.  Los profesionales listados son **recomendación vecinal**; cualquier
     publicidad patrocinada de la Fase 5 deberá identificarse como tal y
-    separarse de estas fichas (nunca accede a datos de vecinos).
+    separarse de estas fichas (nunca accede a datos de vecinos). El alta
+    y el borrado corresponden a `owner`/`admin`; **cualquier miembro
+    puede proponer** un profesional desde la propia sección (se
+    materializa como sugerencia y la junta la da de alta). Las fichas
+    **no publican quién las creó**: la recomendación la firma la junta,
+    no una persona.
 8.  Los archivos (documentos y fotos) viven en un almacén **privado**;
     cada descarga exige autorización de la comunidad y entrega una URL
     firmada de 10 minutos. Cualquier miembro puede adjuntar fotos a

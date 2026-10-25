@@ -89,9 +89,6 @@ export const professionals = pgTable(
     phone: text('phone'),
     email: text('email'),
     notes: text('notes'),
-    recommendedById: text('recommended_by_id').references(() => user.id, {
-      onDelete: 'set null',
-    }),
     createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
     updatedAt: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow(),
   },
