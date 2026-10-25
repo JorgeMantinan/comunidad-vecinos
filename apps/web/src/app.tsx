@@ -9,6 +9,7 @@ import {
   useNavigate,
 } from 'react-router-dom';
 import { Button, Spinner } from './components/ui';
+import { usePlatformSponsorships } from './features/sponsorships/api';
 import { useLogout, useSession } from './lib/auth';
 import { CommunityPage } from './pages/community';
 import { DashboardPage } from './pages/dashboard';
@@ -27,6 +28,19 @@ const queryClient = new QueryClient({
 function Centered({ children }: { children: ReactNode }) {
   return (
     <div className="flex min-h-screen items-center justify-center">{children}</div>
+  );
+}
+
+/** Enlace a publicidad: solo para cuentas autorizadas por la plataforma. */
+function PlatformLink() {
+  const platformAdmin = usePlatformSponsorships();
+  if (!platformAdmin.data) {
+    return null;
+  }
+  return (
+    <Link to="/platform" className="text-sm text-primary hover:underline">
+      Publicidad
+    </Link>
   );
 }
 
@@ -61,9 +75,7 @@ function Header() {
             <Link to="/" className="text-sm text-primary hover:underline">
               Inicio
             </Link>
-            <Link to="/platform" className="text-sm text-primary hover:underline">
-              Publicidad
-            </Link>
+            <PlatformLink />
             <span className="text-sm text-neutral-600">{data.user.email}</span>
             <Button
               variant="ghost"

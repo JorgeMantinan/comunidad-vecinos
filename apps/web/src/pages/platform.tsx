@@ -65,8 +65,8 @@ export function PlatformPage() {
     return (
       <Card title="Publicidad">
         <p className="text-sm text-neutral-600">
-          Tu cuenta no gestiona publicidad de plataforma (
-          <code>PLATFORM_ADMIN_EMAILS</code>).
+          Esta cuenta no está autorizada para gestionar la publicidad de plataforma. Si
+          necesitas acceso, contacta con el operador del servicio.
         </p>
       </Card>
     );
