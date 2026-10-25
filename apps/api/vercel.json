@@ -1,6 +1,12 @@
 {
   "outputDirectory": "dist",
   "regions": ["fra1"],
+  "crons": [
+    {
+      "path": "/api/cron/backup",
+      "schedule": "0 3 * * 0"
+    }
+  ],
   "rewrites": [{ "source": "/(.*)", "destination": "/api" }],
   "headers": [
     {

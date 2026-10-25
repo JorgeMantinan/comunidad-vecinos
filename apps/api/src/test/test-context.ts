@@ -23,6 +23,8 @@ export interface RequestOptions {
   method?: string;
   body?: unknown;
   cookie?: string;
+  /** Cabeceras adicionales (p. ej. la autorización del cron). */
+  headers?: Record<string, string>;
 }
 
 export interface TestContext {
@@ -83,6 +85,7 @@ export async function createTestContext(): Promise<TestContext> {
   ): Promise<Response> => {
     const headers: Record<string, string> = {
       'content-type': 'application/json',
+      ...options.headers,
     };
     if (options.cookie) {
       headers['cookie'] = options.cookie;
