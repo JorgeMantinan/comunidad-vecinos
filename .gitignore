@@ -14,6 +14,9 @@ out/
 .env.*
 !.env.example
 
+# Datos personales del responsable: nunca se versionan
+docs/legal/*.local.md
+
 # Base de datos locales
 *.sqlite
 *.db

@@ -1,33 +1,32 @@
 # Checklist de revisión jurídica
 
 > Para tenerlo todo en una sola pantalla antes de enviarlo al asesor.
-> El detalle y el texto están en los cuatro documentos de esta carpeta;
-> aquí solo se lista **qué falta, quién lo pone y dónde**.
-> Estado: **ningún documento está publicado todavía**.
+> El detalle y el texto están en los documentos de esta carpeta.
+> Estado: **A y B completados (26/10/2026)** · **falta la revisión C**
+> (asesor) y los **pasos finales E**. **Ningún documento publicado.**
 
-## A. Datos que pones tú (5 minutos)
+## A. Datos del responsable — ✅ rellenado
 
-| # | Qué | Dónde |
+| # | Qué | Valor |
 | - | --- | ----- |
-| A1 | Nombre/razón social, NIF, domicilio y email de contacto | `politica-de-privacidad.md` §1 (tabla «Responsable») |
-| A2 | Si hay Delegado de Protección de Datos (en la mayoría de proyectos: **no es obligatorio**) | `politica-de-privacidad.md` §1, última fila |
-| A3 | Mismos datos del responsable y **fecha de elaboración** | `registro-de-tratamientos.md` cabecera |
-| A4 | Responsable, **canal de entrada de solicitudes** y fecha | `arsul.md` cabecera |
-| A5 | Fecha de la primera versión | `politica-de-privacidad.md` «Última actualización» |
+| A1 | Responsable | **Jorge Mantiñán Montero**, a título particular (sin empresa ni alta de autónomo) |
+| A2 | NIF y domicilio | **No se publican** (el repositorio es público): están en `datos-responsable.local.md`, archivo **no versionado** en `.gitignore` |
+| A3 | Contacto de privacidad | `jorgemantinanmontero@gmail.com` — el mismo que muestra `/legal` (`VITE_LEGAL_CONTACT_EMAIL`) |
+| A4 | Delegado de Protección de Datos | **No designado** (no obligatorio en este proyecto) |
+| A5 | Fecha de la primera versión | 26/10/2026 (v1.0) |
 
-**Coherencia con la app:** el contacto que se muestra en `/legal` sale de
-la variable `VITE_LEGAL_CONTACT_EMAIL` (hoy
-`jorgemantinanmontero@gmail.com`). Si cambias el correo en los
-documentos, cambia también esa variable (o viceversa).
+> **Si algún día hay que publicar el domicilio** (si el asesor lo
+> considera obligatorio), usar una dirección distinta de la particular:
+> un local, la administración que actúe por usted o un apartado postal.
 
-## B. Decisiones tuyas (no son jurídicas, son de producto)
+## B. Decisiones del responsable — ✅ tomadas
 
-| # | Qué decidir | Dónde |
-| - | ----------- | ----- |
-| B1 | Quién custodia las copias de seguridad fuera de Vercel/Neon (`apps/api/backups/` y el almacén) | `registro-de-tratamientos.md` §7 (copias) |
-| B2 | Si permite la baja **asistida** excepcional cuando la app bloquea (único presidente de una comunidad con vecinos) | `arsul.md` §4 |
-| B3 | Nivel de marca temporal que contratas: interno (gratis), por correo (gratis) o **sello cualificado** (de pago) | `control-firmas-y-marca-temporal.md` §4 |
-| B4 | Aceptación del envío de correos en modo test (sin dominio: **solo llegan a tu bandeja**) | `politica-de-privacidad.md` §5 fila Resend |
+| # | Decisión | Valor |
+| - | -------- | ----- |
+| B1 | Custodia de las copias | El responsable, en su equipo **más** el almacén privado de Vercel (rotación de 30 días) |
+| B2 | Baja asistida cuando la app bloquea | **Sí**: manual, a petición por escrito y con registro. Para el asesor: ¿disolver la comunidad o solo borrar la cuenta? |
+| B3 | Marca temporal | **Nivel 1** (interno, gratis) + **nivel 2** (huella por correo). Nivel 3 solo si un tercero exige sello cualificado |
+| B4 | Correos | Modo test de Resend: solo llegan a tu bandeja (sin dominio). Ya asumido en los documentos |
 
 ## C. Revisión del asesor (el texto ya está escrito; solo valida o corrige)
 

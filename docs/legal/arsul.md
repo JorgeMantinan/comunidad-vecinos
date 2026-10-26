@@ -2,13 +2,13 @@
 
 > **Plantilla operativa para revisión jurídica.** Recoge cómo se recibe,
 > atiende y responde cada solicitud de derechos (Acceso, Rectificación,
-> Supresión, Uso oposición, Limitación y Portabilidad). Los campos
-> `[PLACEHOLDER]` se completan con el responsable. Estado: **pendiente
-> de validación humana**.
+> Supresión, Oposición, Limitación y Portabilidad). Estado: **datos del
+> responsable rellenados; pendiente de validación del asesor**.
 
-**Responsable:** `[PLACEHOLDER: nombre y contacto]`
-**Canales de entrada:** `[PLACEHOLDER: email de privacidad]`
-**Última revisión:** `[PLACEHOLDER]`
+**Responsable:** Jorge Mantiñán Montero (a título particular)
+**Canales de entrada:** `jorgemantinanmontero@gmail.com` (el mismo que
+se muestra en `/legal`; el correo llega a la bandeja del responsable)
+**Última revisión:** 26/10/2026
 
 ## 1. Principios
 
@@ -49,8 +49,10 @@
    | **Retirada de consentimiento** | Cesar el tratamiento basado en consentimiento sin que ello afecte a lo hecho con anterioridad. |
 
 5.  **Localización de los datos.** Consultar dónde vive cada bloque
-   (ver sección 4) y, si procede, pedir a `[PLACEHOLDER: responsable
-   técnico]` la extracción.
+   (ver sección 4) y preparar la extracción con las herramientas del
+   proyecto: exportación personal (`GET /api/account/export`),
+   exportación de comunidad (`…/export`) o volcado completo
+   (`pnpm --filter @comunidad/api db:backup`).
 6.  **Decisión y respuesta.** Respuesta escrita, clara y en castellano,
    con el detalle de las medidas adoptadas. Si se deniega, se exponen
    los motivos y la vía de reclamación ante la AEPD.
@@ -78,13 +80,14 @@
 | Gastos, facturas, derramas y cuotas | PostgreSQL | Por comunidad y unidad |
 | Incidencias, tareas, sugerencias, encuestas | PostgreSQL (los votos se exportan agregados) | Por comunidad |
 | Documentos y fotografías | Almacenamiento de objetos privado (metadatos en PostgreSQL) | Borrado directo de la clave de almacenamiento |
-| Correo transaccional | Resend | Según su política de retención `[PLACEHOLDER: verificar]` |
-| Copias de seguridad | `apps/api/backups/` fuera del repositorio | Rotación de 30 días |
+| Correo transaccional | Resend | Según la política del proveedor (**a verificar con el asesor**); en modo test solo se entrega al correo de la cuenta |
+| Copias de seguridad | Almacén privado de Vercel (`backups/…`), fuera del repositorio | Copia semanal automática con rotación de 30 días |
 
-**Exportación de una comunidad (acceso/portabilidad):** los
-administradores disponen de la exportación JSON de la comunidad
-(`GET /api/communities/:id/export`). **Pendiente:** ampliarla a la
-exportación individual que puede pedir cualquier persona interesada.
+**Exportación de datos (acceso/portabilidad):** los administradores
+disponen de la exportación JSON de la comunidad
+(`GET /api/communities/:id/export`) y **cualquier persona puede
+descargar los suyos propios** desde su panel («Descargar mis datos» →
+`GET /api/account/export`), que solo contiene datos de quien lo pide.
 
 **Baja en la aplicación:** la interfaz incluye «Tu cuenta y tus datos →
 Darme de baja» (`DELETE /api/account`), que exige contraseña y la frase
@@ -93,9 +96,15 @@ que la persona era el único miembro; en las comunidades con más vecinos
 solo desaparece la membresía y el actor queda anónimo en la auditoría,
 conservándose actas y registros económicos (sección 3). Si es la única
 `owner` de una comunidad con otros miembros, la aplicación **bloquea la
-baja** y pide transferir antes la presidencia. **[PLACEHOLDER —
-decisión del asesor]** validar este criterio y, si procede, habilitar un
-proceso excepcional de baja asistida.
+baja** y pide transferir antes la presidencia.
+
+**Baja asistida (decisión del responsable):** sí está permitida. Cuando
+la aplicación bloquea porque transferir la presidencia no es viable, el
+responsable tramita la baja **manualmente y a petición por escrito**
+(correo desde la cuenta de la persona), comprobando la identidad y
+dejando constancia en el registro de solicitudes. La matiz para el
+asesor: confirmar si, en ese caso, conviene además disolver la comunidad
+o solo eliminar la cuenta.
 
 ## 5. Solicitudes de terceros mencionados en actas
 
@@ -104,12 +113,13 @@ que aparecen en actas o documentación aportada por otros. En ese caso:
 
 -  Se informa de la base jurídica (interés legítimo de la comunidad en
    su gestión) y del derecho de oposición.
--  Se valora con `[PLACEHOLDER: asesor]` si procede ocultar el dato en
-   documentos futuros sin alterar el histórico.
+-  Se valora con el asesor jurídico (pendiente de designar) si procede
+   ocultar el dato en documentos futuros sin alterar el histórico.
 
 ## 6. Escalado
 
--  Dudas de interpretación → `[PLACEHOLDER: asesor jurídico]`.
+-  Dudas de interpretación → el asesor jurídico (pendiente de designar;
+   mientras tanto, decidir el responsable y dejar constancia).
 -  Reclamación del interesado → respuesta formal y, si procede,
   remisión a la AEPD (C/ Jorge Juan 6, 28001 Madrid,
   [www.aepd.es](https://www.aepd.es)).
@@ -121,7 +131,7 @@ que aparecen en actas o documentación aportada por otros. En ese caso:
 
 | Fecha de entrada | Interesado | Tipo | Plazo de respuesta | Fecha de respuesta | Medidas adoptadas | Cerrada |
 | ---------------- | ---------- | ---- | ------------------ | ------------------ | ----------------- | ------- |
-| `[PLACEHOLDER]` | | | | | | |
+| *(sin solicitudes todavía)* | | | | | | |
 
 > Este registro se mantiene fuera de la aplicación (hoja de cálculo o
 > gestor interno) para no crear una nueva base de datos identificativa
