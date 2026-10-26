@@ -11,7 +11,7 @@
 | - | --- | ----- |
 | A1 | Responsable | **Jorge Mantiñán Montero**, a título particular (sin empresa ni alta de autónomo) |
 | A2 | NIF y domicilio | **No se publican** (el repositorio es público): están en `datos-responsable.local.md`, archivo **no versionado** en `.gitignore` |
-| A3 | Contacto de privacidad | `jorgemantinanmontero@gmail.com` — el mismo que muestra `/legal` (`VITE_LEGAL_CONTACT_EMAIL`) |
+| A3 | Contacto de privacidad | `manti.contacto@gmail.com` — correo público dedicado, se muestra en `/legal` (`VITE_LEGAL_CONTACT_EMAIL`) y redirige a la bandeja del responsable |
 | A4 | Delegado de Protección de Datos | **No designado** (no obligatorio en este proyecto) |
 | A5 | Fecha de la primera versión | 26/10/2026 (v1.0) |
 
