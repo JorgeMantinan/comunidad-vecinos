@@ -106,6 +106,20 @@ const userSpecs = [
   },
   { key: 'luis', name: 'Luis Vecino', email: `luis.vecino@${DEMO_DOMAIN}` },
   { key: 'nuria', name: 'Nuria Residente', email: `nuria.residente@${DEMO_DOMAIN}` },
+  {
+    key: 'isabel',
+    name: 'Isabel Presidenta',
+    email: `isabel.presidenta@${DEMO_DOMAIN}`,
+  },
+  {
+    key: 'andres',
+    name: 'Andrés Presidente',
+    email: `andres.presidente@${DEMO_DOMAIN}`,
+  },
+  { key: 'marta', name: 'Marta Presidenta', email: `marta.presidenta@${DEMO_DOMAIN}` },
+  { key: 'tomas', name: 'Tomás Vecino', email: `tomas.vecino@${DEMO_DOMAIN}` },
+  { key: 'sofia', name: 'Sofía Residente', email: `sofia.residente@${DEMO_DOMAIN}` },
+  { key: 'nuevo', name: 'Recién Llegado', email: `nuevo.vecino@${DEMO_DOMAIN}` },
   { key: 'plataforma', name: 'Demo Publicidad', email: `plataforma@${DEMO_DOMAIN}` },
 ] as const;
 
@@ -1905,6 +1919,1324 @@ const communitySpecs: CommunitySpec[] = [
       { email: 'adriana.vecina@demo.local', role: 'member', status: 'pending' },
     ],
   },
+  {
+    name: 'Edificio Sol Naciente',
+    address: 'Avenida de la Independencia 18, 50005 Zaragoza',
+    members: [
+      { user: 'isabel', role: 'owner' },
+      { user: 'ana', role: 'admin' },
+      { user: 'tomas', role: 'member' },
+      { user: 'rosa', role: 'member' },
+      { user: 'sofia', role: 'resident' },
+    ],
+    units: [
+      { portal: 'A', number: 'A-1', coefficient: '0.100000' },
+      { portal: 'A', number: 'A-2', coefficient: '0.100000' },
+      { portal: 'A', number: 'A-3', coefficient: '0.100000' },
+      { portal: 'A', number: 'A-4', coefficient: '0.100000' },
+      { portal: 'B', number: 'B-1', coefficient: '0.100000' },
+      { portal: 'B', number: 'B-2', coefficient: '0.100000' },
+      { portal: 'B', number: 'B-3', coefficient: '0.100000' },
+      { portal: 'B', number: 'B-4', coefficient: '0.100000' },
+      { portal: 'Sótano', number: 'G-1', coefficient: '0.070000', kind: 'garaje' },
+      { portal: 'Sótano', number: 'G-2', coefficient: '0.070000', kind: 'garaje' },
+      { portal: 'Sótano', number: 'T-1', coefficient: '0.060000', kind: 'trastero' },
+    ],
+    announcements: [
+      {
+        title: 'Corte de luz el jueves de 9:00 a 13:00',
+        body: 'Habrá trabajos en el cuadro de fuerza y los ascensores no estarán disponibles. Si tenéis problemas para subir, avisad a la administración y avisamos a los vecinos mayores.',
+        publishedDaysAgo: 3,
+        expiresInDays: 7,
+        author: 'isabel',
+      },
+      {
+        title: 'Pintura de los rellanos del portal B',
+        body: 'La semana que viene se pintan los rellanos del portal B. Aparcad fuera de la calle esas jornadas: los operarios necesitan espacio.',
+        publishedDaysAgo: 9,
+        author: 'ana',
+      },
+      {
+        title: 'Recogida de enseres el día 15',
+        body: 'El día 15 podéis dejar muebles y colchones junto al contenedor verde. No los dejéis en los rellanos: estorban a los vecinos y a la limpieza.',
+        publishedDaysAgo: 21,
+        author: 'isabel',
+      },
+    ],
+    meetings: [
+      {
+        title: 'Junta ordinaria de septiembre',
+        scheduledInDays: -40,
+        location: 'Salón de actos del portal A',
+        status: 'finished',
+        author: 'isabel',
+        minutes:
+          'Se reúnen los propietarios en número suficiente. Se aprueba el acta anterior. Se presenta la cuenta general: los gastos del trimestre se ajustan al presupuesto. Se debate la reparación de la cubierta del bloque B y se acuerda abrir una derrama de 3.200,00 €. Se rechaza la instalación de cámaras en el garaje por su coste.',
+        agenda: [
+          { title: 'Lectura y aprobación del acta anterior' },
+          { title: 'Cuenta general del trimestre' },
+          { title: 'Reparación de la cubierta del bloque B' },
+          { title: 'Videovigilancia en el garaje' },
+        ],
+        agreements: [
+          {
+            title: 'Aprobar la derrama de la cubierta del bloque B',
+            body: 'Se aprueba por mayoría simple una derrama de 3.200,00 € a repartir entre las unidades por coeficiente, con plazo de pago de 60 días.',
+            status: 'approved',
+          },
+          {
+            title: 'Instalar cámaras en el garaje',
+            body: 'Se propone instalar dos cámaras en el garaje por 1.900,00 €. Se rechaza por el coste y porque el vecindario prefiere reforzar la iluminación.',
+            status: 'rejected',
+          },
+        ],
+      },
+      {
+        title: 'Junta ordinaria de enero',
+        scheduledInDays: 55,
+        location: 'Salón de actos del portal A',
+        status: 'planned',
+        author: 'isabel',
+        agenda: [
+          { title: 'Acta anterior' },
+          { title: 'Presupuesto del ejercicio siguiente' },
+          { title: 'Estado de cobro de la derrama' },
+          { title: 'Ruegos y preguntas' },
+        ],
+      },
+    ],
+    expenses: [
+      {
+        concept: 'Limpieza de zonas comunes (octubre)',
+        amount: '590.00',
+        category: 'community',
+        incurredDaysAgo: 25,
+        status: 'paid',
+        paidDaysAgo: 21,
+      },
+      {
+        concept: 'Suministro de agua de la comunidad',
+        amount: '164.30',
+        category: 'supply',
+        incurredDaysAgo: 32,
+        status: 'paid',
+        paidDaysAgo: 28,
+      },
+      {
+        concept: 'Mantenimiento preventivo del ascensor',
+        amount: '275.00',
+        category: 'repair',
+        incurredDaysAgo: 30,
+        status: 'paid',
+        paidDaysAgo: 26,
+      },
+      {
+        concept: 'Electricidad de las zonas comunes',
+        amount: '118.75',
+        category: 'supply',
+        incurredDaysAgo: 20,
+        status: 'paid',
+        paidDaysAgo: 17,
+      },
+      {
+        concept: 'Honorarios de administración',
+        amount: '340.00',
+        category: 'administration',
+        incurredDaysAgo: 28,
+        status: 'paid',
+        paidDaysAgo: 25,
+      },
+      {
+        concept: 'Contrato de jardinería',
+        amount: '88.00',
+        category: 'community',
+        incurredDaysAgo: 18,
+        status: 'paid',
+        paidDaysAgo: 15,
+      },
+      {
+        concept: 'Reparación del timbre del portal A',
+        amount: '96.50',
+        category: 'repair',
+        incurredDaysAgo: 4,
+        status: 'registered',
+      },
+      {
+        concept: 'Sustitución de la luz del garaje',
+        amount: '132.40',
+        category: 'repair',
+        incurredDaysAgo: 6,
+        status: 'registered',
+      },
+    ],
+    invoices: [
+      {
+        number: 'SN-2026-41',
+        supplier: 'Ascensores Ebro S.L.',
+        amount: '275.00',
+        issuedDaysAgo: 30,
+        status: 'paid',
+        paidDaysAgo: 26,
+      },
+      {
+        number: 'SN-2026-42',
+        supplier: 'Limpiezas Pilar S.L.',
+        amount: '590.00',
+        issuedDaysAgo: 25,
+        status: 'paid',
+        paidDaysAgo: 21,
+      },
+      {
+        number: 'SN-2026-43',
+        supplier: 'Aguas de Zaragoza',
+        amount: '164.30',
+        issuedDaysAgo: 32,
+        status: 'received',
+      },
+      {
+        number: 'SN-2026-44',
+        supplier: 'Electricidad Alhama',
+        amount: '118.75',
+        issuedDaysAgo: 20,
+        status: 'paid',
+        paidDaysAgo: 17,
+      },
+    ],
+    assessments: [
+      {
+        concept: 'Reparación de la cubierta del bloque B',
+        totalAmount: '3200.00',
+        createdDaysAgo: 35,
+        paidNumbers: ['A-1', 'A-2', 'A-3', 'B-1', 'B-2'],
+      },
+    ],
+    incidents: [
+      {
+        title: 'Ascensor del portal A parado en planta 4',
+        description:
+          'Se ha quedado parado con dos personas dentro. Ya vinieron los técnicos y lo dejaron funcionando, pero piden revisión.',
+        status: 'in_progress',
+        reportedBy: 'tomas',
+        createdDaysAgo: 5,
+      },
+      {
+        title: 'Fuga de agua en la rampa del garaje',
+        description:
+          'Se ve una humedad en la pared de la rampa, parece de la bajante del bloque B.',
+        status: 'open',
+        reportedBy: 'sofia',
+        createdDaysAgo: 2,
+      },
+      {
+        title: 'Gotera en el rellano de la 3ª',
+        description:
+          'Caía agua desde la junta del techo. Ya pusieron un cubo y lo revisaron.',
+        status: 'resolved',
+        reportedBy: 'rosa',
+        createdDaysAgo: 30,
+        resolvedDaysAgo: 26,
+      },
+      {
+        title: 'La puerta del trastero no cierra bien',
+        description:
+          'La cerradura se queda enganchada y hay que empujar la hoja para que entre.',
+        status: 'open',
+        reportedBy: 'isabel',
+        createdDaysAgo: 8,
+      },
+    ],
+    tasks: [
+      {
+        title: 'Pedir presupuesto de la pintura',
+        description: 'Tres presupuestos, como pidió la junta.',
+        status: 'doing',
+        createdDaysAgo: 12,
+        dueInDays: 4,
+        assignee: 'tomas',
+      },
+      {
+        title: 'Renovar el contrato de limpieza',
+        status: 'todo',
+        createdDaysAgo: 10,
+        dueInDays: 12,
+        assignee: 'isabel',
+      },
+      {
+        title: 'Cambiar el bombillo del rellano 2ª',
+        status: 'done',
+        createdDaysAgo: 28,
+        dueInDays: -25,
+        assignee: 'rosa',
+      },
+      {
+        title: 'Revisar los extintores de los dos portales',
+        status: 'todo',
+        createdDaysAgo: 40,
+        recurrence: 'quarterly',
+        assignee: 'tomas',
+      },
+      {
+        title: 'Enviar el resumen del trimestre',
+        status: 'doing',
+        createdDaysAgo: 5,
+        dueInDays: 5,
+        assignee: 'isabel',
+        fromAgreement: 0,
+      },
+    ],
+    suggestions: [
+      {
+        title: 'Banco en la entrada del portal A',
+        body: 'Para los mayores que suben andando, estaría bien descansar un momento antes de las escaleras.',
+        status: 'accepted',
+        author: 'sofia',
+        createdDaysAgo: 45,
+      },
+      {
+        title: 'Cajita de reciclaje de pilas',
+        body: 'Podríamos colocarla junto al buzón para no tirar las pilas a la basura.',
+        status: 'under_review',
+        author: 'tomas',
+        createdDaysAgo: 12,
+      },
+      {
+        title: 'Reforzar la luz del garaje',
+        body: 'De noche se ve poco y con las cámaras no, pero sí con más focos.',
+        status: 'open',
+        author: 'rosa',
+        createdDaysAgo: 6,
+      },
+    ],
+    polls: [
+      {
+        question: '¿Qué reforma hacemos este año?',
+        status: 'open',
+        closesInDays: 6,
+        createdBy: 'isabel',
+        options: ['Pintura de los rellanos', 'Ascensor nuevo', 'Zona verde del patio'],
+        votes: [
+          { user: 'isabel', option: 0 },
+          { user: 'tomas', option: 0 },
+          { user: 'rosa', option: 1 },
+          { user: 'sofia', option: 2 },
+        ],
+      },
+    ],
+    professionals: [
+      {
+        name: 'Fontanería Ibérica',
+        trade: 'Fontanería',
+        phone: '676 11 22 33',
+        notes: 'Urgencias 24 horas; muy rápidos con las bajantes.',
+      },
+      {
+        name: 'Electricidad Alhama',
+        trade: 'Electricista',
+        phone: '676 44 55 66',
+        email: 'contacto@electricidad-alhama.local',
+      },
+      {
+        name: 'Ascensores Ebro S.L.',
+        trade: 'Mantenimiento de ascensores',
+        phone: '976 22 33 44',
+        notes: 'Empresa contratada; avisan 24 h antes de la revisión.',
+      },
+      {
+        name: 'Limpiezas Pilar',
+        trade: 'Limpieza',
+        phone: '676 77 88 99',
+        notes: 'Muy puntuales; pasan de 7:30 a 9:30.',
+      },
+      {
+        name: 'Carpintería Duero',
+        trade: 'Carpintero',
+        phone: '676 00 11 22',
+        notes: 'Arregla puertas y ventanas de madera sin obras largas.',
+      },
+    ],
+    assets: [
+      {
+        name: 'Ascensor Otis (6 personas)',
+        category: 'elevator',
+        location: 'Portal A',
+        status: 'operational',
+        warrantyInDays: 200,
+      },
+      {
+        name: 'Caldera comunitaria',
+        category: 'heating',
+        location: 'Cuarto técnico',
+        status: 'operational',
+        warrantyInDays: 150,
+      },
+      {
+        name: 'Cuadro eléctrico del garaje',
+        category: 'electrical',
+        location: 'Sótano',
+        status: 'broken',
+        notes: 'Salta el diferencial cuando llueve.',
+      },
+      {
+        name: 'Puerta automática del portal',
+        category: 'common_area',
+        location: 'Portal B',
+        status: 'maintenance',
+      },
+    ],
+    contracts: [
+      {
+        provider: 'Ascensores Ebro S.L.',
+        service: 'Mantenimiento de ascensor',
+        amount: '275.00',
+        startDaysAgo: 330,
+        renewalInDays: 18,
+        status: 'active',
+      },
+      {
+        provider: 'Limpiezas Pilar S.L.',
+        service: 'Limpieza de zonas comunes',
+        amount: '590.00',
+        startDaysAgo: 200,
+        renewalInDays: 160,
+        status: 'active',
+      },
+      {
+        provider: 'Jardinería Ribera',
+        service: 'Mantenimiento de jardines',
+        amount: '88.00',
+        startDaysAgo: 400,
+        renewalInDays: -20,
+        status: 'ended',
+      },
+    ],
+    documents: [
+      {
+        title: 'Acta de la junta de septiembre',
+        category: 'minutes',
+        uploadedBy: 'isabel',
+        createdDaysAgo: 39,
+        content:
+          'ACTA JUNTA SEPTIEMBRE - EDIFICIO SOL NACIENTE\n\nAsistentes: 6 propietarios con 71 votos.\n\n1. Se aprueba el acta anterior.\n2. Cuenta general aprobada.\n3. Derrama de 3.200,00 EUR para la cubierta del bloque B.\n4. Se rechazan las camaras del garaje.\n',
+      },
+      {
+        title: 'Presupuesto de la cubierta',
+        category: 'report',
+        uploadedBy: 'ana',
+        createdDaysAgo: 36,
+        content:
+          'EBRO CUBIERTAS S.L. - PRESUPUESTO\n\nReparacion de la cubierta del bloque B (210 m2)\nImporte: 3.200,00 EUR\nPlazo: 15 dias\nGarantia: 3 anos\n',
+      },
+      {
+        title: 'Normas de convivencia',
+        category: 'other',
+        uploadedBy: 'isabel',
+        createdDaysAgo: 180,
+        content:
+          'NORMAS DE CONVIVENCIA\n\n1. No dejar objetos en los rellanos.\n2. Silencio de 22:00 a 8:00.\n3. Recoger los excrementos de mascotas.\n4. No lavar coches en los portales.\n',
+      },
+    ],
+    templates: commonDocuments,
+    feeTariffs: [
+      {
+        concept: 'Cuota ordinaria',
+        amount: '78.00',
+        target: 'all',
+        frequency: 'monthly',
+      },
+      {
+        concept: 'Tasa de garaje',
+        amount: '24.00',
+        target: 'garaje',
+        frequency: 'monthly',
+      },
+      {
+        concept: 'Trastero',
+        amount: '15.00',
+        target: 'trastero',
+        frequency: 'monthly',
+      },
+    ],
+    audit: [
+      { action: 'announcement.created', actor: 'isabel', daysAgo: 3 },
+      { action: 'expense.created', actor: 'ana', daysAgo: 4 },
+      { action: 'assessment.created', actor: 'isabel', daysAgo: 35 },
+      { action: 'incident.resolved', actor: 'ana', daysAgo: 26 },
+      { action: 'community.created', actor: 'isabel', daysAgo: 500 },
+    ],
+    invitations: [
+      { email: 'inmobiliaria.ebro@demo.local', role: 'admin', status: 'pending' },
+    ],
+  },
+  {
+    name: 'Residencial Los Olivos',
+    address: 'Camino de los Olivos 6, 48012 Bilbao',
+    members: [
+      { user: 'andres', role: 'owner' },
+      { user: 'ana', role: 'admin' },
+      { user: 'miguel', role: 'member' },
+      { user: 'luis', role: 'member' },
+      { user: 'nuria', role: 'resident' },
+    ],
+    units: [
+      { portal: 'Bloque 1', number: 'O-1', coefficient: '0.100000' },
+      { portal: 'Bloque 1', number: 'O-2', coefficient: '0.100000' },
+      { portal: 'Bloque 1', number: 'O-3', coefficient: '0.100000' },
+      { portal: 'Bloque 1', number: 'O-4', coefficient: '0.100000' },
+      { portal: 'Bloque 2', number: 'O-5', coefficient: '0.100000' },
+      { portal: 'Bloque 2', number: 'O-6', coefficient: '0.100000' },
+      { portal: 'Bloque 2', number: 'O-7', coefficient: '0.100000' },
+      { portal: 'Bloque 2', number: 'O-8', coefficient: '0.100000' },
+      {
+        portal: 'Aparcamiento',
+        number: 'G-1',
+        coefficient: '0.100000',
+        kind: 'garaje',
+      },
+      {
+        portal: 'Aparcamiento',
+        number: 'G-2',
+        coefficient: '0.100000',
+        kind: 'garaje',
+      },
+    ],
+    announcements: [
+      {
+        title: 'Poda de los olivos la semana que viene',
+        body: 'Los operarios podarán los olivos del camino interior el martes y el miércoles. Retirad los coches de la zona marcada con cartelería.',
+        publishedDaysAgo: 4,
+        expiresInDays: 9,
+        author: 'andres',
+      },
+      {
+        title: 'Calle interior cerrada por obras el lunes',
+        body: 'El lunes se arregla el firme del camino interior. Se podrá salir a pie pero no con coche de 8:00 a 16:00.',
+        publishedDaysAgo: 11,
+        author: 'ana',
+      },
+      {
+        title: 'Nuevo horario de la portería',
+        body: 'A partir de ahora la portería atiende de 7:00 a 22:00. Fuera de ese horario, el acceso es con la tarjeta.',
+        publishedDaysAgo: 24,
+        author: 'andres',
+      },
+    ],
+    meetings: [
+      {
+        title: 'Junta ordinaria de julio',
+        scheduledInDays: -70,
+        location: 'Local social',
+        status: 'finished',
+        author: 'andres',
+        minutes:
+          'Junta con 7 asistentes. Se aprueba el acta anterior. Se informa del estado del fondo de reserva. Se acuerda renovar el contrato de limpieza a presión. Se aprueba por unanimidad sustituir la valla del parque por una de madera reciclada.',
+        agenda: [
+          { title: 'Acta anterior' },
+          { title: 'Estado del fondo de reserva' },
+          { title: 'Renovación del contrato de limpieza' },
+          { title: 'Valla del parque infantil' },
+        ],
+        agreements: [
+          {
+            title: 'Sustituir la valla del parque infantil',
+            body: 'Se aprueba por unanimidad sustituir la valla por 1.800,00 € de madera reciclada, con instalación en otoño.',
+            status: 'approved',
+          },
+        ],
+      },
+      {
+        title: 'Junta ordinaria de diciembre',
+        scheduledInDays: 35,
+        location: 'Local social',
+        status: 'planned',
+        author: 'andres',
+        agenda: [
+          { title: 'Cierre del ejercicio' },
+          { title: 'Presupuesto del próximo año' },
+          { title: 'Ruegos y preguntas' },
+        ],
+      },
+    ],
+    expenses: [
+      {
+        concept: 'Limpieza a presión de caminos',
+        amount: '240.00',
+        category: 'community',
+        incurredDaysAgo: 29,
+        status: 'paid',
+        paidDaysAgo: 25,
+      },
+      {
+        concept: 'Electricidad del alumbrado',
+        amount: '198.40',
+        category: 'supply',
+        incurredDaysAgo: 26,
+        status: 'paid',
+        paidDaysAgo: 22,
+      },
+      {
+        concept: 'Mantenimiento del riego',
+        amount: '132.00',
+        category: 'repair',
+        incurredDaysAgo: 22,
+        status: 'paid',
+        paidDaysAgo: 19,
+      },
+      {
+        concept: 'Honorarios de administración',
+        amount: '360.00',
+        category: 'administration',
+        incurredDaysAgo: 30,
+        status: 'paid',
+        paidDaysAgo: 27,
+      },
+      {
+        concept: 'Poda de los olivos',
+        amount: '410.00',
+        category: 'community',
+        incurredDaysAgo: 40,
+        status: 'paid',
+        paidDaysAgo: 36,
+      },
+      {
+        concept: 'Suministro de agua de jardines',
+        amount: '76.90',
+        category: 'supply',
+        incurredDaysAgo: 16,
+        status: 'paid',
+        paidDaysAgo: 13,
+      },
+      {
+        concept: 'Sustitución de la valla del parque',
+        amount: '1800.00',
+        category: 'repair',
+        incurredDaysAgo: 5,
+        status: 'registered',
+      },
+      {
+        concept: 'Reparación de la garita de portería',
+        amount: '214.50',
+        category: 'repair',
+        incurredDaysAgo: 3,
+        status: 'registered',
+      },
+    ],
+    invoices: [
+      {
+        number: 'LO-2026-77',
+        supplier: 'Limpiezas Nervión S.L.',
+        amount: '240.00',
+        issuedDaysAgo: 29,
+        status: 'paid',
+        paidDaysAgo: 25,
+      },
+      {
+        number: 'LO-2026-78',
+        supplier: 'Bilbao Electricidad',
+        amount: '198.40',
+        issuedDaysAgo: 26,
+        status: 'paid',
+        paidDaysAgo: 22,
+      },
+      {
+        number: 'LO-2026-79',
+        supplier: 'Riegos Deusto S.L.',
+        amount: '132.00',
+        issuedDaysAgo: 22,
+        status: 'paid',
+        paidDaysAgo: 19,
+      },
+      {
+        number: 'LO-2026-80',
+        supplier: 'Maderería Cantábrico',
+        amount: '1800.00',
+        issuedDaysAgo: 5,
+        status: 'received',
+      },
+    ],
+    assessments: [
+      {
+        concept: 'Sustitución de la valla del parque',
+        totalAmount: '1800.00',
+        createdDaysAgo: 65,
+        paidNumbers: ['O-1', 'O-2', 'O-3', 'O-5', 'O-6', 'G-1'],
+      },
+    ],
+    incidents: [
+      {
+        title: 'La garita de portería tiene la teja suelta',
+        description:
+          'Con la última tormenta se movió una teja y entra agua cuando llueve.',
+        status: 'in_progress',
+        reportedBy: 'miguel',
+        createdDaysAgo: 6,
+      },
+      {
+        title: 'Farola apagada en el camino interior',
+        description: 'No enciende desde el temporal de la semana pasada.',
+        status: 'open',
+        reportedBy: 'luis',
+        createdDaysAgo: 3,
+      },
+      {
+        title: 'Bache en el acceso al aparcamiento',
+        description:
+          'Se ha agrandado con la lluvia y daña los coches que entran rápido.',
+        status: 'open',
+        reportedBy: 'nuria',
+        createdDaysAgo: 9,
+      },
+      {
+        title: 'Aspersor del jardín roto',
+        description:
+          'Rocaban la acera todas las mañanas. Ya lo avisaron a la empresa de riego.',
+        status: 'resolved',
+        reportedBy: 'andres',
+        createdDaysAgo: 34,
+        resolvedDaysAgo: 30,
+      },
+    ],
+    tasks: [
+      {
+        title: 'Seguimiento de la valla del parque',
+        status: 'doing',
+        createdDaysAgo: 20,
+        dueInDays: 9,
+        assignee: 'ana',
+      },
+      {
+        title: 'Pedir presupuesto del asfalto del camino',
+        status: 'todo',
+        createdDaysAgo: 8,
+        dueInDays: 6,
+        assignee: 'miguel',
+      },
+      {
+        title: 'Cambiar los bombillos del local social',
+        status: 'done',
+        createdDaysAgo: 24,
+        dueInDays: -20,
+        assignee: 'luis',
+      },
+      {
+        title: 'Revisar los aspersores',
+        status: 'todo',
+        createdDaysAgo: 15,
+        recurrence: 'monthly',
+        assignee: 'ana',
+      },
+      {
+        title: 'Avisar a la empresa de portería',
+        status: 'doing',
+        createdDaysAgo: 4,
+        dueInDays: 2,
+        assignee: 'andres',
+      },
+    ],
+    suggestions: [
+      {
+        title: 'Más bancos en el camino interior',
+        body: 'Para las personas mayores que van a la tienda, viene bien descansar a mitad de camino.',
+        status: 'accepted',
+        author: 'nuria',
+        createdDaysAgo: 50,
+      },
+      {
+        title: 'Zona para bicicletas bajo la pérgola',
+        body: 'Se aparcan muchas bicis sueltas; con dos anclajes quedarían ordenadas.',
+        status: 'open',
+        author: 'luis',
+        createdDaysAgo: 7,
+      },
+      {
+        title: 'Contenedor de aceite usado',
+        body: 'Podríamos poner uno junto a la portería para no tirar el aceite por el fregadero.',
+        status: 'under_review',
+        author: 'miguel',
+        createdDaysAgo: 14,
+      },
+    ],
+    polls: [
+      {
+        question: '¿Ponemos columpios nuevos en el parque?',
+        status: 'closed',
+        closesInDays: -12,
+        createdBy: 'andres',
+        options: ['Sí, columpio accesible', 'Sí, columpio normal', 'No hace falta'],
+        votes: [
+          { user: 'andres', option: 0 },
+          { user: 'miguel', option: 0 },
+          { user: 'luis', option: 1 },
+          { user: 'nuria', option: 2 },
+        ],
+      },
+    ],
+    professionals: [
+      {
+        name: 'Riegos Deusto S.L.',
+        trade: 'Riego y jardinería',
+        phone: '944 11 22 33',
+        notes: 'Muy ordenados con las facturas y rápidos.',
+      },
+      { name: 'Limpiezas Nervión', trade: 'Limpieza', phone: '688 55 44 33' },
+      {
+        name: 'Fontanería Gernika',
+        trade: 'Fontanería',
+        phone: '688 22 11 00',
+        notes: 'Trabajan todo el territorio; aceptan transferencia.',
+      },
+      {
+        name: 'Electricidad Abando',
+        trade: 'Electricista',
+        phone: '688 90 90 90',
+        notes: 'Buen precio en instalaciones grandes.',
+      },
+      {
+        name: 'Maderería Cantábrico',
+        trade: 'Carpintero',
+        phone: '688 33 44 55',
+        notes: 'Hacen vallas y pérgolas a medida.',
+      },
+    ],
+    assets: [
+      {
+        name: 'Garita de portería',
+        category: 'common_area',
+        location: 'Acceso principal',
+        status: 'maintenance',
+        notes: 'Teja suelta desde la tormenta.',
+      },
+      {
+        name: 'Alumbrado del camino',
+        category: 'electrical',
+        location: 'Camino interior',
+        status: 'broken',
+      },
+      {
+        name: 'Sistema de riego',
+        category: 'other',
+        location: 'Jardines',
+        status: 'operational',
+        warrantyInDays: 240,
+      },
+      {
+        name: 'Cuadro de fuerza',
+        category: 'electrical',
+        location: 'Cuarto técnico',
+        status: 'operational',
+      },
+    ],
+    contracts: [
+      {
+        provider: 'Limpiezas Nervión S.L.',
+        service: 'Limpieza a presión trimestral',
+        amount: '240.00',
+        startDaysAgo: 260,
+        renewalInDays: 40,
+        status: 'active',
+      },
+      {
+        provider: 'Riegos Deusto S.L.',
+        service: 'Mantenimiento de riego y jardines',
+        amount: '132.00',
+        startDaysAgo: 180,
+        renewalInDays: 20,
+        status: 'active',
+      },
+      {
+        provider: 'Portería 24 S.L.',
+        service: 'Control de portería',
+        amount: '95.00',
+        startDaysAgo: 520,
+        renewalInDays: -30,
+        status: 'ended',
+      },
+    ],
+    documents: [
+      {
+        title: 'Acta de la junta de julio',
+        category: 'minutes',
+        uploadedBy: 'andres',
+        createdDaysAgo: 68,
+        content:
+          'ACTA JUNTA JULIO - RESIDENCIAL LOS OLIVOS\n\nAsistentes: 7 propietarios.\n\n1. Cuenta general aprobada.\n2. Renovacion del contrato de limpieza a presion.\n3. Aprobada por unanimidad la valla del parque (1.800,00 EUR).\n',
+      },
+      {
+        title: 'Presupuesto de la valla del parque',
+        category: 'report',
+        uploadedBy: 'ana',
+        createdDaysAgo: 66,
+        content:
+          'MADERERIA CANTABRICO - PRESUPUESTO\n\nValla del parque infantil (42 m)\nImporte: 1.800,00 EUR\nMaterial: madera reciclada\nPlazo: 20 dias\n',
+      },
+      {
+        title: 'Normas del residencial',
+        category: 'other',
+        uploadedBy: 'andres',
+        createdDaysAgo: 220,
+        content:
+          'NORMAS DEL RESIDENCIAL\n\n1. Silencio de 22:00 a 8:00.\n2. No aparcar en los accesos.\n3. Recoger los excrementos de mascotas.\n4. Cuidar las zonas verdes comunes.\n',
+      },
+    ],
+    templates: commonDocuments,
+    feeTariffs: [
+      {
+        concept: 'Cuota ordinaria',
+        amount: '68.00',
+        target: 'all',
+        frequency: 'monthly',
+      },
+      {
+        concept: 'Plaza de garaje',
+        amount: '26.00',
+        target: 'garaje',
+        frequency: 'monthly',
+      },
+    ],
+    audit: [
+      { action: 'announcement.created', actor: 'andres', daysAgo: 4 },
+      { action: 'expense.paid', actor: 'ana', daysAgo: 13 },
+      { action: 'task.created', actor: 'andres', daysAgo: 8 },
+      { action: 'meeting.created', actor: 'andres', daysAgo: 70 },
+      { action: 'community.created', actor: 'andres', daysAgo: 740 },
+    ],
+    invitations: [
+      { email: 'administracion.olivos@demo.local', role: 'admin', status: 'pending' },
+    ],
+  },
+  {
+    name: 'Comunidad Avenida del Puerto 8',
+    address: 'Avenida del Puerto 8, 03002 Alicante',
+    members: [
+      { user: 'marta', role: 'owner' },
+      { user: 'ana', role: 'admin' },
+      { user: 'vicente', role: 'member' },
+      { user: 'tomas', role: 'member' },
+      { user: 'lucia', role: 'resident' },
+    ],
+    units: [
+      { portal: 'A', number: 'A-1', coefficient: '0.120000' },
+      { portal: 'A', number: 'A-2', coefficient: '0.120000' },
+      { portal: 'A', number: 'A-3', coefficient: '0.120000' },
+      { portal: 'B', number: 'B-1', coefficient: '0.120000' },
+      { portal: 'B', number: 'B-2', coefficient: '0.120000' },
+      { portal: 'B', number: 'B-3', coefficient: '0.120000' },
+      { portal: 'Sótano', number: 'G-1', coefficient: '0.140000', kind: 'garaje' },
+      { portal: 'Sótano', number: 'G-2', coefficient: '0.140000', kind: 'garaje' },
+    ],
+    announcements: [
+      {
+        title: 'Impermeabilización de la azotea desde el lunes',
+        body: 'Durante dos semanas se trabaja en la azotea. El ruido será sobre todo en horario de mañana. Si trabajáis de noche, avisadnos y buscaremos una solución.',
+        publishedDaysAgo: 6,
+        expiresInDays: 16,
+        author: 'marta',
+      },
+      {
+        title: 'Corte de agua el martes por la mañana',
+        body: 'El martes de 8:00 a 12:00 habrá corte de agua para revisar la bajante. Dejad las llaves cerradas.',
+        publishedDaysAgo: 2,
+        expiresInDays: 5,
+        author: 'ana',
+      },
+      {
+        title: 'Verano: ventilar las viviendas vacías',
+        body: 'Recordatorio para las viviendas que no se usan todo el año: ventilad de vez en cuando para evitar humedades en los muros.',
+        publishedDaysAgo: 30,
+        author: 'marta',
+      },
+    ],
+    meetings: [
+      {
+        title: 'Junta ordinaria de octubre',
+        scheduledInDays: -28,
+        location: 'Portal B, planta baja',
+        status: 'finished',
+        author: 'marta',
+        minutes:
+          'Se reúnen 5 propietarios con 58 votos. Se aprueba el acta anterior. Se somete a votación la impermeabilización de la azotea (2.400,00 €) y se aprueba por mayoría. Se acuerda subir la cuota ordinaria a 92,00 € para el fondo de reserva.',
+        agenda: [
+          { title: 'Acta anterior' },
+          { title: 'Impermeabilización de la azotea' },
+          { title: 'Cuota ordinaria y fondo de reserva' },
+          { title: 'Ruegos y preguntas' },
+        ],
+        agreements: [
+          {
+            title: 'Aprobar la impermeabilización de la azotea',
+            body: 'Se aprueba la impermeabilización por 2.400,00 € con garantía de 5 años, a pagar en dos plazos.',
+            status: 'approved',
+          },
+          {
+            title: 'Subir la cuota ordinaria a 92,00 €',
+            body: 'Se aprueba subir la cuota de 85,00 € a 92,00 € desde el mes siguiente para reforzar el fondo de reserva.',
+            status: 'approved',
+          },
+        ],
+      },
+      {
+        title: 'Junta ordinaria de febrero',
+        scheduledInDays: 90,
+        location: 'Portal B, planta baja',
+        status: 'planned',
+        author: 'marta',
+        agenda: [
+          { title: 'Acta anterior' },
+          { title: 'Estado de la azotea' },
+          { title: 'Ruegos y preguntas' },
+        ],
+      },
+    ],
+    expenses: [
+      {
+        concept: 'Limpieza semanal (octubre)',
+        amount: '310.00',
+        category: 'community',
+        incurredDaysAgo: 24,
+        status: 'paid',
+        paidDaysAgo: 20,
+      },
+      {
+        concept: 'Electricidad del portal',
+        amount: '84.60',
+        category: 'supply',
+        incurredDaysAgo: 22,
+        status: 'paid',
+        paidDaysAgo: 18,
+      },
+      {
+        concept: 'Mantenimiento del ascensor',
+        amount: '196.00',
+        category: 'repair',
+        incurredDaysAgo: 27,
+        status: 'paid',
+        paidDaysAgo: 24,
+      },
+      {
+        concept: 'Honorarios de administración',
+        amount: '320.00',
+        category: 'administration',
+        incurredDaysAgo: 30,
+        status: 'paid',
+        paidDaysAgo: 27,
+      },
+      {
+        concept: 'Suministro de agua',
+        amount: '98.25',
+        category: 'supply',
+        incurredDaysAgo: 19,
+        status: 'paid',
+        paidDaysAgo: 16,
+      },
+      {
+        concept: 'Impermeabilización de la azotea (primer plazo)',
+        amount: '1200.00',
+        category: 'repair',
+        incurredDaysAgo: 5,
+        status: 'registered',
+      },
+      {
+        concept: 'Reparación del timbre del portal A',
+        amount: '74.90',
+        category: 'repair',
+        incurredDaysAgo: 7,
+        status: 'registered',
+      },
+      {
+        concept: 'Fumigación contra terciarios',
+        amount: '165.00',
+        category: 'community',
+        incurredDaysAgo: 45,
+        status: 'paid',
+        paidDaysAgo: 41,
+      },
+    ],
+    invoices: [
+      {
+        number: 'AP-2026-12',
+        supplier: 'Azoteas Levante S.L.',
+        amount: '1200.00',
+        issuedDaysAgo: 5,
+        status: 'received',
+      },
+      {
+        number: 'AP-2026-13',
+        supplier: 'Ascensores Costa',
+        amount: '196.00',
+        issuedDaysAgo: 27,
+        status: 'paid',
+        paidDaysAgo: 24,
+      },
+      {
+        number: 'AP-2026-14',
+        supplier: 'Limpiezas Marina',
+        amount: '310.00',
+        issuedDaysAgo: 24,
+        status: 'paid',
+        paidDaysAgo: 20,
+      },
+      {
+        number: 'AP-2026-15',
+        supplier: 'Plagas Mediterráneo',
+        amount: '165.00',
+        issuedDaysAgo: 45,
+        status: 'paid',
+        paidDaysAgo: 41,
+      },
+    ],
+    assessments: [
+      {
+        concept: 'Impermeabilización de la azotea',
+        totalAmount: '2400.00',
+        createdDaysAgo: 28,
+        paidNumbers: ['A-1', 'A-2', 'B-1'],
+      },
+    ],
+    incidents: [
+      {
+        title: 'Humedad en el techo del portal B',
+        description: 'Mancha grande en el techo de la entrada; parece de la azotea.',
+        status: 'in_progress',
+        reportedBy: 'lucia',
+        createdDaysAgo: 7,
+      },
+      {
+        title: 'El ascensor del portal A huele a quemado',
+        description:
+          'Al subir se nota un olor raro en la cabina. Avisamos a la empresa.',
+        status: 'open',
+        reportedBy: 'vicente',
+        createdDaysAgo: 2,
+      },
+      {
+        title: 'Gotera en el cuarto de basuras',
+        description: 'Caía agua de la tubería. Ya la sellaron.',
+        status: 'resolved',
+        reportedBy: 'tomas',
+        createdDaysAgo: 40,
+        resolvedDaysAgo: 37,
+      },
+      {
+        title: 'Buzón atascado',
+        description: 'No caben más cartas y el cartero deja el correo en la recepción.',
+        status: 'open',
+        reportedBy: 'marta',
+        createdDaysAgo: 4,
+      },
+    ],
+    tasks: [
+      {
+        title: 'Seguimiento de la obra de la azotea',
+        status: 'doing',
+        createdDaysAgo: 6,
+        assignee: 'ana',
+        recurrence: 'monthly',
+      },
+      {
+        title: 'Recoger el presupuesto de los toldos',
+        status: 'todo',
+        createdDaysAgo: 9,
+        dueInDays: 7,
+        assignee: 'marta',
+      },
+      {
+        title: 'Avisar del corte de agua a los vecinos mayores',
+        status: 'done',
+        createdDaysAgo: 3,
+        dueInDays: -2,
+        assignee: 'vicente',
+      },
+      {
+        title: 'Comprar bombillas del portal',
+        status: 'todo',
+        createdDaysAgo: 11,
+        dueInDays: -1,
+        assignee: 'tomas',
+      },
+      {
+        title: 'Revisar los extintores',
+        status: 'todo',
+        createdDaysAgo: 60,
+        recurrence: 'quarterly',
+        assignee: 'ana',
+      },
+    ],
+    suggestions: [
+      {
+        title: 'Toldos en las ventanas del portal',
+        body: 'En verano entra un sol fuerte por la tarde; un toldo ayudaría a refrescar el rellano.',
+        status: 'under_review',
+        author: 'vicente',
+        createdDaysAgo: 15,
+      },
+      {
+        title: 'Punto de reciclaje de tapas',
+        body: 'Podríamos poner una cajita junto al buzón para recoger tapas solidarias.',
+        status: 'open',
+        author: 'lucia',
+        createdDaysAgo: 8,
+      },
+      {
+        title: 'Plantas en los rellanos',
+        body: 'Una planta en cada rellano haría el portal más acogedor; yo me encargo de regar.',
+        status: 'accepted',
+        author: 'tomas',
+        createdDaysAgo: 55,
+      },
+    ],
+    polls: [
+      {
+        question: '¿Qué color pintamos el portal?',
+        status: 'open',
+        closesInDays: 4,
+        createdBy: 'marta',
+        options: ['Blanco roto', 'Arena', 'Gris claro'],
+        votes: [
+          { user: 'marta', option: 0 },
+          { user: 'vicente', option: 1 },
+          { user: 'tomas', option: 0 },
+          { user: 'lucia', option: 2 },
+        ],
+      },
+    ],
+    professionals: [
+      {
+        name: 'Azoteas Levante S.L.',
+        trade: 'Reformas',
+        phone: '965 11 22 33',
+        notes: 'Empresa de la azotea; muy cuidadosos con los plazos.',
+      },
+      {
+        name: 'Ascensores Costa',
+        trade: 'Mantenimiento de ascensores',
+        phone: '965 44 55 66',
+      },
+      {
+        name: 'Limpiezas Marina',
+        trade: 'Limpieza',
+        phone: '666 33 44 55',
+        notes: 'Pasan de lunes a viernes a las 8:00.',
+      },
+      {
+        name: 'Fontanería Alacantina',
+        trade: 'Fontanería',
+        phone: '666 44 55 66',
+        notes: 'Rápidos y con factura inmediata.',
+      },
+      {
+        name: 'Plagas Mediterráneo',
+        trade: 'Control de plagas',
+        phone: '666 77 88 99',
+        notes: 'Desinsectación semestral; avisan por correo.',
+      },
+    ],
+    assets: [
+      {
+        name: 'Ascensor portal A',
+        category: 'elevator',
+        location: 'Portal A',
+        status: 'maintenance',
+        notes: 'Olor a quemado: revisión pedida.',
+      },
+      {
+        name: 'Ascensor portal B',
+        category: 'elevator',
+        location: 'Portal B',
+        status: 'operational',
+        warrantyInDays: 180,
+      },
+      {
+        name: 'Caldera de agua caliente',
+        category: 'heating',
+        location: 'Cuarto técnico',
+        status: 'operational',
+        warrantyInDays: 300,
+      },
+      {
+        name: 'Buzones del portal',
+        category: 'common_area',
+        location: 'Acceso principal',
+        status: 'broken',
+        notes: 'Atascados por volumen de correo.',
+      },
+    ],
+    contracts: [
+      {
+        provider: 'Ascensores Costa S.L.',
+        service: 'Mantenimiento de ascensores',
+        amount: '196.00',
+        startDaysAgo: 300,
+        renewalInDays: 25,
+        status: 'active',
+      },
+      {
+        provider: 'Limpiezas Marina S.L.',
+        service: 'Limpieza semanal',
+        amount: '310.00',
+        startDaysAgo: 210,
+        renewalInDays: 120,
+        status: 'active',
+      },
+      {
+        provider: 'Plagas Mediterráneo',
+        service: 'Desinsectación semestral',
+        amount: '165.00',
+        startDaysAgo: 190,
+        renewalInDays: 8,
+        status: 'active',
+      },
+    ],
+    documents: [
+      {
+        title: 'Acta de la junta de octubre',
+        category: 'minutes',
+        uploadedBy: 'marta',
+        createdDaysAgo: 27,
+        content:
+          'ACTA JUNTA OCTUBRE - AVENIDA DEL PUERTO 8\n\nAsistentes: 5 propietarios con 58 votos.\n\n1. Se aprueba el acta anterior.\n2. Impermeabilizacion de la azotea aprobada (2.400,00 EUR).\n3. Cuota ordinaria sube a 92,00 EUR.\n',
+      },
+      {
+        title: 'Presupuesto de la azotea',
+        category: 'report',
+        uploadedBy: 'ana',
+        createdDaysAgo: 26,
+        content:
+          'AZOTAS LEVANTE S.L. - PRESUPUESTO\n\nImpermeabilizacion de azotea (180 m2)\nImporte: 2.400,00 EUR\nGarantia: 5 anos\nPlazo: 10 dias\n',
+      },
+      {
+        title: 'Escritura de división horizontal',
+        category: 'other',
+        uploadedBy: 'marta',
+        createdDaysAgo: 400,
+        content:
+          'NOTA DE DIVISION HORIZONTAL (RESUMEN)\n\n8 viviendas con coeficientes entre 0,12 y 0,14.\nZonas comunes: portals, escaleras, azotea y solana.\n',
+      },
+    ],
+    templates: commonDocuments,
+    feeTariffs: [
+      {
+        concept: 'Cuota ordinaria',
+        amount: '92.00',
+        target: 'all',
+        frequency: 'monthly',
+      },
+      {
+        concept: 'Plaza de garaje',
+        amount: '28.00',
+        target: 'garaje',
+        frequency: 'monthly',
+      },
+    ],
+    audit: [
+      { action: 'announcement.created', actor: 'marta', daysAgo: 2 },
+      { action: 'expense.created', actor: 'ana', daysAgo: 5 },
+      { action: 'agreement.status_changed', actor: 'marta', daysAgo: 28 },
+      { action: 'meeting.created', actor: 'marta', daysAgo: 45 },
+      { action: 'community.created', actor: 'marta', daysAgo: 900 },
+    ],
+    invitations: [
+      { email: 'gestoria.puerto@demo.local', role: 'admin', status: 'pending' },
+    ],
+  },
 ];
 
 const sponsorSpecs = [
@@ -1939,6 +3271,17 @@ const sponsorSpecs = [
     notes: 'Pendiente de confirmar el alta y la creatividad.',
     communities: ['Comunidad Calle Mayor 12'],
   },
+  {
+    businessName: 'Cerrajería Nocturna 24h',
+    website: 'https://cerrajeria-nocturna.local',
+    contactEmail: `anunciante.cerrajeria@${DEMO_DOMAIN}`,
+    zone: 'Zaragoza, Bilbao, Alicante',
+    monthlyAmount: '35.00',
+    status: 'active' as const,
+    notes:
+      'Apertura de puertas 24 horas; asignada a Zaragoza y con zona para las otras dos ciudades nuevas.',
+    communities: ['Edificio Sol Naciente'],
+  },
 ];
 
 /* ------------------------------------------------------------------ */
@@ -1961,18 +3304,28 @@ function hashToken(token: string): string {
   return createHash('sha256').update(token).digest('hex');
 }
 
-/** Reparte un importe total entre las unidades según su coeficiente. */
+/**
+ * Reparte un importe total entre las unidades según su coeficiente.
+ *
+ * Normaliza por la **suma** de coeficientes: en el demo hay comunidades
+ * cuyos coeficientes no suman 1 (los garajes y trasteros se añadieron
+ * después de las viviendas) y sin normalizar la última unidad
+ * recibiría un importe negativo y violaría el check de la base de datos.
+ */
 function splitAmount(
   total: string,
   unitRows: { id: string; coefficient: string; number: string }[],
 ): { unitId: string; amount: string; number: string }[] {
   const totalCents = cents(total);
+  const weights = unitRows.map((unit) => Number(unit.coefficient));
+  const weightSum = weights.reduce((sum, weight) => sum + weight, 0) || 1;
   let accumulated = 0;
+
   return unitRows.map((unit, index) => {
     const isLast = index === unitRows.length - 1;
     const share = isLast
-      ? totalCents - accumulated
-      : Math.max(1, Math.round(totalCents * Number(unit.coefficient)));
+      ? Math.max(1, totalCents - accumulated)
+      : Math.max(1, Math.round((totalCents * (weights[index] ?? 0)) / weightSum));
     accumulated += share;
     return { unitId: unit.id, amount: money(share), number: unit.number };
   });

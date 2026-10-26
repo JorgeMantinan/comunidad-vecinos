@@ -6,44 +6,61 @@ reales de vecinos (regla de oro del repositorio).
 
 ## Qué incluye
 
-Tres comunidades con todo el relleno de sus paneles:
+**Seis comunidades** con todo el relleno de sus paneles:
 
-| Comunidad | Viviendas | Destacado |
-| --------- | --------- | --------- |
-| Comunidad Calle Mayor 12 (Madrid) | 10 | 4 avisos, 3 juntas (una con acta y 3 acuerdos), 12 gastos, 6 facturas, una derrama de 4.800 € cobrada al 70 %, 5 incidencias, 8 tareas, 4 sugerencias, 2 encuestas con votos, 7 profesionales, 7 elementos, 5 contratos, 5 documentos y 3 plantillas |
-| Urbanización El Pinar (Sevilla) | 12 | 3 avisos, 2 juntas, 8 gastos, 4 facturas, derrama de fondo de reserva, 3 incidencias, 5 tareas, 3 sugerencias, 1 encuesta abierta, 5 profesionales, 4 contratos |
-| Edificio Las Acacias (Valencia) | 8 | Reforma de fachada con derrama de 31.200 €, cuota actualizada, 2 juntas con acuerdos aprobados, 7 gastos, 4 facturas, 3 incidencias, 5 tareas, 3 sugerencias, 6 profesionales, 4 contratos |
+| Comunidad | Unidades | Destacado |
+| --------- | -------- | --------- |
+| Comunidad Calle Mayor 12 (Madrid) | 10 + 2 garajes + 1 trastero | 4 avisos, 3 juntas (acta y 3 acuerdos), 12 gastos, 6 facturas, derrama de 4.800 € cobrada al 70 %, 5 incidencias, 8 tareas, 4 sugerencias, 2 encuestas con votos, 7 profesionales, 5 contratos, 5 documentos, 3 tarifas |
+| Urbanización El Pinar (Sevilla) | 12 + 2 garajes | 3 avisos, 2 juntas, 8 gastos, 4 facturas, derrama de fondo de reserva, 3 incidencias, 5 tareas, 3 sugerencias, encuesta abierta, 5 profesionales, 4 contratos, 2 tarifas |
+| Edificio Las Acacias (Valencia) | 8 + 2 garajes | Reforma de fachada con derrama de 31.200 €, 2 juntas con acuerdos, 7 gastos, 4 facturas, 3 incidencias, 5 tareas, 3 sugerencias, 6 profesionales, 4 contratos, 2 tarifas |
+| Edificio Sol Naciente (Zaragoza) | 8 + 2 garajes + 1 trastero | 3 avisos, junta con acta y 2 acuerdos (uno rechazado), 8 gastos, 4 facturas, derrama de 3.200 € cobrada al 50 %, 4 incidencias, 5 tareas, 3 sugerencias, encuesta abierta con votos, 5 profesionales, 4 elementos, 3 contratos, 3 documentos, 3 tarifas |
+| Residencial Los Olivos (Bilbao) | 8 + 2 garajes | 3 avisos, 2 juntas (acta y acuerdo), 8 gastos, 4 facturas, derrama de 1.800 €, 4 incidencias, 5 tareas, 3 sugerencias, encuesta cerrada, 5 profesionales, 4 contratos, 2 tarifas |
+| Comunidad Avenida del Puerto 8 (Alicante) | 6 + 2 garajes | Subida de cuota aprovada en junta con acta, 8 gastos, 4 facturas, derrama de 2.400 €, 4 incidencias, 5 tareas, 3 sugerencias, encuesta abierta, 5 profesionales, 4 contratos, 2 tarifas |
 
 Además:
 
--  **11 cuentas** (presidencias, administración, vecinos y una cuenta
-   de publicidad de plataforma) con la misma contraseña.
--  **3 invitaciones pendientes** con enlace de aceptación funcional y
+-  **17 cuentas** con la misma contraseña y **cada rol cubierto** en cada
+   comunidad (junta, administración, propietario e inquilino).
+-  **7 invitaciones pendientes** con enlace de aceptación funcional y
    1 revocada.
--  **3 patrocinios** (2 activos y 1 pendiente) con **zona**
-   (`Madrid, Sevilla` / `Valencia` / `Madrid`): uno está asignado solo
-   a Madrid y en El Pinar **llega por coincidir la zona**, para poder
-   ver la selección por cercanía en acción.
--  **Eventos de auditoría** repartidos en el tiempo para que
-   «Actividad reciente» tenga contenido.
--  **Documentos reales** subidos al almacén privado (se descargan con
-   URL firmada como cualquier otro).
+-  **4 patrocinios** con **zona** (Madrid, Sevilla / Valencia /
+  Madrid / Zaragoza-Bilbao-Alicante): uno llega a comunidades que no
+  están asignadas, para ver la selección por cercanía en acción.
+-  **Tarifas y cuotas** de garaje y trastero con dos periodos generados
+  (el anterior cobrado y el actual pendiente).
+-  **Eventos de auditoría** y **documentos reales** en el almacén
+  privado (se descargan con URL firmada).
 
 ## Credenciales
 
 Contraseña de **todos** los usuarios: `Vecino1234!`
 
-| Email | En qué comunidades |
-| ----- | ------------------ |
-| `elena.presidenta@demo.local` | Calle Mayor 12 (propietaria) |
-| `ana.administradora@demo.local` | Las tres (administración) |
-| `vicente.vecino@demo.local` | Calle Mayor 12 + El Pinar (residente) |
-| `lucia.residente@demo.local` | Calle Mayor 12 (residente) |
-| `pablo.presidente@demo.local` | El Pinar (propietario) |
-| `rosa.vecina@demo.local` · `miguel.vecino@demo.local` | El Pinar |
-| `carmen.presidenta@demo.local` | Las Acacias (propietaria) |
-| `luis.vecino@demo.local` · `nuria.residente@demo.local` | Las Acacias |
-| `plataforma@demo.local` | Ninguna; accede al panel de publicidad (incluida en `PLATFORM_ADMIN_EMAILS`) |
+### Un correo por tipo de cuenta (para ver la app como cada uno)
+
+| Tipo de cuenta | Correo | Qué ve al entrar |
+| -------------- | ------ | ----------------- |
+| **Junta / presidente** (`owner`) | `elena.presidenta@demo.local` | Calle Mayor 12 |
+| | `pablo.presidente@demo.local` | El Pinar |
+| | `carmen.presidenta@demo.local` | Las Acacias |
+| | `isabel.presidenta@demo.local` | Sol Naciente |
+| | `andres.presidente@demo.local` | Los Olivos |
+| | `marta.presidenta@demo.local` | Avenida del Puerto 8 |
+| **Administración de fincas / gestor** (`admin`) | `ana.administradora@demo.local` | **Las 6 comunidades** (el mejor correo para recorrerlo todo) |
+| **Propietario** (`member`) | `tomas.vecino@demo.local` | Sol Naciente + Avenida del Puerto 8 |
+| | `rosa.vecina@demo.local` | El Pinar + Sol Naciente |
+| | `miguel.vecino@demo.local` | El Pinar + Los Olivos |
+| | `luis.vecino@demo.local` | Las Acacias + Los Olivos |
+| | `vicente.vecino@demo.local` | Calle Mayor 12 y Avenida del Puerto 8 como propietario, **El Pinar como inquilino** (para ver la misma persona con dos roles) |
+| **Inquilino / residente** (`resident`) | `sofia.residente@demo.local` | Sol Naciente (sin acceso económico) |
+| | `lucia.residente@demo.local` | Calle Mayor 12 + Avenida del Puerto 8 |
+| | `nuria.residente@demo.local` | Las Acacias + Los Olivos |
+| **Publicidad de plataforma** | `plataforma@demo.local` | Panel de Publicidad (en `PLATFORM_ADMIN_EMAILS`) |
+| **Recién registrado sin comunidad** | `nuevo.vecino@demo.local` | Panel vacío («todavía no perteneces a ninguna comunidad») |
+
+> **Lo que no ven:** los inquilinos (`resident`) no tienen acceso a la
+> información económica (gastos, cuotas, derramas) ni a la actividad de
+> auditoría; los propietarios (`member`) ven el dinero pero **no** la
+> actividad de auditoría (eso es de junta y administración).
 
 La cuenta real del proyecto (`produccion@ejemplo.local` y la del
 propietario del despliegue) **no se toca**: el script solo reconoce sus
@@ -62,7 +79,8 @@ pnpm --filter @comunidad/api db:seed:demo -- --clean
 ```
 
 El script es **idempotente**: si detecta cuentas `@demo.local` ya
-creadas, no vuelve a cargar nada.
+creadas, no vuelve a cargar nada (para rellenar de nuevo con la última
+versión del seed: `--clean` y después la carga).
 
 ## Invitaciones pendientes
 
