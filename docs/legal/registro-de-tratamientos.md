@@ -7,7 +7,8 @@
 > rellenados; pendiente de validación del asesor**.
 
 **Responsable:** Jorge Mantiñán Montero (a título particular) ·
-contacto `jorgemantinanmontero@gmail.com`. NIF y domicilio **no se
+contacto `manti.contacto@gmail.com` (correo público dedicado). NIF y
+domicilio **no se
 publican**: constan en `docs/legal/datos-responsable.local.md` (archivo
 no versionado) y se facilitan al asesor o a la autoridad cuando se
 requiera.

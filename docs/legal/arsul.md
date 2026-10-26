@@ -6,8 +6,8 @@
 > responsable rellenados; pendiente de validación del asesor**.
 
 **Responsable:** Jorge Mantiñán Montero (a título particular)
-**Canales de entrada:** `jorgemantinanmontero@gmail.com` (el mismo que
-se muestra en `/legal`; el correo llega a la bandeja del responsable)
+**Canales de entrada:** `manti.contacto@gmail.com` (correo público de
+contacto, se redirige a la bandeja del responsable)
 **Última revisión:** 26/10/2026
 
 ## 1. Principios

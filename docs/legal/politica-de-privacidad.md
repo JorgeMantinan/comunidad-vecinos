@@ -18,7 +18,7 @@
 | Responsable | Jorge Mantiñán Montero (a título particular) |
 | NIF | No publicado: se facilita por el canal de contacto cuando proceda |
 | Domicilio | No publicado: las notificaciones se reciben por el canal de contacto |
-| Contacto de privacidad | `jorgemantinanmontero@gmail.com` |
+| Contacto de privacidad | `manti.contacto@gmail.com` (correo público dedicado; redirige a la bandeja del responsable) |
 | Delegado de Protección de Datos | No designado (no obligatorio en este proyecto) |
 
 ## 2. Qué es este servicio
@@ -105,7 +105,7 @@ Puedes ejercer los derechos de **acceso, rectificación, supresión
 portabilidad**, así como retirar el consentimiento en cualquier momento
 cuando el tratamiento se base en él.
 
--  **Cómo:** correo electrónico a `jorgemantinanmontero@gmail.com`
+-  **Cómo:** correo electrónico a `manti.contacto@gmail.com`
    indicando el derecho que ejerces y el dato al que se refiere.
 -  **Plazo de respuesta:** un mes desde la recepción, ampliable por dos
   meses en casos complejos, con notificación previa.
