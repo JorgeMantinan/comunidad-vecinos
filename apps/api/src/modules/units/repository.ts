@@ -1,6 +1,7 @@
 import { and, asc, eq, sql } from 'drizzle-orm';
+import type { UnitKind } from '@comunidad/shared';
 import type { Database } from '../../db/client';
-import { assessmentCharges, units } from '../../db/schema';
+import { assessmentCharges, feeCharges, units } from '../../db/schema';
 import { newId } from '../../lib/ids';
 
 export interface UnitRow {
@@ -9,6 +10,7 @@ export interface UnitRow {
   portal: string | null;
   number: string;
   coefficient: string;
+  kind: UnitKind;
   createdAt: Date;
 }
 
@@ -18,6 +20,7 @@ const columns = {
   portal: units.portal,
   number: units.number,
   coefficient: units.coefficient,
+  kind: units.kind,
   createdAt: units.createdAt,
 } as const;
 
@@ -63,6 +66,7 @@ export async function createUnit(
     portal: string | null;
     number: string;
     coefficient: string;
+    kind: UnitKind;
   },
 ): Promise<UnitRow> {
   const [row] = await db
@@ -91,6 +95,16 @@ export async function hasAssessmentCharges(
     .select({ value: sql<number>`count(*)` })
     .from(assessmentCharges)
     .where(eq(assessmentCharges.unitId, unitId))
+    .limit(1);
+  return Number(row?.value ?? 0) > 0;
+}
+
+/** True si la unidad tiene cuotas registradas (su historial se conserva). */
+export async function hasFeeCharges(db: Database, unitId: string): Promise<boolean> {
+  const [row] = await db
+    .select({ value: sql<number>`count(*)` })
+    .from(feeCharges)
+    .where(eq(feeCharges.unitId, unitId))
     .limit(1);
   return Number(row?.value ?? 0) > 0;
 }

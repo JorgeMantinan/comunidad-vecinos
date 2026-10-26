@@ -9,6 +9,7 @@ export * from './communities';
 export * from './contracts';
 export * from './documents';
 export * from './expenses';
+export * from './fees';
 export * from './health';
 export * from './incidents';
 export * from './invitations';

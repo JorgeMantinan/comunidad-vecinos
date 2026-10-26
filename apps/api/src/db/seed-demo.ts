@@ -10,12 +10,15 @@ import type {
   DocumentCategory,
   ExpenseCategory,
   ExpenseStatus,
+  FeeFrequency,
+  FeeTarget,
   IncidentStatus,
   MeetingStatus,
   PollStatus,
   SuggestionStatus,
   TaskRecurrence,
   TaskStatus,
+  UnitKind,
 } from '@comunidad/shared';
 import { loadConfig } from '../config';
 import { createBlobStorage, isStorageConfigured } from '../lib/storage';
@@ -37,6 +40,8 @@ import {
   documentTemplates,
   documents,
   expenses,
+  feeCharges,
+  feeTariffs,
   incidents,
   invitations,
   invoices,
@@ -115,7 +120,16 @@ interface UnitSpec {
   portal?: string;
   number: string;
   coefficient: string;
+  /** Tipo de unidad (por defecto `vivienda`). */
+  kind?: UnitKind;
   owner?: UserKey;
+}
+
+interface FeeTariffSpec {
+  concept: string;
+  amount: string;
+  target: FeeTarget;
+  frequency: FeeFrequency;
 }
 
 interface MemberSpec {
@@ -266,6 +280,8 @@ interface CommunitySpec {
   contracts: ContractSpec[];
   documents: DocumentSpec[];
   templates: TemplateSpec[];
+  /** Cuotas y tasas del demo (se generan dos periodos). */
+  feeTariffs?: FeeTariffSpec[];
   audit: { action: string; actor: UserKey; daysAgo: number }[];
   invitations: {
     email: string;
@@ -354,6 +370,9 @@ const communitySpecs: CommunitySpec[] = [
       { portal: 'Único', number: '4ºB', coefficient: '0.100000' },
       { portal: 'Ático', number: 'Ático A', coefficient: '0.100000' },
       { portal: 'Ático', number: 'Ático B', coefficient: '0.100000' },
+      { portal: 'Sótano', number: 'G-1', coefficient: '0.050000', kind: 'garaje' },
+      { portal: 'Sótano', number: 'G-2', coefficient: '0.050000', kind: 'garaje' },
+      { portal: 'Sótano', number: 'T-1', coefficient: '0.020000', kind: 'trastero' },
     ],
     announcements: [
       {
@@ -946,6 +965,26 @@ const communitySpecs: CommunitySpec[] = [
       },
     ],
     templates: commonDocuments,
+    feeTariffs: [
+      {
+        concept: 'Cuota ordinaria',
+        amount: '85.00',
+        target: 'all',
+        frequency: 'monthly',
+      },
+      {
+        concept: 'Tasa de garaje',
+        amount: '25.00',
+        target: 'garaje',
+        frequency: 'monthly',
+      },
+      {
+        concept: 'Trastero',
+        amount: '12.00',
+        target: 'trastero',
+        frequency: 'monthly',
+      },
+    ],
     audit: [
       { action: 'expense.created', actor: 'ana', daysAgo: 3 },
       { action: 'announcement.created', actor: 'elena', daysAgo: 2 },
@@ -987,6 +1026,8 @@ const communitySpecs: CommunitySpec[] = [
       { portal: 'Pinar 2', number: 'P-10', coefficient: '0.083333' },
       { portal: 'Pinar 2', number: 'P-11', coefficient: '0.083333', owner: 'vicente' },
       { portal: 'Pinar 2', number: 'P-12', coefficient: '0.083334' },
+      { portal: 'Sótano', number: 'G-1', coefficient: '0.040000', kind: 'garaje' },
+      { portal: 'Sótano', number: 'G-2', coefficient: '0.040000', kind: 'garaje' },
     ],
     announcements: [
       {
@@ -1389,6 +1430,20 @@ const communitySpecs: CommunitySpec[] = [
       ...template,
       createdBy: 'pablo' as UserKey,
     })),
+    feeTariffs: [
+      {
+        concept: 'Cuota ordinaria',
+        amount: '70.00',
+        target: 'all',
+        frequency: 'monthly',
+      },
+      {
+        concept: 'Plaza de garaje',
+        amount: '22.00',
+        target: 'garaje',
+        frequency: 'monthly',
+      },
+    ],
     audit: [
       { action: 'incident.created', actor: 'rosa', daysAgo: 5 },
       { action: 'announcement.created', actor: 'pablo', daysAgo: 3 },
@@ -1419,6 +1474,8 @@ const communitySpecs: CommunitySpec[] = [
       { portal: 'B', number: 'B-3', coefficient: '0.130000' },
       { portal: 'B', number: 'B-4', coefficient: '0.130000' },
       { portal: 'Ático', number: 'AT-1', coefficient: '0.125000' },
+      { portal: 'Sótano', number: 'G-1', coefficient: '0.040000', kind: 'garaje' },
+      { portal: 'Sótano', number: 'G-2', coefficient: '0.040000', kind: 'garaje' },
     ],
     announcements: [
       {
@@ -1822,6 +1879,20 @@ const communitySpecs: CommunitySpec[] = [
       ...template,
       createdBy: 'carmen' as UserKey,
     })),
+    feeTariffs: [
+      {
+        concept: 'Cuota ordinaria',
+        amount: '95.00',
+        target: 'all',
+        frequency: 'monthly',
+      },
+      {
+        concept: 'Plaza de garaje',
+        amount: '30.00',
+        target: 'garaje',
+        frequency: 'monthly',
+      },
+    ],
     audit: [
       { action: 'announcement.created', actor: 'carmen', daysAgo: 2 },
       { action: 'expense.created', actor: 'ana', daysAgo: 7 },
@@ -1949,6 +2020,80 @@ const communityId = (name: string): string => {
   return id;
 };
 
+/**
+ * Cuotas del demo: genera dos periodos —el anterior, ya cobrado, y el
+ * actual, pendiente— para que se vean los dos estados en los paneles.
+ */
+async function seedFeeTariffs(
+  db: Database,
+  communityId: string,
+  spec: CommunitySpec,
+  createdById: string,
+): Promise<void> {
+  const tariffs = spec.feeTariffs ?? [];
+  if (tariffs.length === 0) {
+    return;
+  }
+
+  const current = new Date(NOW).toISOString().slice(0, 7);
+  const [year, month] = current.split('-').map(Number);
+  if (!year || !month) {
+    return;
+  }
+  // Mes anterior: índice 0-based `m - 2` (con enero da diciembre previo).
+  const previous = new Date(Date.UTC(year, month - 2, 1)).toISOString().slice(0, 7);
+
+  for (const tariff of tariffs) {
+    const [inserted] = await db
+      .insert(feeTariffs)
+      .values({
+        id: newId('ft'),
+        communityId,
+        concept: tariff.concept,
+        amount: tariff.amount,
+        target: tariff.target,
+        frequency: tariff.frequency,
+        anchorPeriod: previous,
+        createdById,
+      })
+      .returning({ id: feeTariffs.id });
+    if (!inserted) {
+      continue;
+    }
+
+    for (const [period, paid] of [
+      [previous, true],
+      [current, false],
+    ] as const) {
+      for (const unit of spec.units) {
+        const kind = unit.kind ?? 'vivienda';
+        if (tariff.target !== 'all' && tariff.target !== kind) {
+          continue;
+        }
+        const unitId = idMaps.units[`${communityId}:${unit.number}`];
+        if (!unitId) {
+          continue;
+        }
+        await db
+          .insert(feeCharges)
+          .values({
+            id: newId('fc'),
+            communityId,
+            tariffId: inserted.id,
+            unitId,
+            period,
+            concept: tariff.concept,
+            amount: tariff.amount,
+            status: paid ? 'paid' : 'pending',
+            paidOn: paid ? day(-30) : null,
+            createdAt: at(-30),
+          })
+          .onConflictDoNothing();
+      }
+    }
+  }
+}
+
 async function seedCommunity(
   db: Database,
   spec: CommunitySpec,
@@ -1980,6 +2125,7 @@ async function seedCommunity(
         portal: unit.portal ?? null,
         number: unit.number,
         coefficient: unit.coefficient,
+        kind: unit.kind ?? 'vivienda',
         ownerId: unit.owner ? userId(unit.owner) : null,
       })
       .returning({
@@ -1990,6 +2136,8 @@ async function seedCommunity(
     if (!inserted) throw new Error(`No se pudo crear la unidad ${unit.number}`);
     idMaps.units[`${cid}:${unit.number}`] = inserted.id;
   }
+
+  await seedFeeTariffs(db, cid, spec, userId(spec.members[0]?.user ?? 'elena'));
 
   for (const announcement of spec.announcements) {
     await db.insert(announcements).values({

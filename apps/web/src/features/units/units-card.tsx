@@ -2,11 +2,9 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import type { CommunityRole } from '@comunidad/shared';
 import { createUnitInputSchema } from '@comunidad/shared';
-import type { CreateUnitInput } from '@comunidad/shared';
 import { Button, Card, ErrorAlert, Field, Input, Spinner } from '../../components/ui';
 import { useCreateUnit, useDeleteUnit, useUnits } from './api';
-
-type FormValues = CreateUnitInput;
+import { unitKindLabels, unitKindOptions } from './kinds';
 
 export function UnitsCard({
   communityId,
@@ -20,9 +18,11 @@ export function UnitsCard({
   const remove = useDeleteUnit(communityId);
   const manage = role === 'owner' || role === 'admin';
 
-  const form = useForm<FormValues>({
+  // El tipo de los valores lo infiere el resolver (entrada con `kind`
+  // opcional, salida con `kind` ya resuelto por el esquema).
+  const form = useForm({
     resolver: zodResolver(createUnitInputSchema),
-    defaultValues: { portal: '', number: '', coefficient: '1' },
+    defaultValues: { portal: '', number: '', coefficient: '1', kind: 'vivienda' },
   });
 
   const onSubmit = form.handleSubmit((values) => {
@@ -30,7 +30,7 @@ export function UnitsCard({
   });
 
   return (
-    <Card title="Unidades (viviendas y locales)">
+    <Card title="Unidades (viviendas, garajes, trasteros…)">
       {units.error ? <ErrorAlert message={units.error.message} /> : null}
       {create.error ? <ErrorAlert message={create.error.message} /> : null}
       {remove.error ? <ErrorAlert message={remove.error.message} /> : null}
@@ -38,16 +38,23 @@ export function UnitsCard({
       {units.isLoading ? <Spinner /> : null}
       {units.data && units.data.length === 0 ? (
         <p className="text-sm text-muted">
-          Sin unidades registradas: añádelas para poder repartir derramas.
+          Sin unidades registradas: añádelas para poder repartir derramas y cobrar
+          cuotas.
         </p>
       ) : null}
 
       <ul className="divide-y divide-accent-soft">
         {units.data?.map((unit) => (
-          <li key={unit.id} className="flex items-center justify-between py-2 text-sm">
+          <li
+            key={unit.id}
+            className="flex flex-wrap items-center justify-between gap-2 py-2 text-sm"
+          >
             <span className="font-medium text-body">
               {unit.portal ? `${unit.portal} · ` : ''}
               {unit.number}
+              <span className="ml-2 rounded-full bg-accent-soft px-2 py-0.5 text-xs text-primary">
+                {unitKindLabels[unit.kind]}
+              </span>
             </span>
             <span className="flex items-center gap-3">
               <span className="text-muted">Coeficiente {unit.coefficient}</span>
@@ -89,6 +96,25 @@ export function UnitsCard({
                   placeholder="1ºA"
                   {...form.register('number')}
                 />
+              </Field>
+            </div>
+            <div className="w-40">
+              <Field
+                label="Tipo"
+                htmlFor="unit-kind"
+                error={form.formState.errors.kind?.message}
+              >
+                <select
+                  id="unit-kind"
+                  className="w-full rounded-lg border border-accent bg-card px-3 py-2 text-sm"
+                  {...form.register('kind')}
+                >
+                  {unitKindOptions.map((option) => (
+                    <option key={option.value} value={option.value}>
+                      {option.label}
+                    </option>
+                  ))}
+                </select>
               </Field>
             </div>
             <div className="w-36">
