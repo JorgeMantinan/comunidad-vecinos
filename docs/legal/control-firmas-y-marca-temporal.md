@@ -12,13 +12,18 @@ cuando se publica o se aprueba internamente:
 
 | Documento | Versión | Quién firma |
 | --------- | ------- | ----------- |
-| `politica-de-privacidad.md` → PDF | `[v1.0]` | Responsable del tratamiento |
-| `registro-de-tratamientos.md` → PDF | `[v1.0]` | Responsable del tratamiento |
-| `arsul.md` → PDF | `[v1.0]` | Responsable + `[PLACEHOLDER: asesor]` |
+| `politica-de-privacidad.md` → PDF | v1.0 | Jorge Mantiñán Montero (responsable) |
+| `registro-de-tratamientos.md` → PDF | v1.0 | Jorge Mantiñán Montero (responsable) |
+| `arsul.md` → PDF | v1.0 | Jorge Mantiñán Montero; si el asesor lo valida, añade su firma |
 
 Regla: **cambio de texto = versión nueva = firma nueva**. Una revisión
 solo cosmética (espacios, formato) no cambia la versión; cualquier
 cambio de fondo sí (v1.0 → v1.1).
+
+El NIF y el domicilio del firmante **no se escriben en este documento**
+(estarían en un repositorio público): constan en
+`docs/legal/datos-responsable.local.md` y en la propia hoja firmada si
+se requiere.
 
 ## 2. Registro de firmas
 
@@ -54,11 +59,14 @@ guarda el PDF firmado.
 | ----- | ---- | ------ | ----- |
 | **1. Registro interno** | Fila en el registro de firmas con fecha, huella y responsable | Evidencia interna | Gratis |
 | **2. Constancia por correo** | Enviar la huella por correo a la propia cuenta: la cabecera `Date` fija una fecha | Refuerzo sencillo | Gratis |
-| **3. Sello de tiempo cualificado** | Servicio cualificado (por ejemplo con DNIe/`@firma` o proveedor de sello de tiempo) que envuelve la huella con una fecha certificada | Prueba con valor frente a terceros | `[PLACEHOLDER: coste del proveedor]` |
+| **3. Sello de tiempo cualificado** | Servicio cualificado (por ejemplo con DNIe/`@firma` o proveedor de sello de tiempo) que envuelve la huella con una fecha certificada | Prueba con valor frente a terceros | De pago (precio del proveedor; **solo si hace falta**) |
 
-**Recomendación del asesor** `[PLACEHOLDER]`: nivel 1 para todas las
-versiones; nivel 3 para el documento que se vaya a aportar a
-terceros (administración, banco, juzgado).
+**Decisión del responsable:** **nivel 1 para todas las versiones**
+(registro interno con fecha y huella) y **nivel 2** como refuerzo barato
+enviando la huella por correo a la propia cuenta. El **nivel 3** se usa
+únicamente si un tercero exige sello cualificado (administración,
+banco, juzgado): en ese momento se contrata y se anota su referencia en
+la tabla de firmas.
 
 ## 5. Procedimiento paso a paso
 

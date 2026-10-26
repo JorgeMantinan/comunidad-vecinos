@@ -1,22 +1,25 @@
 # Política de privacidad — Mantivecinos
 
-> **Documento listo para publicar.** Es una **plantilla revisable**: los
-> campos entre corchetes `[PLACEHOLDER]` deben completarse y el texto
-> debe ser validado por el asesor jurídico antes de publicarlo en la
-> aplicación o en la web. Estado: **no publicado, pendiente de revisión
-> humana**.
+> **Documento listo para publicar**, con los datos del responsable ya
+> rellenados. Falta la **validación del asesor jurídico** antes de
+> publicarlo en la aplicación. Estado: **no publicado, pendiente de
+> revisión humana** (`docs/legal/checklist-revision-juridica.md`).
+>
+> Este repositorio es **público**: por seguridad no constan aquí el NIF
+> ni el domicilio (están en un archivo no versionado). La identidad y
+> un canal de contacto son suficientes para ejercer los derechos.
 
-**Última actualización:** [PLACEHOLDER: fecha]
+**Última actualización:** 26 de octubre de 2026 (versión 1.0)
 
 ## 1. Responsable del tratamiento
 
 | Campo | Valor |
 | ----- | ----- |
-| Responsable | `[PLACEHOLDER: nombre o razón social]` |
-| NIF/CIF | `[PLACEHOLDER]` |
-| Domicilio | `[PLACEHOLDER]` |
-| Contacto de privacidad | `[PLACEHOLDER: email]` |
-| Delegado de Protección de Datos (si aplica) | `[PLACEHOLDER: «no obligatorio / designación pendiente»]` |
+| Responsable | Jorge Mantiñán Montero (a título particular) |
+| NIF | No publicado: se facilita por el canal de contacto cuando proceda |
+| Domicilio | No publicado: las notificaciones se reciben por el canal de contacto |
+| Contacto de privacidad | `jorgemantinanmontero@gmail.com` |
+| Delegado de Protección de Datos | No designado (no obligatorio en este proyecto) |
 
 ## 2. Qué es este servicio
 
@@ -71,7 +74,7 @@ venden datos personales.
 | **Vercel Inc.** | Alojamiento web y ejecución de la API | Fráncfort, UE (`fra1`) |
 | **Neon Inc.** (PostgreSQL) | Base de datos | Región configurada en producción (`eu-west-2`, Reino Unido) |
 | **Vercel Blob** | Almacenamiento de archivos privados (actas, facturas, fotos) | Fráncfort, UE (`fra1`) |
-| **Resend Inc.** | Envío de correos transaccionales (invitaciones y avisos) | `[PLACEHOLDER]` |
+| **Resend Inc.** | Envío de correos transaccionales (invitaciones y avisos) | Estados Unidos (proveedor de correo). **En modo test solo se entrega a la cuenta de la persona responsable**: no hay envíos a terceros |
 
 Todos ellos actúan como **encargados** del tratamiento, con contrato de
 encargo conforme al art. 28 RGPD. Las transferencias internacionales se
@@ -102,7 +105,7 @@ Puedes ejercer los derechos de **acceso, rectificación, supresión
 portabilidad**, así como retirar el consentimiento en cualquier momento
 cuando el tratamiento se base en él.
 
--  **Cómo:** correo electrónico a `[PLACEHOLDER: email de contacto]`
+-  **Cómo:** correo electrónico a `jorgemantinanmontero@gmail.com`
    indicando el derecho que ejerces y el dato al que se refiere.
 -  **Plazo de respuesta:** un mes desde la recepción, ampliable por dos
   meses en casos complejos, con notificación previa.
@@ -144,7 +147,7 @@ espacios de publicidad muestran creatividades estáticas del anunciante.
 
 Cualquier modificación relevante se comunicará por correo electrónico a
 las cuentas activas o mediante aviso destacado en la aplicación, con al
-menos `[PLACEHOLDER: 15]` días de antelación cuando el cambio afecte a
+menos 15 días de antelación cuando el cambio afecte a
 finalidades o destinatarios.
 
 ---

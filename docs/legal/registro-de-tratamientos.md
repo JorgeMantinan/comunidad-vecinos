@@ -3,13 +3,16 @@
 > **Plantilla para revisión jurídica.** Refleja el tratamiento tal como
 > está implementado hoy en el código (verificable en
 > `docs/architecture.md`, `docs/data-model.md` y
-> `docs/permissions-matrix.md`). Los campos `[PLACEHOLDER]` deben
-> completarse. Estado: **pendiente de validación humana**.
+> `docs/permissions-matrix.md`). Estado: **datos del responsable
+> rellenados; pendiente de validación del asesor**.
 
-**Responsable:** `[PLACEHOLDER: nombre, NIF, domicilio, contacto]`
+**Responsable:** Jorge Mantiñán Montero (a título particular) ·
+contacto `jorgemantinanmontero@gmail.com`. NIF y domicilio **no se
+publican**: constan en `docs/legal/datos-responsable.local.md` (archivo
+no versionado) y se facilitan al asesor o a la autoridad cuando se
+requiera.
 
-**Fecha de elaboración:** `[PLACEHOLDER]` · **Última revisión:**
-`[PLACEHOLDER]`
+**Fecha de elaboración:** 26/10/2026 · **Última revisión:** —
 
 ## 1. Cuentas y autenticación
 
@@ -20,7 +23,7 @@
 | Interesados | Personas usuarias registradas (vecinos, miembros de junta, administración) |
 | Categorías de datos | Nombre, correo electrónico, contraseña cifrada, identificadores de sesión |
 | Destinatarios | Vercel (API), Neon (base de datos) |
-| Transferencias | `[PLACEHOLDER: revisar región de Vercel]` |
+| Transferencias | Vercel: UE (`fra1`, Fráncfort). Neon: Reino Unido (`eu-west-2`, decisión de adecuación de la UE) |
 | Plazos | Vigencia de la cuenta + borrado a solicitud |
 | Medidas | Hash de contraseña, cookies `Secure`/`SameSite`, limitación de peticiones, HTTPS |
 
@@ -70,8 +73,8 @@
 | Interesados | Miembros y personas invitadas |
 | Categorías de datos | Correo, nombre de la comunidad, título y extracto del aviso |
 | Destinatarios | Resend (encargado de envío) |
-| Transferencias | `[PLACEHOLDER]` |
-| Plazos | Hasta la baja en la comunidad; los mensajes en el proveedor se eliminan según su política `[PLACEHOLDER: verificar retención de Resend]` |
+| Transferencias | Resend: Estados Unidos (proveedor de correo). **En modo test no hay envíos a terceros**; a validar con el asesor el mecanismo (DPA/SCC) cuando se active un dominio |
+| Plazos | Hasta la baja en la comunidad; los mensajes en el proveedor se eliminan según su política (**a verificar con el asesor**) |
 | Medidas | Sin credenciales ni tokens en el cuerpo del correo; sin envío si no hay clave configurada |
 
 ## 6. Seguridad y auditoría
@@ -93,9 +96,9 @@
 | Finalidad | Continuidad del servicio y recuperación ante incidentes |
 | Base jurídica | Interés legítimo (art. 6.1.f) y obligaciones legales (art. 6.1.c) |
 | Categorías de datos | Volcado completo de tablas a JSON |
-| Destinatarios | Infraestructura de la comunidad `[PLACEHOLDER: responsable de custodia de `apps/api/backups/`]` |
-| Plazos | 30 días, con borrado coordinado; puntos de restauración del proveedor de BD |
-| Medidas | Ficheros fuera del repositorio (ignorados por git), prueba periódica de restauración |
+| Destinatarios | El responsable (custodia en su equipo) y el almacén privado de Vercel (`backups/…`), fuera del repositorio |
+| Plazos | 30 días, con borrado automático semanal; puntos de restauración del proveedor de BD (6 h en el plan gratuito) |
+| Medidas | Ficheros en almacén privado (nunca en git), rotación automática, prueba periódica de restauración |
 
 ## 8. Publicidad (patrocinios)
 
@@ -113,10 +116,10 @@
 
 | Encargado | Servicio | Cláusulas | Registro de transferencias |
 | --------- | -------- | --------- | -------------------------- |
-| Vercel Inc. | Hosting y functions | `[PLACEHOLDER: DPA vigente]` | UE (`fra1`, Fráncfort) |
-| Neon Inc. | PostgreSQL | `[PLACEHOLDER: DPA vigente]` | Reino Unido (`eu-west-2`, decisión de adecuación) |
-| Resend Inc. | Correo transaccional | `[PLACEHOLDER: DPA vigente]` | `[PENDIENTE: EE. UU.]` |
-| Vercel Blob | Almacenamiento de objetos | `[PLACEHOLDER: DPA vigente]` | UE (`fra1`, Fráncfort) |
+| Vercel Inc. | Hosting y functions | DPA de Vercel — **a adjuntar/verificar por el asesor** | UE (`fra1`, Fráncfort) |
+| Neon Inc. | PostgreSQL | DPA de Neon — **a adjuntar/verificar por el asesor** | Reino Unido (`eu-west-2`, decisión de adecuación) |
+| Resend Inc. | Correo transaccional | DPA de Resend — **a adjuntar/verificar por el asesor** (solo relevante al activar dominio) | EE. UU. (modo test: sin envíos a terceros) |
+| Vercel Blob | Almacenamiento de objetos | DPA de Vercel — **a adjuntar/verificar por el asesor** | UE (`fra1`, Fráncfort) |
 
 ## 10. Medidas de seguridad generales
 
