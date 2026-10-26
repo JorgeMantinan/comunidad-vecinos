@@ -78,6 +78,13 @@
       "when": 1792962854307,
       "tag": "0010_clumsy_polaris",
       "breakpoints": true
+    },
+    {
+      "idx": 11,
+      "version": "7",
+      "when": 1793026230812,
+      "tag": "0011_clever_ma_gnuci",
+      "breakpoints": true
     }
   ]
 }

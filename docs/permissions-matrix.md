@@ -25,10 +25,10 @@ hacer en esta comunidad". Se implementan por separado.
 | Gestionar orden del día y acuerdos    | ❌             | ✅    | ✅    | ❌     | ❌       |
 | Registrar y pagar gastos              | ❌             | ✅    | ✅    | ❌     | ❌       |
 | Ver unidades y facturas               | ❌             | ✅    | ✅    | ✅     | ✅       |
-| Ver derramas                          | ❌             | ✅    | ✅    | ✅     | ❌       |
+| Ver derramas, cuotas y cobros        | ❌             | ✅    | ✅    | ✅     | ❌       |
 | Gestionar unidades                    | ❌             | ✅    | ✅    | ❌     | ❌       |
 | Registrar y pagar facturas            | ❌             | ✅    | ✅    | ❌     | ❌       |
-| Crear derramas y cobrar cuotas        | ❌             | ✅    | ✅    | ❌     | ❌       |
+| Crear derramas, tarifas y cobrar cuotas | ❌          | ✅    | ✅    | ❌     | ❌       |
 | Exportar los datos de la comunidad    | ❌             | ✅    | ✅    | ❌     | ❌       |
 | Ver incidencias y tareas              | ❌             | ✅    | ✅    | ✅     | ✅       |
 | Reportar incidencias                  | ❌             | ✅    | ✅    | ✅     | ✅       |

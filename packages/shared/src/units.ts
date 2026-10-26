@@ -6,10 +6,25 @@ export const coefficientSchema = z
   .regex(/^\d+(\.\d{1,6})?$/, 'Coeficiente inválido (ej. 1 o 0.25)')
   .refine((value) => Number(value) > 0, 'El coeficiente debe ser mayor que 0');
 
+/**
+ * Tipo de unidad: no es solo decorativo, decide a qué **cuotas**
+ * (garaje, trastero…) aplica cada tarifa (ver `./fees.ts`).
+ */
+export const unitKindSchema = z.enum([
+  'vivienda',
+  'garaje',
+  'trastero',
+  'local',
+  'buzon',
+  'plaza',
+]);
+export type UnitKind = z.infer<typeof unitKindSchema>;
+
 export const createUnitInputSchema = z.object({
   portal: z.string().trim().max(50).optional(),
   number: z.string().trim().min(1, 'Indica el número').max(50),
   coefficient: coefficientSchema,
+  kind: unitKindSchema.default('vivienda'),
 });
 export type CreateUnitInput = z.infer<typeof createUnitInputSchema>;
 
@@ -23,6 +38,7 @@ export const unitSchema = z.object({
   portal: z.string().nullable(),
   number: z.string(),
   coefficient: z.string().transform(normalizeCoefficient),
+  kind: unitKindSchema,
   createdAt: z.iso.datetime(),
 });
 export type UnitView = z.infer<typeof unitSchema>;

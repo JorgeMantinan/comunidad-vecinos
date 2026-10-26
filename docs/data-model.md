@@ -23,7 +23,9 @@ Convenciones:
 
 - `communities` — comunidad de propietarios: nombre, dirección, código corto.
 - `community_memberships` — `(user_id, community_id, role)`; unicidad por par.
-- `units` — viviendas/local de la comunidad (portal, número, coeficiente).
+- `units` — vivienda, local **o anexo** de la comunidad (portal, número,
+  coeficiente y **tipo**: `vivienda`, `garaje`, `trastero`, `local`,
+  `buzon`, `plaza`; el tipo decide a qué cuotas aplica cada unidad).
 - `invitations` — invitación a una comunidad: email, rol inicial, token, caducidad, uso único, revocable.
 - `audit_events` — registro de acciones críticas: actor, comunidad, acción, metadatos JSON, IP.
 
@@ -56,6 +58,16 @@ Roles (`community_memberships.role`):
    (`pending`/`paid`) y `paid_on` obligatorio al cobrar. Los importes se
    guardan como *snapshot* (cambiar coeficientes no reescribe el
    histórico).
+-  `fee_tariffs` + `fee_charges` — **cuotas ordinarias y tasas por
+   anexo** (garaje, trastero…): a diferencia de una derrama, la tarifa
+   fija un **importe por unidad y periodo** sin repartir por
+   coeficiente. Tiene `target` (todas las unidades o un tipo),
+   `frequency` (mensual/trimestral/anual) y `anchor_period` (primer
+   periodo: la periodicidad se cuenta desde ahí). Los cargos de un
+   periodo se **generan de forma explícita** desde la interfaz (sin
+   cron, auditable como las tareas recurrentes), se guardan como
+   *snapshot* y se marcan `pending`/`paid`. Regenerar no duplica ni
+   pisa los cobros (única por comunidad+unidad+concepto+periodo).
 
 ## Fase 3 (implementada — núcleo de participación)
 

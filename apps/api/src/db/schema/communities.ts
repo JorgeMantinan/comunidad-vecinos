@@ -9,7 +9,7 @@ import {
   timestamp,
   uniqueIndex,
 } from 'drizzle-orm/pg-core';
-import type { CommunityRole, InvitableRole } from '@comunidad/shared';
+import type { CommunityRole, InvitableRole, UnitKind } from '@comunidad/shared';
 import { user } from './auth';
 
 /**
@@ -61,6 +61,8 @@ export const units = pgTable(
     coefficient: numeric('coefficient', { precision: 10, scale: 6 })
       .notNull()
       .default('1'),
+    /** Tipo de unidad: decide a qué cuotas (garaje, trastero…) aplica. */
+    kind: text('kind').$type<UnitKind>().notNull().default('vivienda'),
     ownerId: text('owner_id').references(() => user.id, {
       onDelete: 'set null',
     }),
@@ -70,6 +72,10 @@ export const units = pgTable(
   (t) => [
     uniqueIndex('units_community_number_uq').on(t.communityId, t.number),
     index('units_community_idx').on(t.communityId),
+    check(
+      'units_kind_ck',
+      sql`kind in ('vivienda','garaje','trastero','local','buzon','plaza')`,
+    ),
   ],
 );
 

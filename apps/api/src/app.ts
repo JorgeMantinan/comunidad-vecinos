@@ -20,6 +20,7 @@ import { cronRoutes } from './modules/cron/routes';
 import { documentRoutes } from './modules/documents/routes';
 import { expenseRoutes } from './modules/expenses/routes';
 import { exportRoutes } from './modules/export/routes';
+import { feeRoutes } from './modules/fees/routes';
 import { healthRoutes } from './modules/health/routes';
 import { invitationRoutes } from './modules/invitations/routes';
 import { invoiceRoutes } from './modules/invoices/routes';
@@ -87,6 +88,7 @@ export function createApp({
   app.route('/api/communities', invoiceRoutes(db, auth));
   app.route('/api/communities', unitRoutes(db, auth));
   app.route('/api/communities', assessmentRoutes(db, auth));
+  app.route('/api/communities', feeRoutes(db, auth));
   app.route('/api/communities', incidentRoutes(db, auth, storage));
   app.route('/api/communities', taskRoutes(db, auth));
   app.route('/api/communities', suggestionRoutes(db, auth));

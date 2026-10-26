@@ -9,6 +9,7 @@ import { AuditCard } from '../features/audit/audit-card';
 import { ContractsCard } from '../features/contracts/contracts-card';
 import { DocumentsCard } from '../features/documents/documents-card';
 import { ExpensesCard } from '../features/expenses/expenses-card';
+import { FeesCard } from '../features/fees/fees-card';
 import { IncidentsCard } from '../features/incidents/incidents-card';
 import { InvoicesCard } from '../features/invoices/invoices-card';
 import { InvitationsCard } from '../features/invitations/invitations-card';
@@ -124,6 +125,7 @@ export function EconomiaSection() {
             <ExpensesCard communityId={id} role={community.role} />
             <InvoicesCard communityId={id} role={community.role} />
             <AssessmentsCard communityId={id} role={community.role} />
+            <FeesCard communityId={id} role={community.role} />
             <UnitsCard communityId={id} role={community.role} />
             <EconomyReportCard communityId={id} role={community.role} />
             <AuditCard communityId={id} role={community.role} />

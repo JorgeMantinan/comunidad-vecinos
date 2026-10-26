@@ -25,6 +25,7 @@ export async function addUnit(
     portal: input.portal || null,
     number: input.number,
     coefficient: input.coefficient,
+    kind: input.kind,
   });
 
   await recordAuditEvent(db, {
@@ -33,7 +34,7 @@ export async function addUnit(
     action: 'unit.created',
     targetType: 'unit',
     targetId: unit.id,
-    metadata: { number: unit.number, coefficient: unit.coefficient },
+    metadata: { number: unit.number, coefficient: unit.coefficient, kind: unit.kind },
   });
 
   return unit;
@@ -51,6 +52,9 @@ export async function removeUnit(
   }
   if (await repo.hasAssessmentCharges(db, unitId)) {
     throw conflict('No se puede eliminar una unidad con derramas registradas');
+  }
+  if (await repo.hasFeeCharges(db, unitId)) {
+    throw conflict('No se puede eliminar una unidad con cuotas registradas');
   }
 
   await repo.deleteUnit(db, unitId);
