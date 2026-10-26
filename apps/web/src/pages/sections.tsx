@@ -122,10 +122,11 @@ export function EconomiaSection() {
           </p>
         ) : (
           <div className="space-y-6">
+            {/* Lo cotidiano primero: lo que cada vecino paga cada mes. */}
+            <FeesCard communityId={id} role={community.role} />
             <ExpensesCard communityId={id} role={community.role} />
             <InvoicesCard communityId={id} role={community.role} />
             <AssessmentsCard communityId={id} role={community.role} />
-            <FeesCard communityId={id} role={community.role} />
             <UnitsCard communityId={id} role={community.role} />
             <EconomyReportCard communityId={id} role={community.role} />
             <AuditCard communityId={id} role={community.role} />
