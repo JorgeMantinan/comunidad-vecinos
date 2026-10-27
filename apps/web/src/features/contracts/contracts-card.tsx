@@ -3,6 +3,7 @@ import { useForm } from 'react-hook-form';
 import type { CommunityRole, ContractStatus } from '@comunidad/shared';
 import { createContractInputSchema } from '@comunidad/shared';
 import { Button, Card, ErrorAlert, Field, Input, Spinner } from '../../components/ui';
+import { ArrowRightIcon } from '../../components/icons';
 import { formatEuro } from '../expenses/api';
 import {
   useContracts,
@@ -77,7 +78,8 @@ export function ContractsCard({
                   {contract.service} · {formatEuro(contract.amount)}/mes
                 </p>
                 <p className="text-xs text-subtle">
-                  {new Date(contract.startOn).toLocaleDateString('es-ES')} →{' '}
+                  {new Date(contract.startOn).toLocaleDateString('es-ES')}{' '}
+                  <ArrowRightIcon className="mx-1 inline-block h-3.5 w-3.5 align-middle" />{' '}
                   {new Date(contract.renewalOn).toLocaleDateString('es-ES')}
                   {contract.notes ? ` · ${contract.notes}` : ''}
                 </p>
