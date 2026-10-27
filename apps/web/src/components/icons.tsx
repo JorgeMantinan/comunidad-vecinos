@@ -36,3 +36,13 @@ export function ArrowRightIcon({ className = 'h-4 w-4' }: IconProps) {
     </svg>
   );
 }
+
+/** Flecha hacia arriba: «volver arriba» en páginas largas. */
+export function ArrowUpIcon({ className = 'h-4 w-4' }: IconProps) {
+  return (
+    <svg {...stroke} className={className}>
+      <path d="M12 19V5" />
+      <path d="m5 12 7-7 7 7" />
+    </svg>
+  );
+}

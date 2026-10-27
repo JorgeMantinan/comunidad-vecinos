@@ -9,6 +9,7 @@ import {
   useNavigate,
 } from 'react-router-dom';
 import { Button, Spinner } from './components/ui';
+import { BackToTop } from './components/back-to-top';
 import { ThemeToggle } from './components/theme-toggle';
 import { usePlatformSponsorships } from './features/sponsorships/api';
 import { useLogout, useSession } from './lib/auth';
@@ -282,6 +283,7 @@ export function App() {
           </Routes>
         </main>
         <LegalFooter />
+        <BackToTop />
       </BrowserRouter>
     </QueryClientProvider>
   );
