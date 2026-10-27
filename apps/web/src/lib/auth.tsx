@@ -87,3 +87,29 @@ export function useLogout() {
     },
   });
 }
+
+/**
+ * Acceso con Google. Better Auth devuelve la URL de consentimiento y el
+ * navegador sale hacia Google; el callback vuelve a **esta misma
+ * origin** (`/api/auth/callback/google`) y establece la cookie de
+ * sesión. Si el servidor no tiene credenciales, responde 404 y el
+ * botón no llega a mostrarse (la interfaz lo consulta en `/api/health`).
+ */
+export function useGoogleLogin() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: async () => {
+      const result = await apiFetch<{ url: string; redirect: boolean }>(
+        '/api/auth/sign-in/social',
+        {
+          method: 'POST',
+          body: JSON.stringify({ provider: 'google', callbackURL: '/' }),
+        },
+      );
+      window.location.assign(result.url);
+    },
+    onSuccess: () => {
+      void queryClient.invalidateQueries({ queryKey: sessionKey });
+    },
+  });
+}

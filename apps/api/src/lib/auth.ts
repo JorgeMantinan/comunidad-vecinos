@@ -10,6 +10,8 @@ export interface AuthOptions {
   baseURL?: string;
   /** Entorno activo; por defecto, `NODE_ENV`. */
   nodeEnv?: string;
+  /** Credenciales de Google: si faltan, no se ofrece el acceso con Google. */
+  google?: { clientId: string; clientSecret: string };
 }
 
 /** Better Auth como proveedor de identidad y sesiones. */
@@ -28,6 +30,25 @@ export function createAuth(db: Database, options: AuthOptions) {
       requireEmailVerification: false,
       minPasswordLength: 8,
     },
+    // Acceso con Google (solo con credenciales). Better Auth enlaza la
+    // cuenta de Google con la existente cuando coincide el correo, así
+    // quien ya tenía contraseña puede entrar con Google sin duplicarse.
+    ...(options.google
+      ? {
+          socialProviders: {
+            google: {
+              clientId: options.google.clientId,
+              clientSecret: options.google.clientSecret,
+            },
+          },
+          account: {
+            accountLinking: {
+              enabled: true,
+              trustedProviders: ['google'],
+            },
+          },
+        }
+      : {}),
     // Límite explícito de intentos de autenticación (fuerza bruta).
     // Solo activo en producción: los tests reciben tráfico sintético.
     rateLimit: {

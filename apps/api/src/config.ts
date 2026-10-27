@@ -6,6 +6,11 @@ const envSchema = z.object({
   AUTH_SECRET: z.string().min(16).optional(),
   PORT: z.coerce.number().int().positive().default(3001),
   CORS_ORIGIN: z.string().default('http://localhost:5173'),
+  /** Acceso con Google (si falta, la app no muestra el botón). */
+  GOOGLE_CLIENT_ID: z.string().min(1).optional(),
+  GOOGLE_CLIENT_SECRET: z.string().min(1).optional(),
+  /** URL pública de la app: Better Auth construye el callback OAuth con ella. */
+  BETTER_AUTH_URL: z.url().optional(),
 });
 
 const DEV_SECRET = 'desarrollo-local-sin-secreto-real';
@@ -28,6 +33,10 @@ export interface AppConfig {
   authSecret: string;
   port: number;
   corsOrigins: string[];
+  /** URL pública de la app: Better Auth construye el callback OAuth con ella. */
+  authBaseUrl: string | undefined;
+  /** Credenciales de Google; sin ellas la app no ofrece el acceso con Google. */
+  google: { clientId: string; clientSecret: string } | undefined;
 }
 
 /**
@@ -39,7 +48,12 @@ export function loadConfig(env: NodeJS.ProcessEnv = process.env): AppConfig {
     loadLocalEnvFile();
   }
 
-  const parsed = envSchema.safeParse(env);
+  // Una variable vacía equivale a no definida: así `.env.example`
+  // puede traer `GOOGLE_CLIENT_ID=` sin romper la configuración.
+  const normalized = Object.fromEntries(
+    Object.entries(env).filter(([, value]) => value !== ''),
+  );
+  const parsed = envSchema.safeParse(normalized);
   if (!parsed.success) {
     const issues = parsed.error.issues
       .map((issue) => `${issue.path.join('.') || 'env'}: ${issue.message}`)
@@ -65,5 +79,10 @@ export function loadConfig(env: NodeJS.ProcessEnv = process.env): AppConfig {
     corsOrigins: data.CORS_ORIGIN.split(',')
       .map((origin) => origin.trim())
       .filter(Boolean),
+    authBaseUrl: data.BETTER_AUTH_URL,
+    google:
+      data.GOOGLE_CLIENT_ID && data.GOOGLE_CLIENT_SECRET
+        ? { clientId: data.GOOGLE_CLIENT_ID, clientSecret: data.GOOGLE_CLIENT_SECRET }
+        : undefined,
   };
 }

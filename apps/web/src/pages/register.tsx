@@ -3,6 +3,7 @@ import { useForm } from 'react-hook-form';
 import { Link, Navigate, useNavigate } from 'react-router-dom';
 import { z } from 'zod';
 import { Button, Card, ErrorAlert, Field, Input, Spinner } from '../components/ui';
+import { GoogleSignInButton } from '../components/google-signin-button';
 import { useRegister, useSession } from '../lib/auth';
 
 const registerSchema = z.object({
@@ -82,6 +83,7 @@ export function RegisterPage() {
             {register.isPending ? 'Creando…' : 'Crear cuenta'}
           </Button>
         </form>
+        <GoogleSignInButton />
         <p className="mt-4 text-center text-sm text-muted">
           ¿Ya tienes cuenta?{' '}
           <Link to="/login" className="font-medium text-primary">
