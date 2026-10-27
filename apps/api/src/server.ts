@@ -3,7 +3,7 @@ import { createApp } from './app';
 import { loadConfig } from './config';
 import { createDatabase } from './db/client';
 import { createLocalDatabase, shouldUseLocalDatabase } from './db/local';
-import { createAuth } from './lib/auth';
+import { createAuthFromEnvironment } from './lib/auth';
 import { createEmailSender } from './lib/email';
 import { createBlobStorage } from './lib/storage';
 
@@ -17,15 +17,7 @@ const connection = remoteUrl
   ? { db: createDatabase(remoteUrl), close: async () => {} }
   : await createLocalDatabase();
 
-const auth = createAuth(connection.db, {
-  secret: config.authSecret,
-  trustedOrigins: config.corsOrigins,
-  nodeEnv: config.nodeEnv,
-  // La URL pública define el callback OAuth
-  // (https://<app>/api/auth/callback/google) y el dominio de la cookie.
-  baseURL: config.authBaseUrl,
-  google: config.google,
-});
+const auth = createAuthFromEnvironment(connection.db, config);
 
 const app = createApp({
   db: connection.db,
