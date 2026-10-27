@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { apiFetch } from './api-client';
+import { apiFetch, ApiError } from './api-client';
 
 export interface SessionUser {
   id: string;
@@ -64,8 +64,24 @@ export function useRegister() {
 export function useLogout() {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: () =>
-      apiFetch<{ status: boolean }>('/api/auth/sign-out', { method: 'POST' }),
+    mutationFn: async () => {
+      try {
+        await apiFetch<{ success: boolean }>('/api/auth/sign-out', {
+          method: 'POST',
+          // Better Auth exige un cuerpo JSON: sin él responde
+          // 400 "Invalid JSON in request body" y la sesión no se cerraba
+          // (el botón parecía no hacer nada).
+          body: JSON.stringify({}),
+        });
+      } catch (error: unknown) {
+        // Si la sesión ya no existía, para el usuario también es «fuera».
+        if (error instanceof ApiError && error.status === 401) {
+          return { success: true };
+        }
+        throw error;
+      }
+      return { success: true };
+    },
     onSuccess: () => {
       queryClient.clear();
     },
