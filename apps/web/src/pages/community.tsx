@@ -1,5 +1,6 @@
 import { Link, useParams } from 'react-router-dom';
 import { Button, ErrorAlert, RoleBadge, Spinner } from '../components/ui';
+import { ArrowLeftIcon } from '../components/icons';
 import { useExportCommunity } from '../features/export/api';
 import { SponsorsCard } from '../features/sponsorships/sponsors-card';
 import { useCommunity } from '../lib/api';
@@ -92,8 +93,12 @@ export function CommunityPage() {
   return (
     <div className="space-y-6">
       <header>
-        <Link to="/" className="text-lg font-medium text-primary">
-          ← Mis comunidades
+        <Link
+          to="/"
+          className="inline-flex items-center gap-2 text-lg font-medium text-primary hover:underline"
+        >
+          <ArrowLeftIcon className="h-5 w-5" />
+          Mis comunidades
         </Link>
         <div className="mt-2 flex flex-wrap items-center justify-between gap-2">
           <div>

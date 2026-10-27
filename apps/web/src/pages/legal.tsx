@@ -1,6 +1,7 @@
 import type { ReactNode } from 'react';
 import { Link } from 'react-router-dom';
 import { Card } from '../components/ui';
+import { ArrowLeftIcon } from '../components/icons';
 
 /**
  * Avisos legales de la aplicación. Son públicos (no piden sesión) y su
@@ -13,8 +14,12 @@ const contactEmail = import.meta.env.VITE_LEGAL_CONTACT_EMAIL;
 function LegalLayout({ title, children }: { title: string; children: ReactNode }) {
   return (
     <div className="space-y-5">
-      <Link to="/legal" className="text-lg font-medium text-primary">
-        ← Volver a avisos legales
+      <Link
+        to="/legal"
+        className="inline-flex items-center gap-2 text-lg font-medium text-primary hover:underline"
+      >
+        <ArrowLeftIcon className="h-5 w-5" />
+        Volver a avisos legales
       </Link>
       <header>
         <h1 className="text-2xl font-bold text-primary sm:text-3xl">{title}</h1>

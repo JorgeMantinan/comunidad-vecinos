@@ -9,6 +9,7 @@ import {
   createAgreementInputSchema,
 } from '@comunidad/shared';
 import { Button, Card, ErrorAlert, Field, Input, Spinner } from '../components/ui';
+import { ArrowLeftIcon } from '../components/icons';
 import {
   useAddAgendaItem,
   useAddAgreement,
@@ -65,8 +66,12 @@ export function MeetingPage() {
   return (
     <div className="space-y-6">
       <header>
-        <Link to={`/communities/${id}`} className="text-sm text-primary">
-          ← Volver a la comunidad
+        <Link
+          to={`/communities/${id}`}
+          className="inline-flex items-center gap-1.5 text-sm text-primary hover:underline"
+        >
+          <ArrowLeftIcon />
+          Volver a la comunidad
         </Link>
         <div className="mt-2 flex flex-wrap items-center justify-between gap-2">
           <div>

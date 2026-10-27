@@ -2,6 +2,7 @@ import type { ReactNode } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import type { CommunitySummary } from '@comunidad/shared';
 import { Button, ErrorAlert, Spinner } from '../components/ui';
+import { ArrowLeftIcon } from '../components/icons';
 import { AnnouncementsCard } from '../features/announcements/announcements-card';
 import { AssetsCard } from '../features/assets/assets-card';
 import { AssessmentsCard } from '../features/assessments/assessments-card';
@@ -56,7 +57,10 @@ function SectionPage({
   return (
     <div className="space-y-5">
       <Link to={`/communities/${id}`}>
-        <Button variant="secondary">← Volver al menú</Button>
+        <Button variant="secondary" className="inline-flex items-center gap-2">
+          <ArrowLeftIcon />
+          Volver al menú
+        </Button>
       </Link>
       <header>
         <h1 className="text-2xl font-bold text-primary sm:text-3xl">{title}</h1>
