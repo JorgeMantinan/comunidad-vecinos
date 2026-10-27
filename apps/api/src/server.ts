@@ -21,6 +21,10 @@ const auth = createAuth(connection.db, {
   secret: config.authSecret,
   trustedOrigins: config.corsOrigins,
   nodeEnv: config.nodeEnv,
+  // La URL pública define el callback OAuth
+  // (https://<app>/api/auth/callback/google) y el dominio de la cookie.
+  baseURL: config.authBaseUrl,
+  google: config.google,
 });
 
 const app = createApp({

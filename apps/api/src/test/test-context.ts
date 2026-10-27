@@ -70,6 +70,8 @@ export async function createTestContext(): Promise<TestContext> {
     authSecret: 'secreto-de-pruebas-suficientemente-largo',
     port: 0,
     corsOrigins: ['http://localhost:5173'],
+    authBaseUrl: undefined,
+    google: undefined,
   };
   const auth = createAuth(db, {
     secret: config.authSecret,

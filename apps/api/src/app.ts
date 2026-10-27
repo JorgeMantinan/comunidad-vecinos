@@ -77,7 +77,10 @@ export function createApp({
   // Better Auth gestiona registro, inicio de sesión y sesiones.
   app.on(['GET', 'POST'], '/api/auth/*', (c) => auth.handler(c.req.raw));
 
-  app.route('/api/health', healthRoutes());
+  app.route(
+    '/api/health',
+    healthRoutes({ login: { google: config.google !== undefined } }),
+  );
   app.route('/api/communities', communityRoutes(db, auth));
   app.route(
     '/api/communities',

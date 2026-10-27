@@ -4,6 +4,7 @@ import {
   communitySummarySchema,
   createCommunityInputSchema,
   createInvitationInputSchema,
+  healthStatusSchema,
   invitationSchema,
   memberSchema,
   pendingInvitationSchema,
@@ -201,5 +202,15 @@ export function useAuditEvents(communityId: string | undefined) {
           `/api/communities/${communityId}/audit-events?limit=20`,
         ),
       ),
+  });
+}
+
+/** Estado de la API: también informa de qué accesos sociales hay. */
+export function useHealth() {
+  return useQuery({
+    queryKey: ['health'],
+    staleTime: 5 * 60_000,
+    queryFn: async () =>
+      validated(healthStatusSchema, await apiFetch<unknown>('/api/health')),
   });
 }

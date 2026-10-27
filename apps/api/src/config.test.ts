@@ -38,4 +38,31 @@ describe('loadConfig', () => {
       /Configuración inválida/,
     );
   });
+
+  it('las variables vacías cuentan como no definidas', () => {
+    const config = loadConfig({
+      NODE_ENV: 'test',
+      GOOGLE_CLIENT_ID: '',
+      GOOGLE_CLIENT_SECRET: '',
+      BETTER_AUTH_URL: '',
+    });
+
+    expect(config.google).toBeUndefined();
+    expect(config.authBaseUrl).toBeUndefined();
+  });
+
+  it('lee las credenciales de Google y la URL pública de Better Auth', () => {
+    const config = loadConfig({
+      NODE_ENV: 'test',
+      GOOGLE_CLIENT_ID: 'id-de-google',
+      GOOGLE_CLIENT_SECRET: 'secreto-de-google',
+      BETTER_AUTH_URL: 'https://mantivecinos.vercel.app',
+    });
+
+    expect(config.google).toEqual({
+      clientId: 'id-de-google',
+      clientSecret: 'secreto-de-google',
+    });
+    expect(config.authBaseUrl).toBe('https://mantivecinos.vercel.app');
+  });
 });
