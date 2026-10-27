@@ -116,3 +116,21 @@ test('el conmutador de tema aplica el modo oscuro y lo recuerda', async ({ page 
   await page.getByRole('button', { name: /Claro/ }).click();
   await expect(html).not.toHaveClass(/dark/);
 });
+
+test('cerrar sesión mata la sesión de verdad (regresión)', async ({ page }) => {
+  await page.goto('/register');
+  await page.getByLabel('Nombre').fill('Salida E2E');
+  await page.getByLabel('Email').fill(uniqueEmail('salida'));
+  await page.getByLabel('Contraseña').fill('Password123!');
+  await page.getByRole('button', { name: 'Crear cuenta' }).click();
+  await page.waitForURL('/');
+
+  // En escritorio el botón accesible es «Cerrar sesión» («Salir» en móvil).
+  await page.getByRole('button', { name: 'Cerrar sesión' }).click();
+  await page.waitForURL('/login');
+  await expect(page.getByLabel('Email')).toBeVisible();
+
+  // Si la sesión siguiera viva, una ruta protegida no rebotaría.
+  await page.goto('/');
+  await page.waitForURL('/login');
+});
