@@ -2,7 +2,7 @@ import { handle } from '@hono/vercel';
 import { createApp } from './app';
 import { loadConfig } from './config';
 import { createDatabase } from './db/client';
-import { createAuth } from './lib/auth';
+import { createAuthFromEnvironment } from './lib/auth';
 import { createEmailSender } from './lib/email';
 import { createBlobStorage } from './lib/storage';
 
@@ -21,11 +21,9 @@ if (!config.databaseUrl) {
 }
 
 const db = createDatabase(config.databaseUrl);
-const auth = createAuth(db, {
-  secret: config.authSecret,
-  trustedOrigins: config.corsOrigins,
-  nodeEnv: config.nodeEnv,
-});
+// Misma fábrica que el servidor local: si no, la función de Vercel
+// arrancaría con una configuración de autenticación distinta.
+const auth = createAuthFromEnvironment(db, config);
 const app = createApp({
   db,
   auth,

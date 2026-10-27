@@ -14,6 +14,32 @@ export interface AuthOptions {
   google?: { clientId: string; clientSecret: string };
 }
 
+/** Configuración que Better Auth necesita (la comparten local y Vercel). */
+export interface AuthEnvironment {
+  authSecret: string;
+  corsOrigins: string[];
+  nodeEnv: string;
+  authBaseUrl: string | undefined;
+  google: { clientId: string; clientSecret: string } | undefined;
+}
+
+/**
+ * Fábrica única de la instancia de Better Auth: la usan el servidor
+ * local (`server.ts`) y la función de Vercel (`vercel.ts`) para que no
+ * haya divergencias entre ambos. Hasta esta refactorización el acceso
+ * con Google solo estaba en uno de los dos y en producción respondía
+ * `PROVIDER_NOT_FOUND`.
+ */
+export function createAuthFromEnvironment(db: Database, env: AuthEnvironment): Auth {
+  return createAuth(db, {
+    secret: env.authSecret,
+    trustedOrigins: env.corsOrigins,
+    nodeEnv: env.nodeEnv,
+    baseURL: env.authBaseUrl,
+    google: env.google,
+  });
+}
+
 /** Better Auth como proveedor de identidad y sesiones. */
 export function createAuth(db: Database, options: AuthOptions) {
   // En producción la web y la API viven en subdominios distintos de
